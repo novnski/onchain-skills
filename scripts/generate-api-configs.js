@@ -18,6 +18,50 @@ const forceFullReplace = args.includes("--force-replace");
 
 let swaggerSchemas;
 
+const DOC_URL_REWRITES = new Map([
+    ["https://docs.moralis.io/streams", "https://docs.moralis.com/streams/overview.md"],
+    ["https://docs.moralis.io/streams/bitcoin-streams", "https://docs.moralis.com/streams/bitcoin-streams.md"],
+    ["https://docs.moralis.io/web3-data-api/evm/nft-marketplaces", "https://docs.moralis.com/data-api/data-features/integrations/nft-marketplaces.md"],
+    ["https://docs.moralis.com/web3-data-api/evm/spam-detection", "https://docs.moralis.com/data-api/resources/spam-filtering.md"],
+    ["https://docs.moralis.com/supported-web3data-apis", "https://docs.moralis.com/data-api/supported-chains.md"],
+    ["https://docs.moralis.com/supported-chains?service=web3api", "https://docs.moralis.com/get-started/supported-chains.md"],
+    ["https://docs.moralis.com/web3-data-api/evm/defi-protocols-and-chains", "https://docs.moralis.com/data-api/data-features/integrations/defi-protocols.md"],
+    ["https://docs.moralis.com/web3-data-api/evm/token-holders-api-faq", "https://docs.moralis.com/data-api/evm/token/holders/token-holders.md"],
+    ["https://docs.moralis.com/web3-data-api/evm/wallet-history", "https://docs.moralis.com/data-api/evm/wallet/wallet-history.md"],
+    ["https://docs.moralis.com/web3-data-api/evm/supported-dexs-token-api", "https://docs.moralis.com/data-api/data-features/integrations/supported-dexs.md"],
+    ["https://docs.moralis.com/web3-data-api/evm/nft-marketplaces", "https://docs.moralis.com/data-api/data-features/integrations/nft-marketplaces.md"],
+    ["https://docs.moralis.com/web3-data-api/evm/token-search", "https://docs.moralis.com/data-api/data-features/search-and-discovery/token-search.md"],
+    ["https://docs.moralis.com/streams-api/evm/monitor-multiple-addresses", "https://docs.moralis.com/get-started/tutorials/streams/wallet-monitoring/monitor-multiple-addresses.md"],
+    ["https://docs.moralis.com/streams-api/evm/streams-configuration/filter-streams", "https://docs.moralis.com/streams/streams-concepts/filters.md"],
+    ["https://docs.moralis.com/streams-api/evm/how-to-track-specific-erc20-token-transfers-from-a-list-of-wallets", "https://docs.moralis.com/get-started/tutorials/streams/token-monitoring/track-specific-erc-20-token-transfers-from-a-list-of-wallets.md"],
+    ["https://docs.moralis.com/streams-api/evm/how-to-track-new-tokens-and-pairs", "https://docs.moralis.com/get-started/tutorials/streams/token-monitoring/track-new-tokens-and-trading-pairs-in-real-time.md"],
+    ["https://docs.moralis.com/streams-api/evm/how-to-listen-all-events-from-a-contract-factory", "https://docs.moralis.com/get-started/tutorials/streams/wallet-monitoring/listen-to-all-addresses.md"],
+    ["https://docs.moralis.com/streams-api/evm/how-to-listen-to-all-nft-transfers-sent-from-a-specific-address", "https://docs.moralis.com/get-started/tutorials/streams/nft-monitoring/monitoring-nft-transfers-from-specific-wallet-addresses.md"],
+    ["https://docs.moralis.com/streams-api/evm/how-to-monitor-ens-domain-registrations", "https://docs.moralis.com/get-started/tutorials/streams/wallet-monitoring/monitor-high-value-ens-domain-registrations.md"],
+]);
+
+const rewriteDocUrls = (value) => {
+    if (typeof value === "string") {
+        let next = value;
+        for (const [from, to] of DOC_URL_REWRITES.entries()) {
+            next = next.split(from).join(to);
+        }
+        return next;
+    }
+
+    if (Array.isArray(value)) {
+        return value.map((item) => rewriteDocUrls(item));
+    }
+
+    if (value && typeof value === "object") {
+        for (const key of Object.keys(value)) {
+            value[key] = rewriteDocUrls(value[key]);
+        }
+    }
+
+    return value;
+};
+
 /**
  * @name fetchJSON
  * @description Fetch JSON from URL using https or http module
@@ -381,11 +425,56 @@ const formatSwaggerJSON = (swaggerJSON, apiHost) => {
  *   These corrections are applied post-fetch so they survive regeneration.
  */
 const applySwaggerFixes = (configs) => {
+    rewriteDocUrls(configs);
+
     const streams = configs.streams;
     if (!streams) return;
 
+    const streamSummaryFixes = {
+        solanaStreamsGetAll: "Get Solana streams",
+        solanaStreamsCreate: "Create Solana stream",
+        solanaStreamsGet: "Get Solana stream by ID",
+        solanaStreamsUpdate: "Update Solana stream",
+        solanaStreamsDelete: "Delete Solana stream",
+        solanaStreamsAddAddresses: "Add address to Solana stream",
+        solanaStreamsDeleteAddresses: "Delete address from Solana stream",
+        solanaStreamsGetAddresses: "Get addresses by Solana stream",
+        solanaStreamsUpdateStatus: "Update Solana stream status",
+        solanaGetBlockByNumber: "Get Solana webhook data by block number",
+        solanaBlockToWebhook: "Send Solana webhook data by block number",
+        bitcoinStreamsGetAll: "Get Bitcoin streams",
+        bitcoinStreamsCreate: "Create Bitcoin stream",
+        bitcoinStreamsGet: "Get Bitcoin stream by ID",
+        bitcoinStreamsUpdate: "Update Bitcoin stream",
+        bitcoinStreamsDelete: "Delete Bitcoin stream",
+        bitcoinStreamsAddAddresses: "Add address to Bitcoin stream",
+        bitcoinStreamsDeleteAddresses: "Delete address from Bitcoin stream",
+        bitcoinStreamsGetAddresses: "Get addresses by Bitcoin stream",
+        bitcoinStreamsAddXpub: "Add xpub to Bitcoin stream",
+        bitcoinStreamsGetXpubs: "Get xpubs by Bitcoin stream",
+        bitcoinStreamsDeleteXpub: "Delete xpub from Bitcoin stream",
+        bitcoinStreamsUpdateStatus: "Update Bitcoin stream status",
+        bitcoinGetBlockByNumber: "Get Bitcoin webhook data by block number",
+        bitcoinBlockToWebhook: "Send Bitcoin webhook data by block number",
+    };
+    for (const [opId, summary] of Object.entries(streamSummaryFixes)) {
+        if (streams[opId] && !streams[opId].summary) {
+            streams[opId].summary = summary;
+        }
+    }
+
     // Fix: Add example values to required 'limit' query params so curl examples include them
-    const endpointsNeedingLimitExample = ["GetStreams", "GetAddresses", "GetHistory", "GetLogs"];
+    const endpointsNeedingLimitExample = [
+        "GetStreams",
+        "GetAddresses",
+        "GetHistory",
+        "GetLogs",
+        "solanaStreamsGetAll",
+        "solanaStreamsGetAddresses",
+        "bitcoinStreamsGetAll",
+        "bitcoinStreamsGetAddresses",
+        "bitcoinStreamsGetXpubs",
+    ];
     for (const opId of endpointsNeedingLimitExample) {
         const endpoint = streams[opId];
         if (!endpoint) continue;
@@ -395,10 +484,17 @@ const applySwaggerFixes = (configs) => {
         }
     }
 
-    // Fix: UpdateStreamStatus - swagger has "example": {} which becomes [object Object],
+    // Fix: Stream status endpoints - swagger has "example": {} which becomes [object Object],
     // and includes "error"/"terminated" in enum which are read-only status values
-    if (streams.UpdateStreamStatus && streams.UpdateStreamStatus.bodyParam) {
-        const statusField = (streams.UpdateStreamStatus.bodyParam.fields || []).find((f) => f.name === "status");
+    const statusEndpoints = [
+        "UpdateStreamStatus",
+        "solanaStreamsUpdateStatus",
+        "bitcoinStreamsUpdateStatus",
+    ];
+    for (const opId of statusEndpoints) {
+        const endpoint = streams[opId];
+        if (!endpoint || !endpoint.bodyParam) continue;
+        const statusField = (endpoint.bodyParam.fields || []).find((f) => f.name === "status");
         if (statusField) {
             if (typeof statusField.example === "object") {
                 statusField.example = "active";
@@ -415,6 +511,84 @@ const applySwaggerFixes = (configs) => {
         const addressField = (streams.ReplaceAddressFromStream.bodyParam.fields || []).find((f) => f.name === "address");
         if (addressField && addressField.description && addressField.description.includes("removed")) {
             addressField.description = addressField.description.replace("removed", "replace");
+        }
+    }
+
+    // Fix: Add usable path examples for generated curl commands
+    for (const endpoint of Object.values(streams)) {
+        for (const param of endpoint.pathParams || []) {
+            if (param.example !== undefined) continue;
+            if (param.name === "id" || param.name === "streamId") {
+                param.example = "YOUR_STREAM_ID";
+            } else if (param.name === "xpubId") {
+                param.example = "YOUR_XPUB_ID";
+            } else if (param.name === "blockNumber") {
+                param.example = 123456;
+            } else if (param.name === "chainId") {
+                if (endpoint.path.includes("/streams/bitcoin/")) {
+                    param.example = "mainnet";
+                } else if (endpoint.path.includes("/streams/solana/")) {
+                    param.example = "mainnet";
+                } else {
+                    param.example = "0x1";
+                }
+            }
+        }
+    }
+
+    // Fix: Populate inline request-body schema for Bitcoin xpub endpoints.
+    if (streams.bitcoinStreamsAddXpub) {
+        streams.bitcoinStreamsAddXpub.bodyParam = {
+            required: true,
+            type: "object",
+            fields: [
+                {
+                    name: "xpub",
+                    type: "string",
+                    required: true,
+                    description: "Extended public key to add to the Bitcoin stream",
+                    example: "YOUR_XPUB",
+                },
+            ],
+        };
+    }
+
+    // Fix: Replace placeholder strings/empty arrays with usable examples for non-EVM stream families.
+    for (const opId of ["solanaStreamsCreate", "solanaStreamsUpdate"]) {
+        const endpoint = streams[opId];
+        if (!endpoint || !endpoint.bodyParam?.fields) continue;
+        for (const field of endpoint.bodyParam.fields) {
+            if (field.name === "webhookUrl") {
+                field.example = "https://your-server.com/webhook";
+            } else if (field.name === "tag") {
+                field.example = "solana-monitor";
+            } else if (field.name === "description") {
+                field.example = "Monitor Solana program activity";
+            } else if (field.name === "network") {
+                field.example = ["mainnet"];
+            } else if (field.name === "programIds") {
+                field.example = ["YOUR_SOLANA_PROGRAM_ID"];
+            } else if (field.name === "mintAddresses") {
+                field.example = ["YOUR_SOLANA_MINT"];
+            }
+        }
+    }
+
+    for (const opId of ["bitcoinStreamsCreate", "bitcoinStreamsUpdate"]) {
+        const endpoint = streams[opId];
+        if (!endpoint || !endpoint.bodyParam?.fields) continue;
+        for (const field of endpoint.bodyParam.fields) {
+            if (field.name === "webhookUrl") {
+                field.example = "https://your-server.com/webhook";
+            } else if (field.name === "tag") {
+                field.example = "bitcoin-monitor";
+            } else if (field.name === "description") {
+                field.example = "Monitor Bitcoin transactions";
+            } else if (field.name === "network") {
+                field.example = ["mainnet"];
+            } else if (field.name === "includeInputs" || field.name === "includeOutputs") {
+                field.example = true;
+            }
         }
     }
 };

@@ -1,7 +1,7 @@
 ---
 name: moralis-streams-api
-description: Real-time blockchain event monitoring with webhooks. Use when user asks about setting up webhooks, real-time event streaming, monitoring wallet addresses, tracking token transfers in real-time, listening to all addresses on a chain, creating/updating/deleting streams, adding/removing addresses from streams, or receiving blockchain events as they happen. Supports all EVM chains. NOT for querying historical or current blockchain state - use moralis-data-api instead.
-version: 1.3.0
+description: Real-time blockchain event monitoring with webhooks across EVM, Solana, and Bitcoin. Use when user asks about setting up webhooks, monitoring wallet/program/contract activity, tracking token or NFT transfers as they happen, adding or removing stream addresses, managing Bitcoin xpubs, replaying blocks, or receiving onchain events in real time. NOT for querying historical or current blockchain state - use moralis-data-api instead.
+version: 1.4.0
 license: MIT
 compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for authentication.
 metadata:
@@ -20,39 +20,45 @@ allowed-tools: Bash Read Grep Glob
 
 ## CRITICAL: Read Rule Files Before Implementing
 
-**The #1 cause of bugs is using wrong HTTP methods or stream configurations.**
+**The #1 cause of Streams bugs is mixing up stream families or request shapes.**
 
 For EVERY endpoint:
 1. Read `rules/{EndpointName}.md`
-2. Check HTTP method (PUT for create, POST for update, DELETE for delete)
-3. Verify stream ID format (UUID, not hex)
-4. Use hex chain IDs (0x1, 0x89), not names (eth, polygon)
+2. Confirm the family first:
+   - EVM: `/streams/evm`
+   - Solana: `/streams/solana`
+   - Bitcoin: `/streams/bitcoin`
+   - Utilities: `/history`, `/settings`, `/stats`
+3. Check the HTTP method carefully (`PUT` create, `POST` update/status/replay, `DELETE` delete)
+4. Verify stream IDs are UUIDs, not hashes or addresses
+5. Use the correct config shape for that family:
+   - EVM: `chainIds`, `topic0`, `abi`, `advancedOptions`
+   - Solana: `network`, `programIds`, `mintAddresses`, `allAddresses`
+   - Bitcoin: `network`, `includeInputs`, `includeOutputs`, `allAddresses`, `xpub`
 
-**Reading Order:**
-1. This SKILL.md (core patterns)
-2. Endpoint rule file in `rules/`
-3. Pattern references in `references/` (for edge cases only)
+**Reading order:**
+1. This `SKILL.md`
+2. The endpoint rule in `rules/`
+3. `references/StreamConfiguration.md`
+4. Family-specific references for edge cases
 
 ---
 
 ## Setup
 
-### API Key (optional)
+### API Key
 
 **Never ask the user to paste their API key into the chat.** Instead:
 
-1. Check if `MORALIS_API_KEY` is set in the environment (try running `[ -n "$MORALIS_API_KEY" ] && echo "API key is set" || echo "API key is NOT set"`).
-2. If not set, offer to create the `.env` file with an empty placeholder: `MORALIS_API_KEY=`
-3. Tell the user to open the `.env` file and paste their key there themselves.
-4. Let them know: without the key, you won't be able to test or call the Moralis API on their behalf.
+1. Check whether `MORALIS_API_KEY` is set:
+   ```bash
+   [ -n "$MORALIS_API_KEY" ] && echo "API key is set" || echo "API key is NOT set"
+   ```
+2. If missing, offer to create a local `.env` with `MORALIS_API_KEY=`
+3. Tell the user to open `.env` and add the key themselves
+4. Explain that without the key, you cannot call or test Moralis Streams
 
-If they don't have a key yet, point them to [admin.moralis.com/register](https://admin.moralis.com/register) (free, no credit card).
-
-### Environment Variable Discovery
-
-The `.env` file location depends on how skills are installed:
-
-Create the `.env` file in the project root (same directory the user runs Claude Code from). Make sure `.env` is in `.gitignore`.
+If they need a key, point them to [admin.moralis.com/register](https://admin.moralis.com/register).
 
 ### Verify Your Key
 
@@ -65,33 +71,28 @@ curl "https://api.moralis-streams.com/streams/evm?limit=10" \
 
 ## Base URL
 
-```
+```text
 https://api.moralis-streams.com
 ```
 
-**Important:** Different from Data API (`deep-index.moralis.io`).
-
-## Authentication
-
-All requests require: `X-API-Key: $MORALIS_API_KEY`
+All requests require `X-API-Key: $MORALIS_API_KEY`.
 
 ---
 
-## HTTP Methods (CRITICAL)
+## Stream Families
 
-| Action | Method | Endpoint |
-|--------|--------|----------|
-| Create stream | `PUT` | `/streams/evm` |
-| Update stream | `POST` | `/streams/evm/{id}` |
-| Delete stream | `DELETE` | `/streams/evm/{id}` |
-| Get streams | `GET` | `/streams/evm` |
-| Replace addresses | `PATCH` | `/streams/evm/{id}/address` |
+| Family | Core filters | Extras | Notes |
+|--------|--------------|--------|-------|
+| EVM | `chainIds`, `topic0`, `abi`, stream addresses | `advancedOptions`, `includeContractLogs`, `includeNativeTxs`, `includeInternalTxs`, `triggers`, `getNativeBalances` | Use hex chain IDs like `0x1`, `0x89` |
+| Solana | `network`, `programIds`, `mintAddresses`, stream addresses | `allAddresses`, block replay helpers | No `chainIds`, no `topic0`, no EVM ABI decoding |
+| Bitcoin | `network`, stream addresses, `allAddresses` | `includeInputs`, `includeOutputs`, xpub endpoints, block replay helpers | Address and xpub monitoring instead of contract topics |
+| Utilities | history, replay, settings, stats | account-level operations | Shared across all stream families |
 
-**Common mistake:** Using POST to create streams. Use PUT instead.
+### EVM
 
----
+Use EVM streams for contract events, ERC20 / ERC721 / ERC1155 transfers, approvals, native transactions, and internal transactions.
 
-## Stream Types
+Stream types:
 
 | Type | Description |
 |------|-------------|
@@ -102,21 +103,44 @@ All requests require: `X-API-Key: $MORALIS_API_KEY`
 | `nfttransfer` | NFT transfers |
 | `internalTx` | Internal transactions |
 
+### Solana
+
+Use Solana streams when the user wants program, mint, or address activity on `mainnet` or `devnet`.
+
+- Primary filters are `programIds` and `mintAddresses`
+- `network` is an array such as `["mainnet"]` or `["devnet"]`
+- There is no EVM-style `topic0`, `abi`, or `chainIds`
+
+See [references/SolanaStreams.md](references/SolanaStreams.md).
+
+### Bitcoin
+
+Use Bitcoin streams for address-based or xpub-based monitoring.
+
+- Primary filters are watched addresses or xpubs
+- `network` is an array
+- `includeInputs` and `includeOutputs` control payload detail
+- The live swagger currently exposes `mainnet` and `testnet`, while the narrative Bitcoin overview still documents `["mainnet"]` as the stable default
+
+Default to `["mainnet"]` unless the user explicitly needs something else and the endpoint rule confirms it.
+
+See [references/BitcoinStreams.md](references/BitcoinStreams.md).
+
 ---
 
-## Quick Reference: Most Common Patterns
+## Quick Reference
 
-### Stream ID Format (ALWAYS UUID)
+### Stream ID Format
 
 ```typescript
-// WRONG - Hex format
+// WRONG
 "0x1234567890abcdef"
 
-// CORRECT - UUID format
+// CORRECT
 "YOUR_STREAM_ID"
 ```
 
-### Chain IDs (ALWAYS hex)
+### EVM Chain IDs
 
 ```typescript
 "0x1"     // Ethereum
@@ -127,173 +151,197 @@ All requests require: `X-API-Key: $MORALIS_API_KEY`
 "0x2105"  // Base
 ```
 
-### Event Signatures (topic0)
+### Solana Networks
+
+```json
+["mainnet"]
+["devnet"]
+```
+
+### Bitcoin Networks
+
+```json
+["mainnet"]
+```
+
+If the endpoint rule shows `testnet`, treat it as swagger-exposed behavior and verify before depending on it.
+
+### Status Values
 
 ```typescript
-"Transfer(address,address,uint256)"   // ERC20/NFT Transfer
-"Approval(address,address,uint256)"   // ERC20 Approval
+"active"
+"paused"
+"error"
+"terminated"
 ```
 
-### Status Values (lowercase only)
-
-```typescript
-"active"      // CORRECT - normal operating state
-"paused"      // CORRECT - manually paused
-"error"       // CORRECT - auto-set when webhook success rate <70%
-"terminated"  // CORRECT - unrecoverable, after 24h in error
-"ACTIVE"      // WRONG
-```
+Only send `active` or `paused` in update requests.
 
 ---
 
-## Common Pitfalls (Top 5)
+## Delivery Model
 
-1. **Using POST to create streams** - Use `PUT` instead
-2. **Wrong base URL** - Use `api.moralis-streams.com`, NOT `deep-index.moralis.io`
-3. **Hex stream ID** - Must be UUID format, not hex
-4. **String chain names** - Use hex (0x1), not names (eth)
-5. **Uppercase status** - Use lowercase ("active", "paused")
-6. **Not returning 200 on test webhook** - Stream won't start unless your endpoint returns 2xx on the test webhook sent during create/update
+- Moralis sends a mandatory **test webhook** on create and update. Your endpoint must return `2xx`.
+- Streams are **at-least-once delivered**. Build idempotent consumers.
+- EVM and Solana webhook flows use `confirmed: false` then `confirmed: true`.
+- Bitcoin docs describe a mempool-phase delivery followed by a confirmed delivery for the same `txid`.
+- Streams can enter `error` and then `terminated` if webhook delivery keeps failing.
 
-See [references/CommonPitfalls.md](references/CommonPitfalls.md) for complete reference.
-
----
-
-## Triggers (Read-Only Contract Calls)
-
-Enrich webhook data with on-chain reads (e.g., `balanceOf`). Triggers execute `view`/`pure` functions and attach results to webhook events. Supports dynamic selectors (`$contract`, `$from`, `$to`). See [references/Triggers.md](references/Triggers.md) for complete reference with examples.
+See [references/DeliveryGuarantees.md](references/DeliveryGuarantees.md), [references/ErrorHandling.md](references/ErrorHandling.md), and [references/WebhookSecurity.md](references/WebhookSecurity.md).
 
 ---
 
-## Native Balances in Webhooks
+## EVM-Only Features
 
-Configure `getNativeBalances` to include native token balances (ETH, BNB, etc.) in webhook payloads. Requires Business plan+. See [references/UsefulStreamOptions.md](references/UsefulStreamOptions.md) for configuration details.
+These are for EVM streams only:
 
----
+- `triggers`
+- `advancedOptions`
+- `includeContractLogs`
+- `includeNativeTxs`
+- `includeInternalTxs`
+- `includeAllTxLogs`
+- `getNativeBalances`
+- `filterPossibleSpamAddresses`
+- `topic0` / ABI-based filtering
 
-## Delivery and Error Handling
-
-- **Two webhooks per event**: Unconfirmed (`confirmed: false`) + Confirmed (`confirmed: true`). Idempotent handlers required.
-- **Streams auto-terminate after 24 hours in error state** (webhook success rate <70%). This is **unrecoverable** — you must create a new stream.
-- **Test webhook**: Sent on every create/update. Must return 200 or stream won't start.
-
-See [references/DeliveryGuarantees.md](references/DeliveryGuarantees.md) and [references/ErrorHandling.md](references/ErrorHandling.md).
-
----
-
-## Webhook Security
-
-Webhooks are signed with your streams secret (different from API key).
-
-- **Header:** `x-signature`
-- **Algorithm:** `sha3(JSON.stringify(body) + secret)`
-
-```javascript
-const verifySignature = (req, secret) => {
-  const provided = req.headers["x-signature"];
-  const generated = web3.utils.sha3(JSON.stringify(req.body) + secret);
-  if (generated !== provided) throw new Error("Invalid Signature");
-};
-```
-
-See [references/WebhookSecurity.md](references/WebhookSecurity.md) for complete examples.
-
----
-
-## Testing Endpoints
-
-```bash
-WEBHOOK_URL="https://your-server.com/webhook"
-
-# List streams (requires limit)
-curl "https://api.moralis-streams.com/streams/evm?limit=100" \
-  -H "X-API-Key: $MORALIS_API_KEY"
-
-# Create stream (PUT, not POST)
-curl -X PUT "https://api.moralis-streams.com/streams/evm" \
-  -H "X-API-Key: $MORALIS_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "webhookUrl": "'${WEBHOOK_URL}'",
-    "description": "Test stream",
-    "tag": "test",
-    "topic0": ["Transfer(address,address,uint256)"],
-    "allAddresses": false,
-    "chainIds": ["0x1"]
-  }'
-
-# Pause stream (POST to status)
-curl -X POST "https://api.moralis-streams.com/streams/evm/<stream_id>/status" \
-  -H "X-API-Key: $MORALIS_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"status": "paused"}'
-```
+See [references/UsefulStreamOptions.md](references/UsefulStreamOptions.md), [references/Triggers.md](references/Triggers.md), and [references/ListenToAllAddresses.md](references/ListenToAllAddresses.md).
 
 ---
 
 ## Quick Troubleshooting
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| "400 Bad Request" | Invalid config | Check webhookUrl, topic0 format, chainIds |
-| "404 Not Found" | Wrong stream ID | Verify UUID format |
-| "Method Not Allowed" | Wrong HTTP method | PUT for create, POST for update |
-| "Missing limit" | GET /streams/evm | Add `?limit=100` |
-| "No webhooks" | Stream paused | Check status is "active" |
+| Issue | Likely cause | Fix |
+|-------|--------------|-----|
+| `400 Bad Request` | Mixed request shape | Re-check the family-specific fields in the endpoint rule |
+| `404 Not Found` | Wrong stream ID | Use a UUID stream ID |
+| `Method Not Allowed` | Wrong method | Create with `PUT`, update/status/replay with `POST` |
+| `Missing limit` | List endpoint | Add `?limit=100` |
+| Stream never activates | Test webhook failed | Return `2xx` from the webhook endpoint |
 
 ---
 
 ## Endpoint Catalog
 
-Complete list of all 20 Streams API endpoints organized by category.
+Complete list of all 45 Streams API endpoints across EVM, Solana, Bitcoin, and shared utilities.
 
-### Stream Management
+### EVM Streams
 
-Create, update, delete, and manage streams.
+Create, update, delete, and simulate EVM streams, including block replay helpers.
 
 | Endpoint | Description |
 |----------|-------------|
-| [AddAddressToStream](rules/AddAddressToStream.md) | Add address to stream |
 | [CreateStream](rules/CreateStream.md) | Create stream |
-| [DeleteAddressFromStream](rules/DeleteAddressFromStream.md) | Delete address from stream |
 | [DeleteStream](rules/DeleteStream.md) | Delete stream |
 | [DuplicateStream](rules/DuplicateStream.md) | Duplicate stream |
-| [GetAddresses](rules/GetAddresses.md) | Get addresses by stream |
-| [GetHistory](rules/GetHistory.md) | Get history |
-| [GetLogs](rules/GetLogs.md) | Get logs |
-| [GetSettings](rules/GetSettings.md) | Get project settings |
-| [GetStats](rules/GetStats.md) | Get project stats |
-| [GetStatsByStreamId](rules/GetStatsByStreamId.md) | Get project stats by Stream ID |
 | [GetStream](rules/GetStream.md) | Get a specific evm stream. |
 | [GetStreamBlockDataByNumber](rules/GetStreamBlockDataByNumber.md) | Get webhook data returned on the block number with provided stream config |
 | [GetStreamBlockDataToWebhookByNumber](rules/GetStreamBlockDataToWebhookByNumber.md) | Send webhook based on a specific block number using stream config and addresses. |
 | [GetStreams](rules/GetStreams.md) | Get streams |
-| [ReplaceAddressFromStream](rules/ReplaceAddressFromStream.md) | Replaces address from stream |
 | [UpdateStream](rules/UpdateStream.md) | Update stream |
 | [UpdateStreamStatus](rules/UpdateStreamStatus.md) | Update stream status |
 
-### Status & Settings
+### EVM Addresses
 
-Pause/resume streams and configure settings.
+Manage address lists for EVM streams.
 
 | Endpoint | Description |
 |----------|-------------|
+| [AddAddressToStream](rules/AddAddressToStream.md) | Add address to stream |
+| [DeleteAddressFromStream](rules/DeleteAddressFromStream.md) | Delete address from stream |
+| [GetAddresses](rules/GetAddresses.md) | Get addresses by stream |
+| [ReplaceAddressFromStream](rules/ReplaceAddressFromStream.md) | Replaces address from stream |
+
+### Solana Streams
+
+Create, update, delete, and simulate Solana streams, including block replay helpers.
+
+| Endpoint | Description |
+|----------|-------------|
+| [solanaBlockToWebhook](rules/solanaBlockToWebhook.md) | Send Solana webhook data by block number |
+| [solanaGetBlockByNumber](rules/solanaGetBlockByNumber.md) | Get Solana webhook data by block number |
+| [solanaStreamsCreate](rules/solanaStreamsCreate.md) | Create Solana stream |
+| [solanaStreamsDelete](rules/solanaStreamsDelete.md) | Delete Solana stream |
+| [solanaStreamsGet](rules/solanaStreamsGet.md) | Get Solana stream by ID |
+| [solanaStreamsGetAll](rules/solanaStreamsGetAll.md) | Get Solana streams |
+| [solanaStreamsUpdate](rules/solanaStreamsUpdate.md) | Update Solana stream |
+| [solanaStreamsUpdateStatus](rules/solanaStreamsUpdateStatus.md) | Update Solana stream status |
+
+### Solana Addresses
+
+Manage address lists for Solana streams.
+
+| Endpoint | Description |
+|----------|-------------|
+| [solanaStreamsAddAddresses](rules/solanaStreamsAddAddresses.md) | Add address to Solana stream |
+| [solanaStreamsDeleteAddresses](rules/solanaStreamsDeleteAddresses.md) | Delete address from Solana stream |
+| [solanaStreamsGetAddresses](rules/solanaStreamsGetAddresses.md) | Get addresses by Solana stream |
+
+### Bitcoin Streams
+
+Create, update, delete, and simulate Bitcoin streams, including block replay helpers.
+
+| Endpoint | Description |
+|----------|-------------|
+| [bitcoinBlockToWebhook](rules/bitcoinBlockToWebhook.md) | Send Bitcoin webhook data by block number |
+| [bitcoinGetBlockByNumber](rules/bitcoinGetBlockByNumber.md) | Get Bitcoin webhook data by block number |
+| [bitcoinStreamsCreate](rules/bitcoinStreamsCreate.md) | Create Bitcoin stream |
+| [bitcoinStreamsDelete](rules/bitcoinStreamsDelete.md) | Delete Bitcoin stream |
+| [bitcoinStreamsGet](rules/bitcoinStreamsGet.md) | Get Bitcoin stream by ID |
+| [bitcoinStreamsGetAll](rules/bitcoinStreamsGetAll.md) | Get Bitcoin streams |
+| [bitcoinStreamsUpdate](rules/bitcoinStreamsUpdate.md) | Update Bitcoin stream |
+| [bitcoinStreamsUpdateStatus](rules/bitcoinStreamsUpdateStatus.md) | Update Bitcoin stream status |
+
+### Bitcoin Addresses
+
+Manage address lists for Bitcoin streams.
+
+| Endpoint | Description |
+|----------|-------------|
+| [bitcoinStreamsAddAddresses](rules/bitcoinStreamsAddAddresses.md) | Add address to Bitcoin stream |
+| [bitcoinStreamsDeleteAddresses](rules/bitcoinStreamsDeleteAddresses.md) | Delete address from Bitcoin stream |
+| [bitcoinStreamsGetAddresses](rules/bitcoinStreamsGetAddresses.md) | Get addresses by Bitcoin stream |
+
+### Bitcoin Xpub
+
+Manage Bitcoin xpubs attached to a stream.
+
+| Endpoint | Description |
+|----------|-------------|
+| [bitcoinStreamsAddXpub](rules/bitcoinStreamsAddXpub.md) | Add xpub to Bitcoin stream |
+| [bitcoinStreamsDeleteXpub](rules/bitcoinStreamsDeleteXpub.md) | Delete xpub from Bitcoin stream |
+| [bitcoinStreamsGetXpubs](rules/bitcoinStreamsGetXpubs.md) | Get xpubs by Bitcoin stream |
+
+### Project Settings
+
+Read and update project-level stream settings.
+
+| Endpoint | Description |
+|----------|-------------|
+| [GetSettings](rules/GetSettings.md) | Get project settings |
 | [SetSettings](rules/SetSettings.md) | Set project settings |
 
-### History & Analytics
+### Stats
 
-Stream history, replay, statistics, logs, and block data.
+Inspect global and per-stream statistics.
 
 | Endpoint | Description |
 |----------|-------------|
+| [GetStats](rules/GetStats.md) | Get project stats |
+| [GetStatsByStreamId](rules/GetStatsByStreamId.md) | Get project stats by Stream ID |
+
+### History
+
+List delivery history, logs, and replay failed webhook deliveries.
+
+| Endpoint | Description |
+|----------|-------------|
+| [GetHistory](rules/GetHistory.md) | Get history |
+| [GetLogs](rules/GetLogs.md) | Get logs |
 | [ReplayHistory](rules/ReplayHistory.md) | Replay history |
 
 
-## Listen to All Addresses
-
-Set `allAddresses: true` with a `topic0` and `abi` to monitor an event across every contract on a chain (e.g., all ERC20 transfers network-wide). Requires higher-tier plans. See [references/ListenToAllAddresses.md](references/ListenToAllAddresses.md) for complete examples, ABI templates, and gotchas.
-
-## Example: Create ERC20 Transfer Monitor
+## Example: Create EVM ERC20 Transfer Monitor
 
 ```bash
 curl -X PUT "https://api.moralis-streams.com/streams/evm" \
@@ -306,51 +354,100 @@ curl -X PUT "https://api.moralis-streams.com/streams/evm" \
     "topic0": ["Transfer(address,address,uint256)"],
     "allAddresses": true,
     "chainIds": ["0x1", "0x89"],
-    "advancedOptions": [{
-      "topic0": "Transfer(address,address,uint256)",
-      "includeNativeHash": true
-    }]
+    "advancedOptions": [
+      {
+        "topic0": "Transfer(address,address,uint256)",
+        "includeNativeTxs": true
+      }
+    ]
   }'
 ```
 
----
+## Example: Create Solana Program Stream
+
+```bash
+curl -X PUT "https://api.moralis-streams.com/streams/solana" \
+  -H "X-API-Key: $MORALIS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "webhookUrl": "https://your-server.com/webhook",
+    "description": "Monitor Solana program activity",
+    "tag": "solana-monitor",
+    "network": ["mainnet"],
+    "programIds": ["YOUR_SOLANA_PROGRAM_ID"],
+    "mintAddresses": ["YOUR_SOLANA_MINT"],
+    "allAddresses": false
+  }'
+```
+
+## Example: Create Bitcoin Address Stream
+
+```bash
+curl -X PUT "https://api.moralis-streams.com/streams/bitcoin" \
+  -H "X-API-Key: $MORALIS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "webhookUrl": "https://your-server.com/webhook",
+    "description": "Monitor Bitcoin transactions",
+    "tag": "bitcoin-monitor",
+    "network": ["mainnet"],
+    "includeInputs": true,
+    "includeOutputs": true,
+    "allAddresses": false
+  }'
+```
+
+## Example: Add Bitcoin Xpub
+
+```bash
+curl -X POST "https://api.moralis-streams.com/streams/bitcoin/YOUR_STREAM_ID/xpub" \
+  -H "X-API-Key: $MORALIS_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "xpub": "YOUR_XPUB"
+  }'
+```
 
 ## Pagination
 
-List endpoints use cursor-based pagination:
+List endpoints use cursor pagination:
 
 ```bash
 # First page
-curl "...?limit=100" -H "X-API-Key: $KEY"
+curl "...?limit=100" -H "X-API-Key: $MORALIS_API_KEY"
 
 # Next page
-curl "...?limit=100&cursor=<cursor>" -H "X-API-Key: $KEY"
+curl "...?limit=100&cursor=<cursor>" -H "X-API-Key: $MORALIS_API_KEY"
 ```
 
 ---
 
 ## Supported Chains
 
-All major EVM chains: Ethereum (0x1), Polygon (0x89), BSC (0x38), Arbitrum (0xa4b1), Optimism (0xa), Base (0x2105), Avalanche (0xa86a), and more.
+- EVM Streams: 40+ supported EVM chains. Use hex IDs. See [references/StreamConfiguration.md](references/StreamConfiguration.md).
+- Solana Streams: `mainnet`, `devnet`
+- Bitcoin Streams: default to `mainnet`; verify any non-mainnet use against the endpoint rule before relying on it
 
-See [references/StreamConfiguration.md](references/StreamConfiguration.md) for complete chain ID list.
+The live Moralis docs also publish a dedicated supported-chains page for EVM Streams.
 
 ---
 
 ## Reference Documentation
 
-- [references/CommonPitfalls.md](references/CommonPitfalls.md) - Complete pitfalls reference
-- [references/DeliveryGuarantees.md](references/DeliveryGuarantees.md) - At-least-once delivery, dual webhooks, confirmation blocks, test webhooks
-- [references/ErrorHandling.md](references/ErrorHandling.md) - Retry schedule, error/terminated states, rate limits, re-org handling
-- [references/FAQ.md](references/FAQ.md) - Streams API frequently asked questions
-- [references/FilterStreams.md](references/FilterStreams.md) - Webhook data filtering to reduce noise
-- [references/ListenToAllAddresses.md](references/ListenToAllAddresses.md) - Monitor events across all contracts on a chain
-- [references/MonitorMultipleAddresses.md](references/MonitorMultipleAddresses.md) - Multi-address monitoring patterns
-- [references/ReplayFailedWebhooks.md](references/ReplayFailedWebhooks.md) - Replay failed webhook guide
-- [references/StreamConfiguration.md](references/StreamConfiguration.md) - Stream config reference
-- [references/Triggers.md](references/Triggers.md) - Read-only contract call enrichment (balanceOf, etc.)
-- [references/Tutorials.md](references/Tutorials.md) - Real-world examples and tutorials
-- [references/UsefulStreamOptions.md](references/UsefulStreamOptions.md) - Advanced stream configuration options
+- [references/BitcoinStreams.md](references/BitcoinStreams.md) - Bitcoin stream config, xpubs, payload caveats
+- [references/SolanaStreams.md](references/SolanaStreams.md) - Solana network, program, mint, and address stream guidance
+- [references/StreamConfiguration.md](references/StreamConfiguration.md) - Cross-family request-shape reference
+- [references/CommonPitfalls.md](references/CommonPitfalls.md) - Common mistakes and debugging checklist
+- [references/DeliveryGuarantees.md](references/DeliveryGuarantees.md) - Delivery, confirmation, retries
+- [references/ErrorHandling.md](references/ErrorHandling.md) - Error states, recovery, replay workflows
+- [references/FAQ.md](references/FAQ.md) - Streams FAQ
+- [references/FilterStreams.md](references/FilterStreams.md) - EVM filter expressions
+- [references/ListenToAllAddresses.md](references/ListenToAllAddresses.md) - EVM all-address monitoring
+- [references/MonitorMultipleAddresses.md](references/MonitorMultipleAddresses.md) - Address-list patterns
+- [references/ReplayFailedWebhooks.md](references/ReplayFailedWebhooks.md) - Replay failed webhook deliveries
+- [references/Triggers.md](references/Triggers.md) - EVM read-only contract call enrichment
+- [references/Tutorials.md](references/Tutorials.md) - Real-world examples
+- [references/UsefulStreamOptions.md](references/UsefulStreamOptions.md) - EVM-only advanced options
 - [references/WebhookResponseBody.md](references/WebhookResponseBody.md) - Webhook payload structure
 - [references/WebhookSecurity.md](references/WebhookSecurity.md) - Signature verification
 
@@ -358,5 +455,5 @@ See [references/StreamConfiguration.md](references/StreamConfiguration.md) for c
 
 ## See Also
 
-- Endpoint rules: `rules/*.md` files
-- Data API: @moralis-data-api for querying blockchain state
+- Endpoint rules: `rules/*.md`
+- Data API: `@moralis-data-api` for historical or current blockchain state

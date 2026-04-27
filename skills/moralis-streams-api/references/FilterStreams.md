@@ -129,6 +129,6 @@ const filter = {
 
 ## References
 
-- [Filter Streams Documentation](https://docs.moralis.com/streams-api/evm/streams-configuration/filter-streams)
+- [Filter Streams Documentation](https://docs.moralis.com/streams/streams-concepts/filters.md)
 - [CreateStream](../rules/CreateStream.md) - For creating streams with filters
 - [UpdateStream](../rules/UpdateStream.md) - For updating existing stream filters

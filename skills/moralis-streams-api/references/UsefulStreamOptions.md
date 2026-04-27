@@ -1,118 +1,92 @@
-# Useful Streams Options
+# Useful EVM Streams Options
 
-Advanced configuration options for customizing webhook data when creating or updating streams.
+This file covers **EVM-only** advanced stream options. Do not apply these fields to Solana or Bitcoin streams.
 
-## Overview
+## EVM-Only Scope
 
-These options allow you to control what data is included in your webhook payloads, helping you reduce noise and focus on relevant blockchain events.
+These options belong to `/streams/evm` create and update requests:
+
+- `includeContractLogs`
+- `includeInternalTxs`
+- `includeNativeTxs`
+- `includeAllTxLogs`
+- `advancedOptions`
+- `getNativeBalances`
+- `filterPossibleSpamAddresses`
+
+If the user is working with `/streams/solana` or `/streams/bitcoin`, stop here and use [StreamConfiguration.md](StreamConfiguration.md) instead.
 
 ## Include Contract Logs
 
-The `includeContractLogs` option includes all contract logs in the webhook.
-
 ```json
 {
-    "includeContractLogs": true
+  "includeContractLogs": true
 }
 ```
 
-**Use cases:**
+Use this when the user wants raw contract log entries in addition to parsed transfers or address matches.
 
-- Monitoring a specific contract
-- Tracking wallet interactions with contracts
-
-**Behavior:** When set to `true`, all contract logs are included. For wallet address monitoring, this enables you to also receive contract logs when the wallet interacts with a contract.
-
-## Internal Transactions
-
-Monitor all internal transactions happening on-chain by setting `includeInternalTxs` to `true`:
+## Include Internal Transactions
 
 ```json
 {
-    "includeInternalTxs": true
+  "includeInternalTxs": true
 }
 ```
 
-Internal transactions are transactions that are initiated by smart contracts rather than external accounts. These are useful for tracking complex DeFi interactions and contract-to-contract calls.
+Useful for contract-driven native value transfers.
 
 ## Include Native Transactions
 
-Control whether native (ETH, BNB, MATIC, etc.) transactions are included:
-
 ```json
 {
-    "includeNativeTxs": true
+  "includeNativeTxs": true
 }
 ```
+
+Adds native transaction payloads alongside event-driven matches.
 
 ## Include All Transaction Logs
 
-When `includeAllTxLogs` is enabled, it will include **all related logs** if any log or transaction matches your stream config.
-
 ```json
 {
-    "includeAllTxLogs": true
+  "includeAllTxLogs": true
 }
 ```
 
-**Requirements:**
+Requirements:
 
-- Must be used together with `includeNativeTxs` or `includeContractLogs`
-- Available on **Moralis Pro Plan & higher**
-
-**Example:** Enabling `includeAllTxLogs` in a stream with `includeNativeTxs` enabled will return all logs related to the transaction sent in the webhook.
+- Use together with `includeNativeTxs` or `includeContractLogs`
+- Treat this as higher-volume mode
 
 ## Advanced Options
 
-An array of advanced option objects that allow you to specify additional filters and conditions. Each object has the following **required** fields:
-
-| Field              | Type    | Description                                                                                   |
-| ------------------ | ------- | --------------------------------------------------------------------------------------------- |
-| `topic0`           | string  | The event signature to listen to (e.g., `Transfer(address,address,uint256)`)                  |
-| `filter`           | object  | Custom filter object with conditions data must meet (see [FilterStreams](./FilterStreams.md)) |
-| `includeNativeTxs` | boolean | Whether to include native transactions in addition to contract logs                           |
-
-### Use Case
-
-Advanced Options are useful when you want to narrow down the data included in the stream to only include specific types of events or transactions. For example:
-
-- Only listen to transfers of a certain amount
-- Filter transfers from a particular address
-- Track specific contract events with value thresholds
-
-### Example Configuration
+`advancedOptions` lets you attach EVM event-level filters.
 
 ```json
 {
-    "topic0": "Transfer(address,address,uint256)",
-    "filter": {
+  "advancedOptions": [
+    {
+      "topic0": "Transfer(address,address,uint256)",
+      "includeNativeTxs": false,
+      "filter": {
         "and": [
-            {
-                "eq": ["from", "YOUR_EVM_ADDRESS"]
-            },
-            {
-                "gt": ["amount", "100000000000000000000"]
-            }
+          { "eq": ["from", "YOUR_EVM_ADDRESS"] },
+          { "gt": ["amount", "1000000000000000000"] }
         ]
-    },
-    "includeNativeTxs": false
+      }
+    }
+  ]
 }
 ```
 
-**Explanation:**
+Use this when the user wants amount thresholds, sender filters, or similar logic on EVM event data.
 
-- Listening to the ERC20 `Transfer(address,address,uint256)` event
-- Filtering for transfers where `from` equals `YOUR_EVM_ADDRESS`
-- Only including transfers where `amount` is greater than 100 tokens (in wei, assuming 18 decimals)
-- Not including native transactions
+See [FilterStreams.md](FilterStreams.md).
 
-## Get Native Balances
+## Native Balance Enrichment
 
-The `getNativeBalances` option enriches webhook payloads with native token balances (ETH, BNB, MATIC, etc.) of matched addresses at the time of the block.
-
-> **Note:** Requires **Business plan** or higher.
-
-### Configuration
+`getNativeBalances` enriches matching EVM webhook events with native balances.
 
 ```json
 {
@@ -125,81 +99,18 @@ The `getNativeBalances` option enriches webhook payloads with native token balan
 }
 ```
 
-### Fields
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `selectors` | string[] | Dynamic selectors for addresses to query (`$from`, `$to`, `$contract`) |
-| `type` | string | Event type that triggers balance lookup |
-
-### Valid Types
+Supported selector types:
 
 | Type | Description |
 |------|-------------|
 | `tx` | Native transactions |
-| `log` | Contract event logs |
-| `erc20transfer` | ERC20 token transfers |
+| `log` | Contract logs |
+| `erc20transfer` | ERC20 transfers |
 | `erc20approval` | ERC20 approvals |
 | `nfttransfer` | NFT transfers |
 | `internalTx` | Internal transactions |
 
-### Example: Get Balances on ERC20 Transfers
-
-```bash
-curl -X PUT "https://api.moralis-streams.com/streams/evm" \
-  -H "accept: application/json" \
-  -H "X-API-Key: $MORALIS_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-  "webhookUrl": "https://your-server.com/webhook",
-  "description": "ERC20 transfers with native balances",
-  "tag": "erc20-native-balances",
-  "chainIds": ["0x1"],
-  "topic0": ["Transfer(address,address,uint256)"],
-  "includeContractLogs": true,
-  "abi": [
-    {
-      "anonymous": false,
-      "inputs": [
-        {"indexed": true, "name": "from", "type": "address"},
-        {"indexed": true, "name": "to", "type": "address"},
-        {"indexed": false, "name": "value", "type": "uint256"}
-      ],
-      "name": "Transfer",
-      "type": "event"
-    }
-  ],
-  "getNativeBalances": [
-    {
-      "selectors": ["$from", "$to"],
-      "type": "erc20transfer"
-    }
-  ]
-}'
-```
-
-### Resulting Webhook Payload
-
-```json
-{
-  "nativeBalances": [
-    {
-      "address": "0x1234...",
-      "balance": "1500000000000000000",
-      "balanceWithDecimals": "1.5"
-    },
-    {
-      "address": "0x5678...",
-      "balance": "250000000000000000",
-      "balanceWithDecimals": "0.25"
-    }
-  ]
-}
-```
-
-## Filter Possible Spam Addresses
-
-Set `filterPossibleSpamAddresses` to `true` to automatically exclude events from known spam token contracts. This prevents spam tokens from appearing in your webhook payloads.
+## Spam Filtering
 
 ```json
 {
@@ -207,34 +118,25 @@ Set `filterPossibleSpamAddresses` to `true` to automatically exclude events from
 }
 ```
 
-This is especially useful for wallet monitoring streams where spam token transfers are common. See also [FilterStreams.md](FilterStreams.md) for more filtering options.
+Useful for wallet-monitoring streams where spam token transfers are noisy.
 
-## Combining Options
-
-You can combine multiple options in a single stream configuration:
+## Combined EVM Example
 
 ```json
 {
-    "webhookUrl": "https://your-server.com/webhook",
-    "includeNativeTxs": true,
-    "includeContractLogs": true,
-    "includeInternalTxs": true,
-    "includeAllTxLogs": true,
-    "advancedOptions": [
-        {
-            "topic0": "Transfer(address,address,uint256)",
-            "filter": {
-                "gt": ["value", "1000000000000000000"]
-            },
-            "includeNativeTxs": false
-        }
-    ]
+  "webhookUrl": "https://your-server.com/webhook",
+  "description": "ERC20 transfers with EVM enrichments",
+  "tag": "erc20-monitor",
+  "chainIds": ["0x1"],
+  "topic0": ["Transfer(address,address,uint256)"],
+  "includeContractLogs": true,
+  "includeNativeTxs": true,
+  "getNativeBalances": [
+    {
+      "selectors": ["$from", "$to"],
+      "type": "erc20transfer"
+    }
+  ],
+  "filterPossibleSpamAddresses": true
 }
 ```
-
-## References
-
-- [Advanced Options Documentation](https://docs.moralis.com/streams-api/evm/streams-configuration/useful-streams-options)
-- [CreateStream](../rules/CreateStream.md) - For creating streams with these options
-- [UpdateStream](../rules/UpdateStream.md) - For updating existing stream options
-- [FilterStreams](./FilterStreams.md) - For detailed filter syntax and examples

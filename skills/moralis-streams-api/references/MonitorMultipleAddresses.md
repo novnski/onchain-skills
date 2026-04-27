@@ -203,7 +203,7 @@ The tag will be included in webhook payloads, making it easier to identify which
 
 ## References
 
-- [Monitor Multiple Addresses Documentation](https://docs.moralis.com/streams-api/evm/monitor-multiple-addresses)
+- [Monitor Multiple Addresses Documentation](https://docs.moralis.com/get-started/tutorials/streams/wallet-monitoring/monitor-multiple-addresses.md)
 - [AddAddressToStream](../rules/AddAddressToStream.md) - Add addresses to a stream
 - [DeleteAddressFromStream](../rules/DeleteAddressFromStream.md) - Remove addresses from a stream
 - [ReplaceAddressFromStream](../rules/ReplaceAddressFromStream.md) - Replace addresses in a stream

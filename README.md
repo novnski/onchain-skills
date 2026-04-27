@@ -1,6 +1,6 @@
 # Onchain Skills
 
-Onchain skills built on the [Moralis API](https://admin.moralis.com/register). Query blockchain data from EVM chains and Solana, plus real-time event streaming.
+Onchain skills built on the [Moralis API](https://admin.moralis.com/register). Query blockchain data from EVM chains and Solana, plus real-time event streaming across EVM, Solana, and Bitcoin.
 
 Works with any agent that supports the [Agent Skills](https://skills.sh/) standard — Claude Code, Cursor, Windsurf, GitHub Copilot, Cline, Codex, Gemini, and more.
 
@@ -51,7 +51,7 @@ Without the key, the skills can't call the Moralis API on your behalf.
 | Skill | Description |
 |-------|-------------|
 | **moralis-data-api** | EVM + Solana blockchain data (136 endpoints) |
-| **moralis-streams-api** | Real-time event monitoring with webhooks (20 endpoints) |
+| **moralis-streams-api** | Real-time event monitoring with webhooks across EVM, Solana, and Bitcoin (45 endpoints) |
 | **learn-moralis** | Routing, FAQ, pricing, and capability guidance |
 
 ## moralis-data-api
@@ -85,12 +85,20 @@ Unified skill for all blockchain data queries. Auto-detects EVM vs Solana from a
 
 ## moralis-streams-api
 
-Real-time blockchain event monitoring with webhooks. **20 endpoints** for creating, managing, and monitoring streams.
+Real-time blockchain event monitoring with webhooks. **45 endpoints** for EVM, Solana, Bitcoin, and shared utility operations.
 
-**Stream types:** tx, log, erc20transfer, erc20approval, nfttransfer, internalTx
+**Families:**
+
+- **EVM Streams** — contract events, token/NFT transfers, native txs, internal txs
+- **Solana Streams** — program, mint, and address activity on `mainnet` / `devnet`
+- **Bitcoin Streams** — address monitoring, xpub monitoring, block replay helpers
 
 ```
 /moralis-streams-api Create a stream to monitor all ERC20 transfers on Ethereum
+
+/moralis-streams-api Create a Solana stream for program YOUR_SOLANA_PROGRAM_ID on mainnet
+
+/moralis-streams-api Add xpub YOUR_XPUB to Bitcoin stream YOUR_STREAM_ID
 
 /moralis-streams-api Pause the stream with ID YOUR_STREAM_ID
 ```
@@ -111,6 +119,8 @@ Knowledge-only skill for answering general questions about Moralis. Routes users
 
 **Solana:** mainnet, devnet
 
+**Bitcoin:** mainnet
+
 ## Architecture
 
 - **Zero dependencies** — all API calls use curl
@@ -124,7 +134,8 @@ Knowledge-only skill for answering general questions about Moralis. Routes users
 - Get API key: [admin.moralis.com/register](https://admin.moralis.com/register)
 - [EVM API Docs](https://deep-index.moralis.io/api-docs-2.2/)
 - [Solana API Docs](https://solana-gateway.moralis.io/api/)
-- [Streams API Docs](https://docs.moralis.io/streams)
+- [Streams API Docs](https://docs.moralis.com/streams/overview.md)
+- [Bitcoin Streams Docs](https://docs.moralis.com/streams/bitcoin-streams.md)
 
 ## License
 

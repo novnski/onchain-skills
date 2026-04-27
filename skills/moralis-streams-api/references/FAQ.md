@@ -2,6 +2,8 @@
 
 Frequently asked questions about the Moralis Streams API, covering production status, pricing, configurations, and usage details.
 
+This FAQ is primarily about the shared Streams delivery model and the EVM webhook shape. For Solana and Bitcoin family-specific request shapes, use [StreamConfiguration.md](StreamConfiguration.md), [SolanaStreams.md](SolanaStreams.md), and [BitcoinStreams.md](BitcoinStreams.md).
+
 ## Is Streams API in production?
 
 Yes, the Streams API is in production.

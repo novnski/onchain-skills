@@ -1,7 +1,7 @@
 ---
 name: learn-moralis
 description: Learn about Moralis and Web3 development. Invoked without a question, gives a friendly platform walkthrough — what's available, what data you can fetch, and how everything fits together. Invoked with a question, answers it directly. Use for "what is Moralis", "can Moralis do X", "what chains are supported", "how do I get started", "which API should I use", pricing, feature comparisons, or any exploratory questions. Routes to the correct technical skill (@moralis-data-api or @moralis-streams-api) after answering.
-version: 1.2.0
+version: 1.3.0
 license: MIT
 compatibility: Knowledge-only skill. Read/Grep/Glob access bundled reference files (FAQ, ProductComparison, UseCaseGuide). Does not require or access any API keys or environment variables.
 metadata:
@@ -22,8 +22,8 @@ allowed-tools: Read Grep Glob
 1. What Moralis is (enterprise Web3 data platform)
 2. The two skills available and when to use each:
    - **@moralis-data-api** (136 endpoints) — query wallet balances, tokens, NFTs, DeFi positions, prices, transactions, analytics. Use for "what is the current/historical state?"
-   - **@moralis-streams-api** (20 endpoints, EVM only) — real-time EVM event monitoring via webhooks. Use for "notify me when something happens"
-3. Supported chains: 40+ EVM chains for both skills, Solana for Data API only
+   - **@moralis-streams-api** (45 endpoints across EVM, Solana, and Bitcoin) — real-time webhook delivery for contracts, wallets, programs, mints, addresses, and Bitcoin xpubs. Use for "notify me when something happens"
+3. Supported chains: 40+ EVM chains, Solana, and Bitcoin across the product surface
 4. How to get started: set `MORALIS_API_KEY` in `.env`, then use the skill that fits their need
 
 Keep it conversational and concise — think "onboarding tour", not "dump the docs". End by asking what they'd like to build so you can point them to the right skill.
@@ -35,7 +35,7 @@ Keep it conversational and concise — think "onboarding tour", not "dump the do
 Moralis is an enterprise-grade Web3 data infrastructure platform providing:
 
 - **Data APIs** - Query wallet balances, tokens, NFTs, DeFi positions, prices, transactions
-- **Streams** - Real-time EVM event monitoring via webhooks (EVM chains only, no Solana)
+- **Streams** - Real-time webhook monitoring across EVM, Solana, and Bitcoin
 - **Datashare** - Export historical data to Snowflake, BigQuery, S3
 - **Data Indexer** - Custom enterprise indexing pipelines
 - **RPC Nodes** - Direct blockchain node access
@@ -55,10 +55,11 @@ After answering a general question, route users to the appropriate skill:
 | Query NFT metadata, traits, floor prices | @moralis-data-api |
 | Get DeFi positions, protocol data | @moralis-data-api |
 | Query blocks, transactions | @moralis-data-api |
-| **Real-time** wallet monitoring (EVM) | @moralis-streams-api |
-| **Real-time** contract events (EVM) | @moralis-streams-api |
-| Webhooks for EVM on-chain events | @moralis-streams-api |
-| Track EVM transfers as they happen | @moralis-streams-api |
+| **Real-time** wallet monitoring (EVM, Solana, Bitcoin) | @moralis-streams-api |
+| **Real-time** contract or program events | @moralis-streams-api |
+| Webhooks for on-chain events | @moralis-streams-api |
+| Track transfers as they happen | @moralis-streams-api |
+| Monitor Bitcoin xpubs | @moralis-streams-api |
 
 **Rule of thumb:**
 - **Data API** = "What is the current/historical state?"
@@ -78,8 +79,9 @@ After answering a general question, route users to the appropriate skill:
 | Get token prices? | Yes, real-time + OHLCV | @moralis-data-api |
 | Get NFT floor prices? | Yes (ETH, Base, Sei) | @moralis-data-api |
 | Get DeFi positions? | Yes (major chains) | @moralis-data-api |
-| Monitor wallets in real-time? | Yes (EVM only) | @moralis-streams-api |
-| Track contract events live? | Yes (EVM only) | @moralis-streams-api |
+| Monitor wallets in real-time? | Yes (EVM, Solana, Bitcoin) | @moralis-streams-api |
+| Track contract events live? | Yes (EVM contracts, Solana programs) | @moralis-streams-api |
+| Monitor Bitcoin xpubs? | Yes | @moralis-streams-api |
 | Get historical events? | Use Data API queries | @moralis-data-api |
 | ENS/Unstoppable domain lookup? | Yes | @moralis-data-api |
 | Token security scores? | Yes | @moralis-data-api |
@@ -120,7 +122,11 @@ Linea, Fantom, Cronos, Gnosis, Chiliz, Moonbeam, Moonriver, Flow, Ronin, Lisk, P
 
 ### Solana
 
-Mainnet and Devnet supported via **@moralis-data-api only**. Streams does not support Solana. Use `__solana` suffix endpoints.
+Mainnet and Devnet are supported in both Data API and Streams. Use `@moralis-streams-api` for real-time Solana webhook delivery and `@moralis-data-api` for state or history queries.
+
+### Bitcoin
+
+Bitcoin is supported via **@moralis-streams-api** for real-time address and xpub monitoring.
 
 ### Coming Soon
 

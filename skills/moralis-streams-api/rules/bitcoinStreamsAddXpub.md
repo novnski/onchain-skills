@@ -1,10 +1,8 @@
-# Replaces address from stream
-
-Replaces address from a Stream.
+# Add xpub to Bitcoin stream
 
 ## Method
 
-PATCH
+POST
 
 ## Base URL
 
@@ -12,19 +10,19 @@ PATCH
 
 ## Path
 
-`/streams/evm/:id/address`
+`/streams/bitcoin/:id/xpub`
 
 ## Path Params
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | The id of the stream to replace the address from | \`YOUR_STREAM_ID\` |
+| id | string | Yes | - | \`YOUR_STREAM_ID\` |
 
 ## Body
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| address | - | No | The address or a list of addresses to be replace from the Stream. | \`string\` |
+| xpub | string | Yes | Extended public key to add to the Bitcoin stream | \`YOUR_XPUB\` |
 
 ## Response Example
 
@@ -34,18 +32,22 @@ Ok
 
 ```json
 {
-  "streamId": "streamId_example"
+  "id": "id_example",
+  "streamId": "streamId_example",
+  "xpub": "xpub_example",
+  "createdAt": "createdAt_example",
+  "updatedAt": "updatedAt_example"
 }
 ```
 
 ## Example (curl)
 
 ```bash
-curl -X PATCH "https://api.moralis-streams.com/streams/evm/YOUR_STREAM_ID/address" \
+curl -X POST "https://api.moralis-streams.com/streams/bitcoin/YOUR_STREAM_ID/xpub" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "address": "string"
+  "xpub": "YOUR_XPUB"
 }'
 ```

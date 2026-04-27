@@ -18,8 +18,8 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chainId | string | Yes | - | - |
-| blockNumber | number | Yes | - | - |
+| chainId | string | Yes | - | \`0x1\` |
+| blockNumber | number | Yes | - | \`123456\` |
 
 ## Body
 
@@ -40,7 +40,7 @@ POST
 ## Example (curl)
 
 ```bash
-curl -X POST "https://api.moralis-streams.com/streams/evm/:chainId/block/:blockNumber" \
+curl -X POST "https://api.moralis-streams.com/streams/evm/0x1/block/123456" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \

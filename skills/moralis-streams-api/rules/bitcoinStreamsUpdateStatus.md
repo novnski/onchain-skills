@@ -1,10 +1,8 @@
-# Replaces address from stream
-
-Replaces address from a Stream.
+# Update Bitcoin stream status
 
 ## Method
 
-PATCH
+POST
 
 ## Base URL
 
@@ -12,19 +10,19 @@ PATCH
 
 ## Path
 
-`/streams/evm/:id/address`
+`/streams/bitcoin/:id/status`
 
 ## Path Params
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | The id of the stream to replace the address from | \`YOUR_STREAM_ID\` |
+| id | string | Yes | - | \`YOUR_STREAM_ID\` |
 
 ## Body
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| address | - | No | The address or a list of addresses to be replace from the Stream. | \`string\` |
+| status | string (active, paused) | No | The stream status: active (processing blocks) or paused (not processing blocks) | \`active\` |
 
 ## Response Example
 
@@ -34,18 +32,19 @@ Ok
 
 ```json
 {
-  "streamId": "streamId_example"
+  "status": {},
+  "statusMessage": "statusMessage_example"
 }
 ```
 
 ## Example (curl)
 
 ```bash
-curl -X PATCH "https://api.moralis-streams.com/streams/evm/YOUR_STREAM_ID/address" \
+curl -X POST "https://api.moralis-streams.com/streams/bitcoin/YOUR_STREAM_ID/status" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "address": "string"
+  "status": "active"
 }'
 ```

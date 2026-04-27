@@ -50,18 +50,6 @@ const IGNORED_ENDPOINTS = new Set([
   "resyncNFTRarity",
   // Deprecated in favor of better alternatives
   "getWalletTokenBalances", // use getWalletTokenBalancesPrice instead (includes prices)
-  // Bitcoin Streams — not yet stable/public, under development
-  "bitcoinStreamsGetAll",
-  "bitcoinStreamsCreate",
-  "bitcoinStreamsGet",
-  "bitcoinStreamsUpdate",
-  "bitcoinStreamsDelete",
-  "bitcoinStreamsAddAddresses",
-  "bitcoinStreamsDeleteAddresses",
-  "bitcoinStreamsGetAddresses",
-  "bitcoinStreamsUpdateStatus",
-  "bitcoinGetBlockByNumber",
-  "bitcoinBlockToWebhook",
 ]);
 
 /**
@@ -710,7 +698,8 @@ function generateEndpointMarkdown(operationId, endpoint, source) {
     queryParams = [],
   } = endpoint;
 
-  let md = "# " + summary + "\n\n";
+  const displaySummary = summary || operationId;
+  let md = "# " + displaySummary + "\n\n";
 
   if (description) {
     md += description + "\n\n";
@@ -1000,42 +989,71 @@ function generateDataApiCatalog(apiConfigs) {
 function generateStreamsApiCatalog(apiConfigs) {
   const streams = apiConfigs.streams || {};
 
-  // Stream categories
-  const categories = {
-    streamManagement: {
-      title: "Stream Management",
-      description: "Create, update, delete, and manage streams.",
-      keywords: [
-        "Stream",
-        "streams",
-        "Create",
-        "Update",
-        "Delete",
-        "Get",
-        "Duplicate",
-      ],
+  const categories = [
+    {
+      key: "evmStreams",
+      title: "EVM Streams",
+      description:
+        "Create, update, delete, and simulate EVM streams, including block replay helpers.",
     },
-    addressManagement: {
-      title: "Address Management",
-      description: "Add, remove, and replace addresses in streams.",
-      keywords: ["Address", "Addresses"],
+    {
+      key: "evmAddresses",
+      title: "EVM Addresses",
+      description: "Manage address lists for EVM streams.",
     },
-    statusSettings: {
-      title: "Status & Settings",
-      description: "Pause/resume streams and configure settings.",
-      keywords: ["Status", "Settings"],
+    {
+      key: "solanaStreams",
+      title: "Solana Streams",
+      description:
+        "Create, update, delete, and simulate Solana streams, including block replay helpers.",
     },
-    historyAnalytics: {
-      title: "History & Analytics",
-      description: "Stream history, replay, statistics, logs, and block data.",
-      keywords: ["History", "Replay", "Stats", "Logs", "Block"],
+    {
+      key: "solanaAddresses",
+      title: "Solana Addresses",
+      description: "Manage address lists for Solana streams.",
     },
-  };
+    {
+      key: "bitcoinStreams",
+      title: "Bitcoin Streams",
+      description:
+        "Create, update, delete, and simulate Bitcoin streams, including block replay helpers.",
+    },
+    {
+      key: "bitcoinAddresses",
+      title: "Bitcoin Addresses",
+      description: "Manage address lists for Bitcoin streams.",
+    },
+    {
+      key: "bitcoinXpub",
+      title: "Bitcoin Xpub",
+      description: "Manage Bitcoin xpubs attached to a stream.",
+    },
+    {
+      key: "projectSettings",
+      title: "Project Settings",
+      description: "Read and update project-level stream settings.",
+    },
+    {
+      key: "stats",
+      title: "Stats",
+      description: "Inspect global and per-stream statistics.",
+    },
+    {
+      key: "history",
+      title: "History",
+      description: "List delivery history, logs, and replay failed webhook deliveries.",
+    },
+    {
+      key: "other",
+      title: "Other",
+      description: "Miscellaneous Streams endpoints.",
+    },
+  ];
 
   // Categorize streams endpoints
   const streamsByCategory = {};
-  for (const cat of Object.keys(categories)) {
-    streamsByCategory[cat] = [];
+  for (const { key } of categories) {
+    streamsByCategory[key] = [];
   }
 
   for (const [opId, endpoint] of Object.entries(streams)) {
@@ -1044,26 +1062,44 @@ function generateStreamsApiCatalog(apiConfigs) {
       continue;
     }
 
-    let categorized = false;
-    const searchStr = (
-      opId +
-      " " +
-      (endpoint.summary || "") +
-      " " +
-      (endpoint.description || "")
-    ).toLowerCase();
+    const endpointPath = endpoint.path || "";
+    let categoryKey = "other";
 
-    for (const [catKey, catDef] of Object.entries(categories)) {
-      if (catDef.keywords.some((k) => searchStr.includes(k.toLowerCase()))) {
-        streamsByCategory[catKey].push({ opId, endpoint });
-        categorized = true;
-        break;
+    if (endpointPath.startsWith("/streams/evm/")) {
+      if (endpointPath.includes("/address")) {
+        categoryKey = "evmAddresses";
+      } else {
+        categoryKey = "evmStreams";
       }
+    } else if (endpointPath === "/streams/evm") {
+      categoryKey = "evmStreams";
+    } else if (endpointPath.startsWith("/streams/solana/")) {
+      if (endpointPath.includes("/address")) {
+        categoryKey = "solanaAddresses";
+      } else {
+        categoryKey = "solanaStreams";
+      }
+    } else if (endpointPath === "/streams/solana") {
+      categoryKey = "solanaStreams";
+    } else if (endpointPath.startsWith("/streams/bitcoin/")) {
+      if (endpointPath.includes("/xpub")) {
+        categoryKey = "bitcoinXpub";
+      } else if (endpointPath.includes("/address")) {
+        categoryKey = "bitcoinAddresses";
+      } else {
+        categoryKey = "bitcoinStreams";
+      }
+    } else if (endpointPath === "/streams/bitcoin") {
+      categoryKey = "bitcoinStreams";
+    } else if (endpointPath.startsWith("/settings")) {
+      categoryKey = "projectSettings";
+    } else if (endpointPath.startsWith("/stats")) {
+      categoryKey = "stats";
+    } else if (endpointPath.startsWith("/history")) {
+      categoryKey = "history";
     }
 
-    if (!categorized) {
-      streamsByCategory.streamManagement.push({ opId, endpoint });
-    }
+    streamsByCategory[categoryKey].push({ opId, endpoint });
   }
 
   // Count non-ignored endpoints
@@ -1076,14 +1112,14 @@ function generateStreamsApiCatalog(apiConfigs) {
   md +=
     "Complete list of all " +
     streamsCount +
-    " Streams API endpoints organized by category.\n\n";
+    " Streams API endpoints across EVM, Solana, Bitcoin, and shared utilities.\n\n";
 
-  for (const [catKey, catDef] of Object.entries(categories)) {
-    const endpoints = streamsByCategory[catKey];
+  for (const { key, title, description } of categories) {
+    const endpoints = streamsByCategory[key];
     if (endpoints.length === 0) continue;
 
-    md += "### " + catDef.title + "\n\n";
-    md += catDef.description + "\n\n";
+    md += "### " + title + "\n\n";
+    md += description + "\n\n";
     md += "| Endpoint | Description |\n";
     md += "|----------|-------------|\n";
 

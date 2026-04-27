@@ -57,7 +57,7 @@ curl -X POST "https://api.moralis-streams.com/streams/evm/STREAM_ID/address" \
 }'
 ```
 
-**Reference:** [Track Specific ERC20 Token Transfers](https://docs.moralis.com/streams-api/evm/how-to-track-specific-erc20-token-transfers-from-a-list-of-wallets)
+**Reference:** [Track Specific ERC20 Token Transfers](https://docs.moralis.com/get-started/tutorials/streams/token-monitoring/track-specific-erc-20-token-transfers-from-a-list-of-wallets.md)
 
 ---
 
@@ -179,7 +179,7 @@ curl -X POST "https://api.moralis-streams.com/streams/evm/STREAM_ID/address" \
 - Portfolio Trackers
 - Security Monitoring
 
-**Reference:** [Track New Tokens and Pairs](https://docs.moralis.com/streams-api/evm/how-to-track-new-tokens-and-pairs)
+**Reference:** [Track New Tokens and Pairs](https://docs.moralis.com/get-started/tutorials/streams/token-monitoring/track-new-tokens-and-trading-pairs-in-real-time.md)
 
 ---
 
@@ -219,7 +219,7 @@ curl -X PUT "https://api.moralis-streams.com/streams/evm" \
 
 **Important:** Use a unique ABI that is specific to your contracts to avoid receiving events from other contracts using the same ABI structure.
 
-**Reference:** [Listen to Contract Factory Events](https://docs.moralis.com/streams-api/evm/how-to-listen-all-events-from-a-contract-factory)
+**Reference:** [Listen to Contract Factory Events](https://docs.moralis.com/get-started/tutorials/streams/wallet-monitoring/listen-to-all-addresses.md)
 
 ---
 
@@ -271,7 +271,7 @@ curl -X PUT "https://api.moralis-streams.com/streams/evm" \
 - Filters for events where `from` equals the specified address
 - Only receives NFT transfers originating from that address
 
-**Reference:** [Monitor NFT Transfers from Specific Wallet](https://docs.moralis.com/streams-api/evm/how-to-listen-to-all-nft-transfers-sent-from-a-specific-address)
+**Reference:** [Monitor NFT Transfers from Specific Wallet](https://docs.moralis.com/get-started/tutorials/streams/nft-monitoring/monitoring-nft-transfers-from-specific-wallet-addresses.md)
 
 ---
 
@@ -332,7 +332,7 @@ curl -X POST "https://api.moralis-streams.com/streams/evm/STREAM_ID/address" \
 - Filters for registrations costing more than 1 ETH (`1000000000000000000` wei)
 - ENS Registry: `YOUR_EVM_ADDRESS`
 
-**Reference:** [Monitor ENS Domain Registrations](https://docs.moralis.com/streams-api/evm/how-to-monitor-ens-domain-registrations)
+**Reference:** [Monitor ENS Domain Registrations](https://docs.moralis.com/get-started/tutorials/streams/wallet-monitoring/monitor-high-value-ens-domain-registrations.md)
 
 ---
 

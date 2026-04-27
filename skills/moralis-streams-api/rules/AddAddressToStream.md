@@ -18,7 +18,7 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | The id of the stream to add the address to | - |
+| id | string | Yes | The id of the stream to add the address to | \`YOUR_STREAM_ID\` |
 
 ## Body
 
@@ -41,7 +41,7 @@ Ok
 ## Example (curl)
 
 ```bash
-curl -X POST "https://api.moralis-streams.com/streams/evm/:id/address" \
+curl -X POST "https://api.moralis-streams.com/streams/evm/YOUR_STREAM_ID/address" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \

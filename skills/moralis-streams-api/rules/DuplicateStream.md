@@ -18,7 +18,7 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | The id of the stream to duplicate | - |
+| id | string | Yes | The id of the stream to duplicate | \`YOUR_STREAM_ID\` |
 
 ## Response Example
 
@@ -67,7 +67,7 @@ Ok
 ## Example (curl)
 
 ```bash
-curl -X POST "https://api.moralis-streams.com/streams/evm/:id/duplicate" \
+curl -X POST "https://api.moralis-streams.com/streams/evm/YOUR_STREAM_ID/duplicate" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

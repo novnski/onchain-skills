@@ -47,6 +47,17 @@ Ok
     {
       "id": "id_example",
       "date": "date_example",
+      "payload": {
+        "chainId": "chainId_example",
+        "logs": [],
+        "txs": [],
+        "txsInternal": [],
+        "abi": [],
+        "retries": 0,
+        "confirmed": true,
+        "tag": "tag_example",
+        "streamId": "streamId_example"
+      },
       "tinyPayload": {
         "chainId": "chainId_example",
         "confirmed": true,

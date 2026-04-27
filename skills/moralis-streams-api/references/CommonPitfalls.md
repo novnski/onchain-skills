@@ -2,6 +2,8 @@
 
 Complete reference for common mistakes, bugs, and gotchas when working with Moralis Streams API.
 
+Unless stated otherwise, the concrete examples below are **EVM-focused**. For Solana and Bitcoin request-shape differences, read [StreamConfiguration.md](StreamConfiguration.md), [SolanaStreams.md](SolanaStreams.md), and [BitcoinStreams.md](BitcoinStreams.md) first.
+
 ## Table of Contents
 
 - [HTTP Method Confusion](#http-method-confusion)

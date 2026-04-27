@@ -4471,7 +4471,7 @@
         },
         {
           "name": "marketplace",
-          "description": "Marketplace from which to get the trades. See [supported Marketplaces](https://docs.moralis.io/web3-data-api/evm/nft-marketplaces).",
+          "description": "Marketplace from which to get the trades. See [supported Marketplaces](https://docs.moralis.com/data-api/data-features/integrations/nft-marketplaces.md).",
           "required": false,
           "example": "opensea",
           "type": "string"
@@ -19345,14 +19345,24 @@
             "type": "array",
             "required": true,
             "description": "Array of filter objects. Each has metric, timeFrame, and at least one of gt/lt/eq. Filters are combined with AND logic. See references/FilteredTokens.md for all metrics and timeframes.",
-            "example": [{"metric": "volumeUsd", "timeFrame": "oneDay", "gt": 100000}]
+            "example": [
+              {
+                "metric": "volumeUsd",
+                "timeFrame": "oneDay",
+                "gt": 100000
+              }
+            ]
           },
           {
             "name": "sortBy",
             "type": "object",
             "required": true,
             "description": "Sort configuration with metric, timeFrame, and type (ASC or DESC). See references/FilteredTokens.md for all metrics and timeframes.",
-            "example": {"metric": "volumeUsd", "timeFrame": "oneDay", "type": "DESC"}
+            "example": {
+              "metric": "volumeUsd",
+              "timeFrame": "oneDay",
+              "type": "DESC"
+            }
           },
           {
             "name": "limit",
@@ -19365,25 +19375,38 @@
             "name": "chains",
             "type": "array",
             "description": "Array of chain hex IDs for multi-chain queries. Use instead of 'chain' to query multiple chains.",
-            "example": ["0x1", "0x89"]
+            "example": [
+              "0x1",
+              "0x89"
+            ]
           },
           {
             "name": "categories",
             "type": "object",
             "description": "Category-based filtering. Object with 'include' and/or 'exclude' arrays (e.g. [\"stablecoin\", \"meme\"]).",
-            "example": {"exclude": ["stablecoin"]}
+            "example": {
+              "exclude": [
+                "stablecoin"
+              ]
+            }
           },
           {
             "name": "timeFramesToReturn",
             "type": "array",
             "description": "Which timeframes to include in response metrics. Defaults to all if omitted. See references/FilteredTokens.md for values.",
-            "example": ["oneDay", "oneWeek"]
+            "example": [
+              "oneDay",
+              "oneWeek"
+            ]
           },
           {
             "name": "metricsToReturn",
             "type": "array",
             "description": "Which metrics to include in response. Defaults to all if omitted. See references/FilteredTokens.md for values.",
-            "example": ["volumeUsd", "usdPricePercentChange"]
+            "example": [
+              "volumeUsd",
+              "usdPricePercentChange"
+            ]
           },
           {
             "name": "excludeMetadata",
@@ -31572,6 +31595,7 @@
           "name": "id",
           "description": "The id of the stream to get",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -31813,6 +31837,7 @@
           "name": "id",
           "description": "The id of the stream to update",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -32257,6 +32282,7 @@
           "name": "id",
           "description": "The id of the stream to delete",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -32498,6 +32524,7 @@
           "name": "id",
           "description": "The id of the stream to duplicate",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -32739,6 +32766,7 @@
           "name": "id",
           "description": "The id of the stream to update",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -32997,6 +33025,7 @@
           "name": "id",
           "description": "the id of the stream to get the addresses from",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -33063,6 +33092,7 @@
           "name": "id",
           "description": "The id of the stream to add the address to",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -33111,6 +33141,7 @@
           "name": "id",
           "description": "The id of the stream to replace the address from",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -33159,6 +33190,7 @@
           "name": "id",
           "description": "The id of the stream to delete the address from",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -33206,11 +33238,13 @@
         {
           "name": "chainId",
           "required": true,
+          "example": "0x1",
           "type": "string"
         },
         {
           "name": "blockNumber",
           "required": true,
+          "example": 123456,
           "type": "number"
         }
       ],
@@ -33305,16 +33339,19 @@
         {
           "name": "chainId",
           "required": true,
+          "example": "0x1",
           "type": "string"
         },
         {
           "name": "blockNumber",
           "required": true,
+          "example": 123456,
           "type": "number"
         },
         {
           "name": "streamId",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -33432,6 +33469,7 @@
           "name": "streamId",
           "description": "The id of the stream to get the stats",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -33706,7 +33744,66 @@
                       "type": "string"
                     },
                     {
-                      "name": "payload"
+                      "name": "payload",
+                      "type": "object",
+                      "properties": {
+                        "block": {
+                          "$ref": "#/components/schemas/Block"
+                        },
+                        "chainId": {
+                          "type": "string"
+                        },
+                        "logs": {
+                          "items": {
+                            "$ref": "#/components/schemas/Log"
+                          },
+                          "type": "array"
+                        },
+                        "txs": {
+                          "items": {
+                            "$ref": "#/components/schemas/Transaction"
+                          },
+                          "type": "array"
+                        },
+                        "txsInternal": {
+                          "items": {
+                            "$ref": "#/components/schemas/InternalTransaction"
+                          },
+                          "type": "array"
+                        },
+                        "abi": {
+                          "items": {
+                            "$ref": "#/components/schemas/AbiItem"
+                          },
+                          "type": "array"
+                        },
+                        "retries": {
+                          "type": "number",
+                          "format": "double"
+                        },
+                        "confirmed": {
+                          "type": "boolean"
+                        },
+                        "tag": {
+                          "type": "string"
+                        },
+                        "streamId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "block",
+                        "chainId",
+                        "logs",
+                        "txs",
+                        "txsInternal",
+                        "abi",
+                        "retries",
+                        "confirmed",
+                        "tag",
+                        "streamId"
+                      ],
+                      "additionalProperties": false
                     },
                     {
                       "name": "tinyPayload",
@@ -33782,12 +33879,14 @@
           "name": "streamId",
           "description": "The id of the stream the history will be replayed",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         },
         {
           "name": "id",
           "description": "The id of the history to replay",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -33811,7 +33910,66 @@
                 "type": "string"
               },
               {
-                "name": "payload"
+                "name": "payload",
+                "type": "object",
+                "properties": {
+                  "block": {
+                    "$ref": "#/components/schemas/Block"
+                  },
+                  "chainId": {
+                    "type": "string"
+                  },
+                  "logs": {
+                    "items": {
+                      "$ref": "#/components/schemas/Log"
+                    },
+                    "type": "array"
+                  },
+                  "txs": {
+                    "items": {
+                      "$ref": "#/components/schemas/Transaction"
+                    },
+                    "type": "array"
+                  },
+                  "txsInternal": {
+                    "items": {
+                      "$ref": "#/components/schemas/InternalTransaction"
+                    },
+                    "type": "array"
+                  },
+                  "abi": {
+                    "items": {
+                      "$ref": "#/components/schemas/AbiItem"
+                    },
+                    "type": "array"
+                  },
+                  "retries": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "confirmed": {
+                    "type": "boolean"
+                  },
+                  "tag": {
+                    "type": "string"
+                  },
+                  "streamId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "block",
+                  "chainId",
+                  "logs",
+                  "txs",
+                  "txsInternal",
+                  "abi",
+                  "retries",
+                  "confirmed",
+                  "tag",
+                  "streamId"
+                ],
+                "additionalProperties": false
               },
               {
                 "name": "tinyPayload",
@@ -34006,15 +34164,17 @@
         }
       ]
     },
-    "bitcoinStreamsGetAll": {
+    "solanaStreamsGetAll": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Get Solana streams",
       "method": "GET",
-      "path": "/streams/bitcoin",
+      "path": "/streams/solana",
       "pathParams": [],
       "queryParams": [
         {
           "name": "limit",
           "required": true,
+          "example": 100,
           "type": "number"
         },
         {
@@ -34030,6 +34190,871 @@
           "body": {
             "type": "object",
             "fields": [
+              {
+                "name": "cursor",
+                "type": "string"
+              },
+              {
+                "name": "total",
+                "type": "number"
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "id",
+                      "type": "string"
+                    },
+                    {
+                      "name": "allAddresses",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "description",
+                      "type": "string"
+                    },
+                    {
+                      "name": "isErrorSince",
+                      "type": "string"
+                    },
+                    {
+                      "name": "network",
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "mainnet",
+                          "devnet"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "programIds",
+                      "type": "array",
+                      "field": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "name": "mintAddresses",
+                      "type": "array",
+                      "field": {
+                        "type": "string"
+                      }
+                    },
+                    {
+                      "name": "status",
+                      "type": "string",
+                      "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
+                      "enum": [
+                        "active",
+                        "paused",
+                        "error",
+                        "terminated"
+                      ],
+                      "example": {}
+                    },
+                    {
+                      "name": "statusMessage",
+                      "type": "string"
+                    },
+                    {
+                      "name": "tag",
+                      "type": "string"
+                    },
+                    {
+                      "name": "webhookUrl",
+                      "type": "string"
+                    },
+                    {
+                      "name": "amountOfAddresses",
+                      "type": "number"
+                    },
+                    {
+                      "name": "updatedAt",
+                      "type": "string"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "solanaStreamsCreate": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Create Solana stream",
+      "method": "PUT",
+      "path": "/streams/solana",
+      "pathParams": [],
+      "queryParams": [],
+      "bodyParam": {
+        "required": true,
+        "type": "object",
+        "fields": [
+          {
+            "name": "webhookUrl",
+            "type": "string",
+            "description": "Webhook URL where moralis will send the POST request.",
+            "example": "https://your-server.com/webhook"
+          },
+          {
+            "name": "tag",
+            "type": "string",
+            "description": "A user-provided tag that will be send along the webhook",
+            "example": "solana-monitor"
+          },
+          {
+            "name": "mintAddresses",
+            "type": "array",
+            "description": "Solana token mint addresses to filter transactions by",
+            "example": [
+              "YOUR_SOLANA_MINT"
+            ],
+            "field": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "programIds",
+            "type": "array",
+            "description": "Solana program IDs to filter transactions by",
+            "example": [
+              "YOUR_SOLANA_PROGRAM_ID"
+            ],
+            "field": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "network",
+            "type": "array",
+            "description": "The network to listen to",
+            "items": {
+              "type": "string",
+              "enum": [
+                "mainnet",
+                "devnet"
+              ]
+            },
+            "example": [
+              "mainnet"
+            ]
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "A description for this stream",
+            "example": "Monitor Solana program activity"
+          },
+          {
+            "name": "allAddresses",
+            "type": "boolean",
+            "description": "Include events for all addresses",
+            "example": false
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "id",
+                "type": "string"
+              },
+              {
+                "name": "allAddresses",
+                "type": "boolean"
+              },
+              {
+                "name": "description",
+                "type": "string"
+              },
+              {
+                "name": "isErrorSince",
+                "type": "string"
+              },
+              {
+                "name": "network",
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "mainnet",
+                    "devnet"
+                  ]
+                }
+              },
+              {
+                "name": "programIds",
+                "type": "array",
+                "field": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "mintAddresses",
+                "type": "array",
+                "field": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "status",
+                "type": "string",
+                "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
+                "enum": [
+                  "active",
+                  "paused",
+                  "error",
+                  "terminated"
+                ],
+                "example": {}
+              },
+              {
+                "name": "statusMessage",
+                "type": "string"
+              },
+              {
+                "name": "tag",
+                "type": "string"
+              },
+              {
+                "name": "webhookUrl",
+                "type": "string"
+              },
+              {
+                "name": "amountOfAddresses",
+                "type": "number"
+              },
+              {
+                "name": "updatedAt",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "solanaStreamsGet": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Get Solana stream by ID",
+      "method": "GET",
+      "path": "/streams/solana/:id",
+      "pathParams": [
+        {
+          "name": "id",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [],
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "id",
+                "type": "string"
+              },
+              {
+                "name": "allAddresses",
+                "type": "boolean"
+              },
+              {
+                "name": "description",
+                "type": "string"
+              },
+              {
+                "name": "isErrorSince",
+                "type": "string"
+              },
+              {
+                "name": "network",
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "mainnet",
+                    "devnet"
+                  ]
+                }
+              },
+              {
+                "name": "programIds",
+                "type": "array",
+                "field": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "mintAddresses",
+                "type": "array",
+                "field": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "status",
+                "type": "string",
+                "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
+                "enum": [
+                  "active",
+                  "paused",
+                  "error",
+                  "terminated"
+                ],
+                "example": {}
+              },
+              {
+                "name": "statusMessage",
+                "type": "string"
+              },
+              {
+                "name": "tag",
+                "type": "string"
+              },
+              {
+                "name": "webhookUrl",
+                "type": "string"
+              },
+              {
+                "name": "amountOfAddresses",
+                "type": "number"
+              },
+              {
+                "name": "updatedAt",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "solanaStreamsUpdate": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Update Solana stream",
+      "method": "POST",
+      "path": "/streams/solana/:id",
+      "pathParams": [
+        {
+          "name": "id",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [],
+      "bodyParam": {
+        "required": true,
+        "type": "object",
+        "fields": [
+          {
+            "name": "allAddresses",
+            "type": "boolean",
+            "description": "Include events for all addresses",
+            "example": false
+          },
+          {
+            "name": "description",
+            "type": "string",
+            "description": "A description for this stream",
+            "example": "Monitor Solana program activity"
+          },
+          {
+            "name": "network",
+            "type": "array",
+            "description": "The network to listen to",
+            "items": {
+              "type": "string",
+              "enum": [
+                "mainnet",
+                "devnet"
+              ]
+            },
+            "example": [
+              "mainnet"
+            ]
+          },
+          {
+            "name": "programIds",
+            "type": "array",
+            "description": "Solana program IDs to filter transactions by",
+            "example": [
+              "YOUR_SOLANA_PROGRAM_ID"
+            ],
+            "field": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mintAddresses",
+            "type": "array",
+            "description": "Solana token mint addresses to filter transactions by",
+            "example": [
+              "YOUR_SOLANA_MINT"
+            ],
+            "field": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "type": "string",
+            "description": "A user-provided tag that will be send along the webhook",
+            "example": "solana-monitor"
+          },
+          {
+            "name": "webhookUrl",
+            "type": "string",
+            "description": "Webhook URL where moralis will send the POST request.",
+            "example": "https://your-server.com/webhook"
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "id",
+                "type": "string"
+              },
+              {
+                "name": "allAddresses",
+                "type": "boolean"
+              },
+              {
+                "name": "description",
+                "type": "string"
+              },
+              {
+                "name": "isErrorSince",
+                "type": "string"
+              },
+              {
+                "name": "network",
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "mainnet",
+                    "devnet"
+                  ]
+                }
+              },
+              {
+                "name": "programIds",
+                "type": "array",
+                "field": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "mintAddresses",
+                "type": "array",
+                "field": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "status",
+                "type": "string",
+                "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
+                "enum": [
+                  "active",
+                  "paused",
+                  "error",
+                  "terminated"
+                ],
+                "example": {}
+              },
+              {
+                "name": "statusMessage",
+                "type": "string"
+              },
+              {
+                "name": "tag",
+                "type": "string"
+              },
+              {
+                "name": "webhookUrl",
+                "type": "string"
+              },
+              {
+                "name": "amountOfAddresses",
+                "type": "number"
+              },
+              {
+                "name": "updatedAt",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "solanaStreamsDelete": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Delete Solana stream",
+      "method": "DELETE",
+      "path": "/streams/solana/:id",
+      "pathParams": [
+        {
+          "name": "id",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [],
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok"
+        }
+      ]
+    },
+    "solanaStreamsAddAddresses": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Add address to Solana stream",
+      "method": "POST",
+      "path": "/streams/solana/:id/address",
+      "pathParams": [
+        {
+          "name": "id",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [],
+      "bodyParam": {
+        "required": true,
+        "type": "json"
+      },
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "address"
+              },
+              {
+                "name": "streamId",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "solanaStreamsDeleteAddresses": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Delete address from Solana stream",
+      "method": "DELETE",
+      "path": "/streams/solana/:id/address",
+      "pathParams": [
+        {
+          "name": "id",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [],
+      "bodyParam": {
+        "required": true,
+        "type": "json"
+      },
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "address"
+              },
+              {
+                "name": "streamId",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "solanaStreamsGetAddresses": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Get addresses by Solana stream",
+      "method": "GET",
+      "path": "/streams/solana/:id/address",
+      "pathParams": [
+        {
+          "name": "id",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "limit",
+          "required": true,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "cursor",
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "cursor",
+                "type": "string"
+              },
+              {
+                "name": "total",
+                "type": "number"
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "address"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "solanaStreamsUpdateStatus": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Update Solana stream status",
+      "method": "POST",
+      "path": "/streams/solana/:id/status",
+      "pathParams": [
+        {
+          "name": "id",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [],
+      "bodyParam": {
+        "required": true,
+        "type": "object",
+        "fields": [
+          {
+            "name": "status",
+            "type": "string",
+            "description": "The stream status: active (processing blocks) or paused (not processing blocks)",
+            "enum": [
+              "active",
+              "paused"
+            ],
+            "example": "active"
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "status",
+                "type": "string",
+                "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
+                "enum": [
+                  "active",
+                  "paused",
+                  "error",
+                  "terminated"
+                ],
+                "example": {}
+              },
+              {
+                "name": "statusMessage",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "solanaGetBlockByNumber": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Get Solana webhook data by block number",
+      "method": "POST",
+      "path": "/streams/solana/:chainId/block/:blockNumber",
+      "pathParams": [
+        {
+          "name": "chainId",
+          "required": true,
+          "example": "mainnet",
+          "type": "string"
+        },
+        {
+          "name": "blockNumber",
+          "required": true,
+          "example": 123456,
+          "type": "number"
+        }
+      ],
+      "queryParams": [],
+      "bodyParam": {
+        "required": true,
+        "type": "object",
+        "fields": [
+          {
+            "name": "tag",
+            "type": "string",
+            "description": "A user-provided tag that will be send along the webhook",
+            "example": "string"
+          },
+          {
+            "name": "allAddresses",
+            "type": "boolean",
+            "description": "Include events for all addresses",
+            "example": false
+          },
+          {
+            "name": "addresses",
+            "type": "array",
+            "description": "Solana addresses to filter by",
+            "example": [],
+            "field": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "programIds",
+            "type": "array",
+            "description": "Solana program IDs to filter by",
+            "example": [],
+            "field": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mintAddresses",
+            "type": "array",
+            "description": "Solana token mint addresses to filter by",
+            "example": [],
+            "field": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok"
+        }
+      ]
+    },
+    "solanaBlockToWebhook": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Send Solana webhook data by block number",
+      "method": "POST",
+      "path": "/streams/solana/:chainId/block-to-webhook/:blockNumber/:streamId",
+      "pathParams": [
+        {
+          "name": "chainId",
+          "required": true,
+          "example": "mainnet",
+          "type": "string"
+        },
+        {
+          "name": "blockNumber",
+          "required": true,
+          "example": 123456,
+          "type": "number"
+        },
+        {
+          "name": "streamId",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [],
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok"
+        }
+      ]
+    },
+    "bitcoinStreamsGetAll": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Get Bitcoin streams",
+      "method": "GET",
+      "path": "/streams/bitcoin",
+      "pathParams": [],
+      "queryParams": [
+        {
+          "name": "limit",
+          "required": true,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "cursor",
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "cursor",
+                "type": "string"
+              },
               {
                 "name": "total",
                 "type": "number"
@@ -34106,6 +35131,10 @@
                     {
                       "name": "amountOfAddresses",
                       "type": "number"
+                    },
+                    {
+                      "name": "updatedAt",
+                      "type": "string"
                     }
                   ]
                 }
@@ -34117,6 +35146,7 @@
     },
     "bitcoinStreamsCreate": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Create Bitcoin stream",
       "method": "PUT",
       "path": "/streams/bitcoin",
       "pathParams": [],
@@ -34129,13 +35159,13 @@
             "name": "webhookUrl",
             "type": "string",
             "description": "Webhook URL where moralis will send the POST request.",
-            "example": "string"
+            "example": "https://your-server.com/webhook"
           },
           {
             "name": "tag",
             "type": "string",
             "description": "A user-provided tag that will be send along the webhook",
-            "example": "string"
+            "example": "bitcoin-monitor"
           },
           {
             "name": "network",
@@ -34148,25 +35178,27 @@
                 "testnet"
               ]
             },
-            "example": []
+            "example": [
+              "mainnet"
+            ]
           },
           {
             "name": "includeOutputs",
             "type": "boolean",
             "description": "Include or not output details in webhook defaults to true",
-            "example": false
+            "example": true
           },
           {
             "name": "includeInputs",
             "type": "boolean",
             "description": "Include or not input details in webhook defaults to true",
-            "example": false
+            "example": true
           },
           {
             "name": "description",
             "type": "string",
             "description": "A description for this stream",
-            "example": "string"
+            "example": "Monitor Bitcoin transactions"
           },
           {
             "name": "demo",
@@ -34255,6 +35287,10 @@
               {
                 "name": "amountOfAddresses",
                 "type": "number"
+              },
+              {
+                "name": "updatedAt",
+                "type": "string"
               }
             ]
           }
@@ -34263,12 +35299,14 @@
     },
     "bitcoinStreamsGet": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Get Bitcoin stream by ID",
       "method": "GET",
       "path": "/streams/bitcoin/:id",
       "pathParams": [
         {
           "name": "id",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -34346,6 +35384,10 @@
               {
                 "name": "amountOfAddresses",
                 "type": "number"
+              },
+              {
+                "name": "updatedAt",
+                "type": "string"
               }
             ]
           }
@@ -34354,12 +35396,14 @@
     },
     "bitcoinStreamsUpdate": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Update Bitcoin stream",
       "method": "POST",
       "path": "/streams/bitcoin/:id",
       "pathParams": [
         {
           "name": "id",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -34384,19 +35428,19 @@
             "name": "description",
             "type": "string",
             "description": "A description for this stream",
-            "example": "string"
+            "example": "Monitor Bitcoin transactions"
           },
           {
             "name": "includeInputs",
             "type": "boolean",
             "description": "Include or not input details in webhook defaults to true",
-            "example": false
+            "example": true
           },
           {
             "name": "includeOutputs",
             "type": "boolean",
             "description": "Include or not output details in webhook defaults to true",
-            "example": false
+            "example": true
           },
           {
             "name": "network",
@@ -34409,19 +35453,21 @@
                 "testnet"
               ]
             },
-            "example": []
+            "example": [
+              "mainnet"
+            ]
           },
           {
             "name": "tag",
             "type": "string",
             "description": "A user-provided tag that will be send along the webhook",
-            "example": "string"
+            "example": "bitcoin-monitor"
           },
           {
             "name": "webhookUrl",
             "type": "string",
             "description": "Webhook URL where moralis will send the POST request.",
-            "example": "string"
+            "example": "https://your-server.com/webhook"
           }
         ]
       },
@@ -34498,6 +35544,10 @@
               {
                 "name": "amountOfAddresses",
                 "type": "number"
+              },
+              {
+                "name": "updatedAt",
+                "type": "string"
               }
             ]
           }
@@ -34506,12 +35556,14 @@
     },
     "bitcoinStreamsDelete": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Delete Bitcoin stream",
       "method": "DELETE",
       "path": "/streams/bitcoin/:id",
       "pathParams": [
         {
           "name": "id",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -34525,12 +35577,14 @@
     },
     "bitcoinStreamsAddAddresses": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Add address to Bitcoin stream",
       "method": "POST",
       "path": "/streams/bitcoin/:id/address",
       "pathParams": [
         {
           "name": "id",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -34560,12 +35614,14 @@
     },
     "bitcoinStreamsDeleteAddresses": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Delete address from Bitcoin stream",
       "method": "DELETE",
       "path": "/streams/bitcoin/:id/address",
       "pathParams": [
         {
           "name": "id",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -34595,12 +35651,14 @@
     },
     "bitcoinStreamsGetAddresses": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Get addresses by Bitcoin stream",
       "method": "GET",
       "path": "/streams/bitcoin/:id/address",
       "pathParams": [
         {
           "name": "id",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -34608,6 +35666,7 @@
         {
           "name": "limit",
           "required": true,
+          "example": 100,
           "type": "number"
         },
         {
@@ -34648,14 +35707,177 @@
         }
       ]
     },
+    "bitcoinStreamsAddXpub": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Add xpub to Bitcoin stream",
+      "method": "POST",
+      "path": "/streams/bitcoin/:id/xpub",
+      "pathParams": [
+        {
+          "name": "id",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [],
+      "bodyParam": {
+        "required": true,
+        "type": "object",
+        "fields": [
+          {
+            "name": "xpub",
+            "type": "string",
+            "required": true,
+            "description": "Extended public key to add to the Bitcoin stream",
+            "example": "YOUR_XPUB"
+          }
+        ]
+      },
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "id",
+                "type": "string"
+              },
+              {
+                "name": "streamId",
+                "type": "string"
+              },
+              {
+                "name": "xpub",
+                "type": "string"
+              },
+              {
+                "name": "createdAt",
+                "type": "string"
+              },
+              {
+                "name": "updatedAt",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "bitcoinStreamsGetXpubs": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Get xpubs by Bitcoin stream",
+      "method": "GET",
+      "path": "/streams/bitcoin/:id/xpub",
+      "pathParams": [
+        {
+          "name": "id",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "limit",
+          "required": true,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "cursor",
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "cursor",
+                "type": "string"
+              },
+              {
+                "name": "total",
+                "type": "number"
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "id",
+                      "type": "string"
+                    },
+                    {
+                      "name": "streamId",
+                      "type": "string"
+                    },
+                    {
+                      "name": "xpub",
+                      "type": "string"
+                    },
+                    {
+                      "name": "createdAt",
+                      "type": "string"
+                    },
+                    {
+                      "name": "updatedAt",
+                      "type": "string"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "bitcoinStreamsDeleteXpub": {
+      "apiHost": "https://api.moralis-streams.com",
+      "summary": "Delete xpub from Bitcoin stream",
+      "method": "DELETE",
+      "path": "/streams/bitcoin/:id/xpub/:xpubId",
+      "pathParams": [
+        {
+          "name": "id",
+          "required": true,
+          "example": "YOUR_STREAM_ID",
+          "type": "string"
+        },
+        {
+          "name": "xpubId",
+          "required": true,
+          "example": "YOUR_XPUB_ID",
+          "type": "string"
+        }
+      ],
+      "queryParams": [],
+      "responses": [
+        {
+          "status": "200",
+          "description": "Ok"
+        }
+      ]
+    },
     "bitcoinStreamsUpdateStatus": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Update Bitcoin stream status",
       "method": "POST",
       "path": "/streams/bitcoin/:id/status",
       "pathParams": [
         {
           "name": "id",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],
@@ -34667,14 +35889,12 @@
           {
             "name": "status",
             "type": "string",
-            "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
+            "description": "The stream status: active (processing blocks) or paused (not processing blocks)",
             "enum": [
               "active",
-              "paused",
-              "error",
-              "terminated"
+              "paused"
             ],
-            "example": {}
+            "example": "active"
           }
         ]
       },
@@ -34708,17 +35928,20 @@
     },
     "bitcoinGetBlockByNumber": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Get Bitcoin webhook data by block number",
       "method": "POST",
       "path": "/streams/bitcoin/:chainId/block/:blockNumber",
       "pathParams": [
         {
           "name": "chainId",
           "required": true,
+          "example": "mainnet",
           "type": "string"
         },
         {
           "name": "blockNumber",
           "required": true,
+          "example": 123456,
           "type": "number"
         }
       ],
@@ -34771,22 +35994,26 @@
     },
     "bitcoinBlockToWebhook": {
       "apiHost": "https://api.moralis-streams.com",
+      "summary": "Send Bitcoin webhook data by block number",
       "method": "POST",
       "path": "/streams/bitcoin/:chainId/block-to-webhook/:blockNumber/:streamId",
       "pathParams": [
         {
           "name": "chainId",
           "required": true,
+          "example": "mainnet",
           "type": "string"
         },
         {
           "name": "blockNumber",
           "required": true,
+          "example": 123456,
           "type": "number"
         },
         {
           "name": "streamId",
           "required": true,
+          "example": "YOUR_STREAM_ID",
           "type": "string"
         }
       ],

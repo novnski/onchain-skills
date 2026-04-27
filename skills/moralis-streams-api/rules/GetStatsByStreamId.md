@@ -18,7 +18,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| streamId | string | Yes | The id of the stream to get the stats | - |
+| streamId | string | Yes | The id of the stream to get the stats | \`YOUR_STREAM_ID\` |
 
 ## Response Example
 
@@ -51,7 +51,7 @@ Ok
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis-streams.com/stats/:streamId" \
+curl -X GET "https://api.moralis-streams.com/stats/YOUR_STREAM_ID" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

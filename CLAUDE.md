@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a collection of Claude Code skills for integrating with the Moralis Web3 API. It provides modular skills for querying blockchain data from both EVM (Ethereum, Polygon, BSC, etc.) and Solana networks, plus real-time event streaming.
+This is a collection of Claude Code skills for integrating with the Moralis Web3 API. It provides modular skills for querying blockchain data from both EVM (Ethereum, Polygon, BSC, etc.) and Solana networks, plus real-time event streaming across EVM, Solana, and Bitcoin.
 
 **Zero-dependency architecture:** All code uses only Node.js built-in modules (https, fs, path, url, crypto). No npm packages are installed.
 
@@ -40,6 +40,7 @@ skills/
 └── moralis-streams-api/        # Real-time blockchain event streaming
     ├── rules/                  # Auto-generated endpoint docs (one per endpoint)
     ├── references/
+    │   ├── BitcoinStreams.md        # Bitcoin streams, xpubs, payload caveats
     │   ├── CommonPitfalls.md         # HTTP methods, response structures, webhook differences
     │   ├── DeliveryGuarantees.md     # At-least-once delivery, dual webhooks, confirmation blocks
     │   ├── ErrorHandling.md          # Retry schedule, error/terminated states, rate limits, re-orgs
@@ -48,10 +49,11 @@ skills/
     │   ├── ListenToAllAddresses.md   # Monitor events across every contract on a chain
     │   ├── MonitorMultipleAddresses.md # Best practices for multiple addresses
     │   ├── ReplayFailedWebhooks.md   # Replay events for failed webhook deliveries
-    │   ├── StreamConfiguration.md    # UUID format, chain IDs, topic0, status values
+    │   ├── SolanaStreams.md         # Solana program, mint, and network guidance
+    │   ├── StreamConfiguration.md    # Cross-family configuration reference
     │   ├── Triggers.md              # Read-only contract call enrichment (balanceOf, etc.)
     │   ├── Tutorials.md             # Real-world examples and tutorials
-    │   ├── UsefulStreamOptions.md    # Advanced stream configuration options
+    │   ├── UsefulStreamOptions.md    # EVM-only advanced stream configuration options
     │   ├── WebhookResponseBody.md    # Webhook payload structure
     │   └── WebhookSecurity.md        # Signature verification
     └── SKILL.md
@@ -83,6 +85,7 @@ Each skill includes pattern reference files containing complete reference materi
 
 ### moralis-streams-api
 
+- `references/BitcoinStreams.md` - Bitcoin stream config, xpub workflows, payload caveats
 - `references/CommonPitfalls.md` - HTTP methods, response structures, webhook payload differences
 - `references/DeliveryGuarantees.md` - At-least-once delivery, dual webhooks, confirmation blocks
 - `references/ErrorHandling.md` - Retry schedule, error/terminated states, rate limits, re-org handling
@@ -91,10 +94,11 @@ Each skill includes pattern reference files containing complete reference materi
 - `references/ListenToAllAddresses.md` - Monitor events across every contract on a chain
 - `references/MonitorMultipleAddresses.md` - Best practices for multiple addresses in streams
 - `references/ReplayFailedWebhooks.md` - Replay events for failed webhook deliveries
-- `references/StreamConfiguration.md` - UUID format, chain IDs, topic0, status values, field mappings
+- `references/SolanaStreams.md` - Solana network, program, mint, and address guidance
+- `references/StreamConfiguration.md` - Cross-family stream config reference
 - `references/Triggers.md` - Read-only contract call enrichment (balanceOf, etc.)
 - `references/Tutorials.md` - Real-world examples and tutorials
-- `references/UsefulStreamOptions.md` - Advanced stream configuration options
+- `references/UsefulStreamOptions.md` - EVM-only advanced stream configuration options
 - `references/WebhookResponseBody.md` - Webhook payload structure
 - `references/WebhookSecurity.md` - Signature verification
 

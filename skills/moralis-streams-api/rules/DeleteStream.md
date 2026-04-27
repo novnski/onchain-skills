@@ -18,7 +18,7 @@ DELETE
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | The id of the stream to delete | - |
+| id | string | Yes | The id of the stream to delete | \`YOUR_STREAM_ID\` |
 
 ## Response Example
 
@@ -67,7 +67,7 @@ Ok
 ## Example (curl)
 
 ```bash
-curl -X DELETE "https://api.moralis-streams.com/streams/evm/:id" \
+curl -X DELETE "https://api.moralis-streams.com/streams/evm/YOUR_STREAM_ID" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

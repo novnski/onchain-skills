@@ -18,8 +18,8 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| streamId | string | Yes | The id of the stream the history will be replayed | - |
-| id | string | Yes | The id of the history to replay | - |
+| streamId | string | Yes | The id of the stream the history will be replayed | \`YOUR_STREAM_ID\` |
+| id | string | Yes | The id of the history to replay | \`YOUR_STREAM_ID\` |
 
 ## Response Example
 
@@ -31,6 +31,17 @@ Ok
 {
   "id": "id_example",
   "date": "date_example",
+  "payload": {
+    "chainId": "chainId_example",
+    "logs": [],
+    "txs": [],
+    "txsInternal": [],
+    "abi": [],
+    "retries": 0,
+    "confirmed": true,
+    "tag": "tag_example",
+    "streamId": "streamId_example"
+  },
   "tinyPayload": {
     "chainId": "chainId_example",
     "confirmed": true,
@@ -48,7 +59,7 @@ Ok
 ## Example (curl)
 
 ```bash
-curl -X POST "https://api.moralis-streams.com/history/replay/:streamId/:id" \
+curl -X POST "https://api.moralis-streams.com/history/replay/YOUR_STREAM_ID/YOUR_STREAM_ID" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```
