@@ -150,5 +150,5 @@ When using the API, you can specify chains using:
 
 For complete and up-to-date support matrix:
 
-- [Supported Web3 Data APIs](https://docs.moralis.com/supported-web3data-apis) - Interactive support table
-- [Supported Chains for Web3 API](https://docs.moralis.com/supported-chains?service=web3api) - Chain-specific details
+- [Data API Supported Chains](https://docs.moralis.com/data-api/supported-chains.md) - Data API coverage by chain
+- [Supported Chains](https://docs.moralis.com/get-started/supported-chains.md) - Product-wide chain support overview

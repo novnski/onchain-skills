@@ -69,4 +69,4 @@ List of supported DeFi protocols and chains for DeFi position and protocol-relat
 ## Documentation
 
 For complete list of supported DeFi protocols per chain, see:
-[https://docs.moralis.com/web3-data-api/evm/defi-protocols-and-chains](https://docs.moralis.com/web3-data-api/evm/defi-protocols-and-chains)
+[https://docs.moralis.com/data-api/data-features/integrations/defi-protocols.md](https://docs.moralis.com/data-api/data-features/integrations/defi-protocols.md)

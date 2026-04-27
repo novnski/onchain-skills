@@ -58,4 +58,4 @@ List of supported Decentralized Exchanges (DEXs) for token API endpoints includi
 ## Documentation
 
 For complete list of supported DEXs per chain, see:
-[https://docs.moralis.com/web3-data-api/evm/supported-dexs-token-api](https://docs.moralis.com/web3-data-api/evm/supported-dexs-token-api)
+[https://docs.moralis.com/data-api/data-features/integrations/supported-dexs.md](https://docs.moralis.com/data-api/data-features/integrations/supported-dexs.md)

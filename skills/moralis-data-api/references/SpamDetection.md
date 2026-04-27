@@ -55,4 +55,4 @@ Many endpoints support spam filtering:
 ## Documentation
 
 For complete spam detection documentation, see:
-[https://docs.moralis.com/web3-data-api/evm/spam-detection](https://docs.moralis.com/web3-data-api/evm/spam-detection)
+[https://docs.moralis.com/data-api/resources/spam-filtering.md](https://docs.moralis.com/data-api/resources/spam-filtering.md)

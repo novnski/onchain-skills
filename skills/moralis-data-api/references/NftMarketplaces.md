@@ -61,4 +61,4 @@ List of supported NFT marketplaces for NFT trade, floor price, and collection-re
 ## Documentation
 
 For complete list of supported NFT marketplaces per chain, see:
-[https://docs.moralis.com/web3-data-api/evm/nft-marketplaces](https://docs.moralis.com/web3-data-api/evm/nft-marketplaces)
+[https://docs.moralis.com/data-api/data-features/integrations/nft-marketplaces.md](https://docs.moralis.com/data-api/data-features/integrations/nft-marketplaces.md)

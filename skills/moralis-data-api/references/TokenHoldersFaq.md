@@ -41,5 +41,5 @@ A: Generally interchangeable, but "holders" typically refers to token balances w
 
 ## Documentation
 
-For complete FAQ and details, see:
-[https://docs.moralis.com/web3-data-api/evm/token-holders-api-faq](https://docs.moralis.com/web3-data-api/evm/token-holders-api-faq)
+For complete details, see:
+[https://docs.moralis.com/data-api/evm/token/holders/token-holders.md](https://docs.moralis.com/data-api/evm/token/holders/token-holders.md)

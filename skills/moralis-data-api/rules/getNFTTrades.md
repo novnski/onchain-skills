@@ -38,7 +38,7 @@ GET
 * Provide the param 'to_block' or 'to_date'
 * If 'to_date' and 'to_block' are provided, 'to_block' will be used.
  | - |
-| marketplace | string | No | Marketplace from which to get the trades. See [supported Marketplaces](https://docs.moralis.io/web3-data-api/evm/nft-marketplaces). | \`opensea\` |
+| marketplace | string | No | Marketplace from which to get the trades. See [supported Marketplaces](https://docs.moralis.com/data-api/data-features/integrations/nft-marketplaces.md). | \`opensea\` |
 | cursor | string | No | The cursor returned in the previous response (used for getting the next page). | - |
 | limit | number | No | The desired page size of the result. | - |
 | nft_metadata | boolean | No | Include the NFT Metadata of the NFT Token | - |

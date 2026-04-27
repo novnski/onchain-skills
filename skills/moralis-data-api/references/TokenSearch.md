@@ -40,4 +40,4 @@ Search results include:
 ## Documentation
 
 For complete token search documentation and examples, see:
-[https://docs.moralis.com/web3-data-api/evm/token-search](https://docs.moralis.com/web3-data-api/evm/token-search)
+[https://docs.moralis.com/data-api/data-features/search-and-discovery/token-search.md](https://docs.moralis.com/data-api/data-features/search-and-discovery/token-search.md)

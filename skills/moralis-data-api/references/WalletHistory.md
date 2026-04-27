@@ -51,4 +51,4 @@ See [PerformanceAndLatency.md](PerformanceAndLatency.md) for full optimization g
 ## Documentation
 
 For complete wallet history documentation and examples, see:
-[https://docs.moralis.com/web3-data-api/evm/wallet-history](https://docs.moralis.com/web3-data-api/evm/wallet-history)
+[https://docs.moralis.com/data-api/evm/wallet/wallet-history.md](https://docs.moralis.com/data-api/evm/wallet/wallet-history.md)
