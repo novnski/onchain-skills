@@ -1,7 +1,7 @@
 ---
 name: learn-moralis
 description: Learn about Moralis and Web3 development. Invoked without a question, gives a friendly platform walkthrough — what's available, what data you can fetch, and how everything fits together. Invoked with a question, answers it directly. Use for "what is Moralis", "can Moralis do X", "what chains are supported", "how do I get started", "which API should I use", pricing, feature comparisons, or any exploratory questions. Routes to the correct technical skill (@moralis-data-api or @moralis-streams-api) after answering.
-version: 1.4.0
+version: 1.4.1
 license: MIT
 compatibility: Knowledge-only skill. Read/Grep/Glob access bundled reference files (FAQ, ProductComparison, UseCaseGuide). Does not require or access any API keys or environment variables.
 metadata:
@@ -142,19 +142,13 @@ Blast, zkSync, Mantle, opBNB, Polygon zkEVM, Zetachain
 
 ## Pricing Overview
 
-| Plan | Monthly CUs | Throughput | Price |
-|------|-------------|------------|-------|
-| Free | 40K/day | 1,000 CU/s | $0 |
-| Starter | 2M | 1,000 CU/s | $49/mo |
-| Pro | 100M | 2,000 CU/s | $199/mo |
-| Business | 500M | 5,000 CU/s | $490/mo |
-| Enterprise | Custom | Custom | Contact |
+Moralis uses **Compute Units (CUs)** across Data API, Streams, Datashare, and RPC Nodes.
 
-**Compute Units (CUs):** Each API call costs CUs based on complexity. Simple queries ~1-5 CUs, complex queries ~10-50 CUs.
+- **Data API:** charged per endpoint. Use `@moralis-data-api` pricing reference material for known costs and verify current docs for exact endpoint pricing when cost matters.
+- **Streams:** charged per confirmed record; each record costs **10 CUs**. Unconfirmed webhooks are free.
+- **Dynamic endpoints:** some endpoints charge per chain, wallet, or address rather than one flat request cost.
 
-**Overages:** Starter $11.25/M, Pro $5/M, Business $4/M
-
-**Free tier includes:** All APIs (Wallet, Token, NFT, Price, DeFi, Blockchain, Streams)
+For current plan quotas, throughput limits, pricing, and overage terms, direct users to the Moralis pricing page because commercial plan details can change.
 
 ---
 

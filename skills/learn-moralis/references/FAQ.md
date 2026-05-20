@@ -18,7 +18,7 @@ Major crypto companies including MetaMask, Trust Wallet, Ledger, Blockchain.com,
 
 ### Is Moralis free?
 
-Yes, there's a free tier with 40,000 Compute Units per day. Enough for development and small apps. Paid plans start at $49/month.
+Yes, Moralis has a free tier for development and small apps. Check the Moralis pricing page for current quotas and paid plan pricing.
 
 ---
 
@@ -103,25 +103,16 @@ Streams are for real-time events only. For historical data:
 
 ### What are Compute Units (CUs)?
 
-CUs measure API usage. Each endpoint costs different CUs based on complexity:
-- Simple queries: 1-5 CUs
-- Complex queries: 10-50 CUs
-- Heavy queries: 50-100+ CUs
+CUs measure API usage. Each endpoint costs different CUs based on complexity. Check the endpoint rule or the product pricing reference for the exact cost before estimating usage.
 
 ### What are the rate limits?
 
-| Plan | Throughput |
-|------|------------|
-| Free | 1,000 CU/s |
-| Starter | 1,000 CU/s |
-| Pro | 2,000 CU/s |
-| Business | 5,000 CU/s |
-| Enterprise | Custom |
+Rate limits are enforced through plan-level CU quotas and CU/s throughput. Check the Moralis pricing page for current limits before sizing production traffic.
 
 ### What happens when I exceed limits?
 
-- **Daily limit (Free):** API returns 429 until next day
-- **Monthly limit (Paid):** Overage charges apply
+- **Quota limit:** API returns 429 or plan-specific limit behavior applies
+- **Monthly limit / overage:** plan-specific overage behavior applies
 - **Throughput:** Requests queued/delayed
 
 ### Can I pay with crypto?

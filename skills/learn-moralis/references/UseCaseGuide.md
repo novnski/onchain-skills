@@ -393,8 +393,4 @@ response.cursor → next request cursor param
 
 ### Rate Limiting
 
-- Free: 40K CUs/day, 1K CU/s
-- Starter: 2M CUs/month, 1K CU/s
-- Pro: 100M CUs/month, 2K CU/s
-
-Implement exponential backoff on 429 responses.
+Moralis enforces usage through Compute Units and plan-level throughput. Check current plan limits before sizing production traffic and implement exponential backoff on 429 responses.

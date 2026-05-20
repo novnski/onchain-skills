@@ -12,8 +12,9 @@ Yes, the Streams API is in production.
 
 Streams consume Compute Units similar to other Moralis APIs. Charges are based on **records**:
 
-- A **record** = 1 transaction (`txs`) + 1 log (`logs`) + 1 internal transaction (`txsInternal`)
-- Charge: **50 Compute Units per record**
+- On EVM, a **record** is one native transaction (`txs`), one log (`logs`), or one internal transaction (`txsInternal`)
+- On Bitcoin and Solana, a **record** is one matched transaction; payloads do not contain EVM-style logs or internal transactions
+- Charge: **10 Compute Units per record**
 - **Only confirmed webhooks are charged** (unconfirmed requests are free)
 - Check the `x-records-charged` header in webhook responses to see how many records were charged
 
@@ -22,7 +23,7 @@ Streams consume Compute Units similar to other Moralis APIs. Charges are based o
 headers: {
   'x-region': 'us-west-2',
   'x-queue-size': '0',
-  'x-records-charged': '20',  // 20 records = 1000 Compute Units
+  'x-records-charged': '20',  // 20 records = 200 Compute Units
   'x-signature': '0x...'
 }
 ```
@@ -121,8 +122,10 @@ A **record** is the basic unit for calculating Streams usage:
 
 - 1 record = 1 transaction OR 1 log OR 1 internal transaction
 - Total records = `txs + logs + txsInternal` in the webhook response
-- Cost: **50 Compute Units per record**
+- Cost: **10 Compute Units per record**
 - Only confirmed blocks are charged (unconfirmed has `x-records-charged: 0`)
+
+For Bitcoin and Solana streams, count one record per matched transaction. `logs` and `txsInternal` are EVM-only counters.
 
 ## What happens if my webhook endpoint is down?
 

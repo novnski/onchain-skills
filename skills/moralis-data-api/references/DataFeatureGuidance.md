@@ -5,7 +5,7 @@ Use this reference for docs-only feature behavior that is broader than a single 
 ## Enrichment
 
 - **Address labels and entities**: entity and label fields identify known exchanges, protocols, funds, whales, and other named actors when Moralis has coverage.
-- **Internal transactions**: EVM wallet and transaction endpoints can include internal value transfers where the chain supports internal transaction indexing.
+- **Internal transactions**: EVM wallet and transaction endpoints can include internal value transfers where the chain supports internal transaction indexing. Internal transactions are supported on major EVM mainnets with historical and real-time coverage; testnets are not supported.
 - **Transaction decoding**: decoded wallet history and decoded transaction endpoints expose method names, summaries, categories, and token/NFT transfer effects.
 - **NFT metadata and image previews**: NFT responses can include normalized metadata and media/image URLs. Treat media fields as optional.
 - **NFT rarity**: collection and token NFT responses can include rarity fields where rarity has been calculated or refreshed.
@@ -28,8 +28,18 @@ Use this reference for docs-only feature behavior that is broader than a single 
 - **Token search** is for name, symbol, token address, or pair address lookup.
 - **Token scores** summarize token quality signals across EVM and Solana; read the endpoint rule before assuming a score is present on every chain.
 
+## Pricing and Premium Endpoints
+
+- **Compute Units (CUs)**: Data API endpoints have explicit CU costs. Use `references/PricingAndPremium.md` for endpoint costs and premium plan requirements, and verify current docs before estimating usage-sensitive workloads.
+- **Dynamic costs**: some endpoints charge per chain or per wallet. Examples include wallet net worth at 250 CUs per chain, wallet insights at 100 CUs per chain, and batch native balances at 10 CUs per wallet.
+- **High-cost DeFi endpoints**: wallet protocols, wallet positions, and detailed positions cost 5000 CUs and require a Starter plan or higher.
+- **Pro token analytics endpoints**: token score, historical token score, batch token analytics, and token analytics timeseries require Pro or higher.
+- **Pro discovery endpoints**: token search, filtered tokens, top gainers, top losers, token categories, and trending tokens require Pro or higher.
+- **Pro volume and market metrics endpoints**: chain metrics, category metrics, and their timeseries variants require Pro or higher.
+
 ## Operational Resources
 
 - Use `references/Pagination.md` for cursor handling.
 - Use `references/ApiResponseCodes.md` for status and retry behavior.
 - Use `references/PerformanceAndLatency.md` for timeout and large-wallet guidance.
+- Use `references/PricingAndPremium.md` for CU costs, dynamic cost units, and premium endpoint requirements.

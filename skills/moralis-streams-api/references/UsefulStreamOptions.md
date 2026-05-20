@@ -36,6 +36,8 @@ Use this when the user wants raw contract log entries in addition to parsed tran
 
 Useful for contract-driven native value transfers.
 
+Internal transactions are an EVM-only concept. In Streams, enable `includeInternalTxs` only on supported EVM mainnet chains; EVM testnets do not support internal transactions, and Bitcoin/Solana streams do not have EVM-style internal transactions.
+
 ## Include Native Transactions
 
 ```json
@@ -53,6 +55,8 @@ Adds native transaction payloads alongside event-driven matches.
   "includeAllTxLogs": true
 }
 ```
+
+Available on **Pro plans and higher**.
 
 Requirements:
 

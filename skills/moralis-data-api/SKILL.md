@@ -1,7 +1,7 @@
 ---
 name: moralis-data-api
 description: Query Web3 blockchain data from Moralis API. Use when user asks about wallet data (balances, tokens, NFTs, transaction history, profitability, net worth), token data (prices, metadata, DEX pairs, analytics, security scores), NFT data (metadata, transfers, traits, rarity, floor prices), DeFi positions, entity/label data for exchanges and funds, or block and transaction data. Supports EVM chains (Ethereum, Polygon, BSC, Arbitrum, Base, Optimism, Avalanche, etc.) and Solana. NOT for real-time streaming - use moralis-streams-api instead.
-version: 1.5.0
+version: 1.5.1
 license: MIT
 compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for authentication.
 metadata:
@@ -33,7 +33,8 @@ For EVERY endpoint:
 
 1. This SKILL.md (core patterns)
 2. Endpoint rule file in `rules/`
-3. Pattern references in `references/` (for edge cases only)
+3. `references/PricingAndPremium.md` when the user asks about CU costs, premium endpoints, or plan requirements
+4. Pattern references in `references/` (for edge cases only)
 
 ---
 
@@ -206,6 +207,10 @@ Most endpoints respond quickly under normal conditions. Response times can vary 
 Large wallets with extensive transaction histories may take longer — use pagination with reasonable `limit` values.
 
 See [references/PerformanceAndLatency.md](references/PerformanceAndLatency.md) for optimization tips.
+
+## Pricing and Plan Requirements
+
+Data API endpoints have explicit Compute Unit (CU) costs, and some endpoints require Starter or Pro plans. Use [references/PricingAndPremium.md](references/PricingAndPremium.md) before answering cost, quota, premium endpoint, or plan-gating questions.
 
 ---
 

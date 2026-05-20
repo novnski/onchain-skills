@@ -1,7 +1,7 @@
 ---
 name: moralis-streams-api
 description: Real-time blockchain event monitoring with webhooks across EVM, Solana, and Bitcoin. Use when user asks about setting up webhooks, monitoring wallet/program/contract activity, tracking token or NFT transfers as they happen, adding or removing stream addresses, managing Bitcoin xpubs, replaying blocks, or receiving onchain events in real time. NOT for querying historical or current blockchain state - use moralis-data-api instead.
-version: 1.5.0
+version: 1.5.1
 license: MIT
 compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for authentication.
 metadata:
@@ -90,7 +90,7 @@ All requests require `X-API-Key: $MORALIS_API_KEY`.
 
 ### EVM
 
-Use EVM streams for contract events, ERC20 / ERC721 / ERC1155 transfers, approvals, native transactions, and internal transactions.
+Use EVM streams for contract events, ERC20 / ERC721 / ERC1155 transfers, approvals, native transactions, and internal transactions on supported EVM mainnet chains.
 
 Stream types:
 
@@ -199,8 +199,8 @@ These are for EVM streams only:
 - `advancedOptions`
 - `includeContractLogs`
 - `includeNativeTxs`
-- `includeInternalTxs`
-- `includeAllTxLogs`
+- `includeInternalTxs` (supported EVM mainnet chains only; not testnets)
+- `includeAllTxLogs` (available on Pro plans and higher)
 - `getNativeBalances`
 - `filterPossibleSpamAddresses`
 - `topic0` / ABI-based filtering

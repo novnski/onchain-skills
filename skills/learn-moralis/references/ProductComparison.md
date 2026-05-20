@@ -176,7 +176,7 @@ Detailed comparison of Moralis products to help users choose the right solution.
 | Method | Cost Structure |
 |--------|----------------|
 | Data APIs | Per-request (CUs) |
-| Streams | Per-record CUs (50 CU/record, confirmed only) |
+| Streams | Per-record CUs (10 CU/record, confirmed only) |
 | Datashare | Per-GB exported |
 | RPC Nodes | Per-request |
 

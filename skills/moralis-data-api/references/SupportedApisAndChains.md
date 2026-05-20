@@ -28,12 +28,12 @@ Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
 | Chain                  | Wallet | NFT | Token | DeFi | Entity | Blockchain | PnL | Prices | Internal Tx | NFT Trades | NFT Prices | Floor Prices |
 | ---------------------- | ------ | --- | ----- | ---- | ------ | ---------- | --- | ------ | ----------- | ---------- | ---------- | ------------ |
 | **Ethereum** (0x1)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
-| **Sepolia** (0xaa36a7) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
-| **Holesky** (0x4268)   | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
+| **Sepolia** (0xaa36a7) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
+| **Holesky** (0x4268)   | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Polygon** (0x89)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ❌           |
-| **Amoy** (0x13882)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
+| **Amoy** (0x13882)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **BSC** (0x38)         | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ❌           |
-| **BSC Testnet** (0x61) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
+| **BSC Testnet** (0x61) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 
 ### L2 Chains
 
@@ -42,7 +42,7 @@ Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
 | **Arbitrum** (0xa4b1)           | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ❌           |
 | **Arbitrum Sepolia** (0x66eee)  | ❌     | ❌  | ❌    | ❌   | ❌     | ❌         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Base** (0x2105)               | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
-| **Base Sepolia** (0x14a34)      | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
+| **Base Sepolia** (0x14a34)      | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Optimism** (0xa)              | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ❌           |
 | **Optimism Sepolia** (0xaa37dc) | ❌     | ❌  | ❌    | ❌   | ❌     | ❌         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 
@@ -57,26 +57,26 @@ Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
 | **Gnosis** (0x64)          | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ❌          | ❌         | ❌         | ❌           |
 | **Gnosis Chiado** (0x27d8) | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Linea** (0xe708)         | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
-| **Linea Sepolia** (0xe705) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
+| **Linea Sepolia** (0xe705) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 
 ### Additional Chains
 
 | Chain                        | Wallet | NFT | Token | DeFi | Entity | Blockchain | PnL | Prices | Internal Tx | NFT Trades | NFT Prices | Floor Prices |
 | ---------------------------- | ------ | --- | ----- | ---- | ------ | ---------- | --- | ------ | ----------- | ---------- | ---------- | ------------ |
 | **Chiliz** (0x15b38)         | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
-| **Chiliz Testnet** (0x15b32) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
+| **Chiliz Testnet** (0x15b32) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Moonbeam** (0x504)         | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ❌          | ❌         | ❌         | ❌           |
 | **Moonriver** (0x505)        | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Moonbase** (0x507)         | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Flow** (0x2eb)             | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Flow Testnet** (0x221)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Ronin** (0x7e4)            | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
-| **Ronin Saigon** (0x7e5)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
+| **Ronin Saigon** (0x7e5)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Lisk** (0x46f)             | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
-| **Lisk Sepolia** (0x106a)    | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
+| **Lisk Sepolia** (0x106a)    | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Pulse** (0x171)            | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
 | **Sei** (0x531)              | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
-| **Sei Testnet** (0x530)      | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
+| **Sei Testnet** (0x530)      | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Monad** (0x8f)             | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ❌           |
 
 ### Coming Soon / Unsupported
@@ -147,7 +147,7 @@ Only **Ethereum (0x1)** and **Base (0x2105)** have complete coverage of all APIs
 ### Common Limitations
 
 - **Profitability API**: Only supported on Ethereum, Polygon, Base
-- **Internal Transactions**: Not available on most sidechains (Gnosis, Moonbeam family, Flow)
+- **Internal Transactions**: EVM-only; supported on documented EVM mainnets with historical and real-time coverage. Testnets are not supported.
 - **NFT Floor Prices**: Only Ethereum, Base, and Sei support this
 - **DeFi API**: Testnets generally don't support DeFi protocol data
 

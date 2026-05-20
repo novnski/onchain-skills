@@ -65,6 +65,8 @@ Do not treat stream IDs as transaction hashes or addresses.
 | `nfttransfer` | NFT transfers |
 | `internalTx` | Internal transactions |
 
+Internal transactions are only available on supported EVM mainnet chains. Do not enable `includeInternalTxs` for EVM testnets, Solana streams, or Bitcoin streams.
+
 See [UsefulStreamOptions.md](UsefulStreamOptions.md), [Triggers.md](Triggers.md), and [ListenToAllAddresses.md](ListenToAllAddresses.md).
 
 ## Solana Streams
