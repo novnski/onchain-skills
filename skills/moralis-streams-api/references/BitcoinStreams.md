@@ -5,6 +5,7 @@ Use this file when the user wants Bitcoin webhooks, address monitoring, or xpub 
 ## What Bitcoin Streams Is Good For
 
 - Monitoring deposits to known BTC addresses
+- Reacting to pending BTC transactions at the mempool stage
 - Watching hot or cold wallets in real time
 - Tracking a wallet family through xpubs
 - Replaying historical blocks into an existing stream
@@ -64,14 +65,31 @@ Default to `["mainnet"]` unless the user explicitly needs testnet and the endpoi
 
 Bitcoin payloads differ from EVM Streams:
 
-- Deliveries are described as mempool first, then confirmed later for the same `txid`
+- A matched transaction can arrive up to three times for the same `txid`: mempool, in-block unconfirmed, and confirmed after the 2-block confirmation depth
+- Mempool payloads use sentinel block fields: `block.height: "0"` and `block.hash: "mempool"`
+- Mempool deliveries are at most once per stream and can be skipped if Moralis only observes the transaction after it is mined
+- Mempool deliveries are pending signals only; the transaction can be replaced by fee, evicted, expire, or never confirm
+- The mempool delivery has no direct follow-up; regular in-block and confirmed deliveries handle the same `txid` once mined
 - Output values are BTC decimals, not satoshis
-- `vin.address` and `vin.value` are not populated reliably
+- For confirmed-block deliveries, `vin.address` and `vin.value` are not populated reliably, so confirmed-block matching is reliable for inbound transfers to watched addresses
+- For mempool deliveries, `vin` and `vout` addresses are populated, so sends and receives can both match watched addresses
 
 Convert BTC values if the caller needs satoshis:
 
 ```js
 const satoshis = Math.round(btcValue * 1e8);
+```
+
+Branch on the mempool sentinel before doing block-specific work:
+
+```js
+if (payload.block.hash === "mempool") {
+  // pending transaction broadcast, not yet mined
+} else if (payload.confirmed === false) {
+  // included in a block near the chain tip
+} else {
+  // reorg-safe confirmed delivery
+}
 ```
 
 ## Test Webhook Requirement

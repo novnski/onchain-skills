@@ -17,11 +17,15 @@ Streams can send unconfirmed and confirmed events. Treat confirmed events as the
 
 Handlers should store a stable event key and update state when a later confirmed event arrives.
 
+Bitcoin Streams add a mempool stage before block inclusion when Moralis observes a pending transaction. For one `txid`, a handler may see `block.hash: "mempool"` / `block.height: "0"`, then an in-block `confirmed: false` delivery, then `confirmed: true` after the 2-block confirmation depth. The mempool stage is useful for pending UX, but it is not settlement and may be skipped for transactions first observed after mining.
+
 ## Ordering and Idempotency
 
 Streams are designed for reliable delivery, not strict global ordering. Webhook consumers must be idempotent because retries and replays can deliver the same logical event more than once.
 
 Recommended idempotency keys include stream ID plus transaction hash plus log index or another chain-specific event identifier from the payload.
+
+For Bitcoin, use the `txid` as the natural deduplication key and upsert through `mempool` -> `in-block` -> `confirmed` states.
 
 ## Retries, Replays, and Delivery
 

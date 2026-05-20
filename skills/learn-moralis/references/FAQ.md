@@ -107,13 +107,25 @@ CUs measure API usage. Each endpoint costs different CUs based on complexity. Ch
 
 ### What are the rate limits?
 
-Rate limits are enforced through plan-level CU quotas and CU/s throughput. Check the Moralis pricing page for current limits before sizing production traffic.
+Data API throughput is evaluated over a rolling **4-second window**, so short bursts are tolerated if total requests remain within the plan's window.
+
+Current documented request throughput:
+
+| Plan | Throughput |
+|------|------------|
+| Free | 40 reqs/s |
+| Starter | 40 reqs/s |
+| Pro | 80 reqs/s |
+| Business | 200 reqs/s |
+| Enterprise | Custom |
+
+Enterprise plans can request custom throughput and dedicated capacity. Check the Moralis pricing page before sizing production traffic because commercial limits can change.
 
 ### What happens when I exceed limits?
 
 - **Quota limit:** API returns 429 or plan-specific limit behavior applies
 - **Monthly limit / overage:** plan-specific overage behavior applies
-- **Throughput:** Requests queued/delayed
+- **Throughput:** API returns `429 Too Many Requests`; slow down, add backoff, or upgrade
 
 ### Can I pay with crypto?
 

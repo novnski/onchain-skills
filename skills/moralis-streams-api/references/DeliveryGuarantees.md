@@ -13,7 +13,16 @@ Moralis Streams provides **at-least-once delivery**. This means:
 
 ## Deduplication
 
-Use the following composite key to deduplicate webhook events:
+Use a deterministic key that matches the stream family and event granularity.
+
+| Family | Recommended key |
+| --- | --- |
+| EVM transaction-level events | `streamId + transactionHash + confirmed` |
+| EVM log-level events | `streamId + transactionHash + logIndex + confirmed` |
+| Bitcoin events | `streamId + txid` and upsert lifecycle state as later deliveries arrive |
+| Solana events | `streamId + signature` |
+
+For EVM log-level events, the common composite key is:
 
 ```
 transactionHash + logIndex + confirmed
@@ -25,14 +34,26 @@ transactionHash + logIndex + confirmed
 
 Store processed keys and skip any duplicates.
 
-## Dual Webhook System
+For Bitcoin Streams, use the `txid` as the natural deduplication key and store lifecycle state for the same transaction. A single Bitcoin transaction can progress through `mempool` -> `in-block` -> `confirmed`.
 
-For every matching event, Moralis sends **two webhooks**:
+Do not use webhook arrival time as a source of truth. Sort or reconcile with block number, slot, transaction hash/signature, log index, and confirmation state instead.
+
+## Delivery Phases
+
+For EVM and Solana matching events, Moralis normally sends **two webhooks**:
 
 1. **Unconfirmed** (`confirmed: false`) — sent immediately when the transaction is included in a block
 2. **Confirmed** (`confirmed: true`) — sent once the block reaches finality (chain-specific confirmation depth)
 
 **Important edge case:** The `confirmed: true` webhook may arrive **before** the `confirmed: false` webhook due to network timing. Design your handlers to accept either order.
+
+Bitcoin Streams can send up to **three lifecycle notifications** for one matching transaction:
+
+1. **Mempool** (`confirmed: false`, `block.height: "0"`, `block.hash: "mempool"`) — sent when Moralis observes the pending transaction broadcast. Delivered at most once per stream and not guaranteed for every transaction.
+2. **In-block** (`confirmed: false`) — sent when the transaction is included in a mined block.
+3. **Confirmed** (`confirmed: true`) — sent after the 2-block Bitcoin confirmation depth.
+
+Treat mempool events as pending only. They can be replaced, evicted, expire due to low fee, or never confirm. The mempool event has no direct follow-up of its own; the normal in-block and confirmed deliveries handle the same `txid` once mined.
 
 **Billing:** Only `confirmed: true` webhooks are charged. Unconfirmed webhooks are free.
 
@@ -69,10 +90,14 @@ When you create or update a stream, Moralis sends a **test webhook** to verify y
 - Your endpoint **must return 200** (or any 2xx status code)
 - If the test webhook fails, the stream will not start
 - Test webhooks are **not retried** and **not stored in history**
+- Test webhook payloads use the same family-specific shape as real webhooks, but with empty data arrays
+- Test webhooks include `x-signature` and should be verified the same way as real webhooks
 
 ### Detecting Test Webhooks
 
-Test webhooks have empty arrays for all data fields. Short-circuit processing when you detect this pattern:
+Test webhooks have empty arrays for all data fields. The exact shape varies by family.
+
+EVM test webhook:
 
 ```json
 {
@@ -96,6 +121,46 @@ Test webhooks have empty arrays for all data fields. Short-circuit processing wh
   "txsInternal": []
 }
 ```
+
+Bitcoin test webhook:
+
+```json
+{
+  "confirmed": true,
+  "chainId": "btc-mainnet",
+  "streamId": "",
+  "tag": "",
+  "retries": 0,
+  "block": {
+    "hash": "",
+    "height": 0,
+    "timestamp": 0
+  },
+  "txs": []
+}
+```
+
+Solana test webhook:
+
+```json
+{
+  "confirmed": true,
+  "chainId": "solana_mainnet",
+  "network": "mainnet",
+  "streamId": "",
+  "tag": "",
+  "retries": 0,
+  "block": {
+    "slot": "",
+    "blockHash": "",
+    "blockHeight": "",
+    "blockTime": 0
+  },
+  "transactions": []
+}
+```
+
+Short-circuit processing when you detect these empty-data patterns. Do not persist test payloads.
 
 ### Example Detection Logic
 

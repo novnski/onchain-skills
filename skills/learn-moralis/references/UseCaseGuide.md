@@ -252,10 +252,16 @@ User's Bot <-- Webhook <-- Moralis Streams <-- Blockchain
 
 ### Approach
 
-Moralis provides Auth API but these skills focus on Data APIs. For auth:
+Moralis Auth API provides wallet-based login:
 
-1. **Recommended:** Use standard SIWE (Sign-In with Ethereum)
-2. **Alternative:** Moralis Auth API (separate product)
+1. Backend requests a challenge message from Moralis
+2. User signs the challenge with their wallet
+3. Backend sends the signature to Moralis for verification
+4. Auth API returns a stable `profileId`
+
+Use Auth API when the app needs EVM or Solana wallet authentication, multi-wallet account linking, gated content, NFT holder access, or a cross-chain identity profile. It follows the EIP-4361 / Sign-In with Ethereum model for EVM wallets.
+
+**Limitation:** Auth API does not support EIP-1271 smart contract wallet signatures. Safe, Argent, and other contract-wallet users need another authentication path.
 
 After authentication, use @moralis-data-api to fetch user data.
 

@@ -2,9 +2,19 @@
 
 The body contains the data you are interested in. The `logs` array contains raw events and stream information such as `tag` and `streamId`. The body also contains a `chainId`, the block number, internal transactions, the ABIs, and a `confirmed` field that indicates if the block is confirmed.
 
-## Common Fields
+## Payload Families
 
-All webhook responses include these common fields:
+Webhook payloads are family-specific. Do not parse Solana or Bitcoin payloads with an EVM-only schema.
+
+| Family | Transaction id field | Main event container | Notes |
+| --- | --- | --- | --- |
+| EVM | `transactionHash` inside event arrays or `hash` inside `txs` | `logs`, `txs`, `txsInternal`, `erc20Transfers`, `nftTransfers` | Uses hex `chainId`, ABI decoding, and EVM event arrays |
+| Solana | `signature` | `transactions` | Uses `accountKeys`, `instructions`, `innerInstructions`, `preTokenBalances`, and `postTokenBalances` |
+| Bitcoin | `txid` | `txs` | Uses UTXO `vin` / `vout`; output values are BTC decimals |
+
+## Common EVM Fields
+
+EVM webhook responses include these common fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -24,6 +34,36 @@ All webhook responses include these common fields:
 | `nftTokenApprovals` | array | NFT approval events (flat array, preferred over `nftApprovals`) |
 | `nftTransfers` | array | NFT transfer events (decoded) |
 | `nativeBalances` | array | Native token balances (when `getNativeBalances` is configured) |
+
+## Solana Fields
+
+Reach for these fields first in Solana payloads:
+
+| Field | Description |
+| --- | --- |
+| `chainId` | `solana_mainnet` for mainnet payloads |
+| `network` | Solana network name |
+| `block.slot` | Solana slot for the block |
+| `transactions[].signature` | Base58 transaction id |
+| `transactions[].accountKeys` | Every account touched by the transaction |
+| `transactions[].instructions` | Top-level instructions |
+| `transactions[].innerInstructions` | Cross-Program Invocation instructions |
+| `transactions[].preTokenBalances` / `postTokenBalances` | SPL balance snapshots for delta calculation |
+
+## Bitcoin Fields
+
+Reach for these fields first in Bitcoin payloads:
+
+| Field | Description |
+| --- | --- |
+| `chainId` | Bitcoin chain identifier such as `btc-mainnet` |
+| `txs[].txid` | Bitcoin transaction id |
+| `txs[].vout` | Parsed outputs; values are BTC decimals |
+| `txs[].vin` | Input structure; address and value may be null on confirmed-block deliveries |
+
+For Bitcoin mempool deliveries, the same payload shape is used with sentinel block values: `block.height: "0"` and `block.hash: "mempool"`. Branch on those values before doing block-specific work.
+
+For confirmed-block Bitcoin deliveries, `vin.address` and `vin.value` can be `null` even when inputs are included, so confirmed-block matching is reliable for inbound watched-address activity. Mempool deliveries populate both `vin` and `vout` addresses, so watched addresses can match sends as well as receives at the pending stage.
 
 ## Response Types
 

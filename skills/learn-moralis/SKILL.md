@@ -1,7 +1,7 @@
 ---
 name: learn-moralis
 description: Learn about Moralis and Web3 development. Invoked without a question, gives a friendly platform walkthrough — what's available, what data you can fetch, and how everything fits together. Invoked with a question, answers it directly. Use for "what is Moralis", "can Moralis do X", "what chains are supported", "how do I get started", "which API should I use", pricing, feature comparisons, or any exploratory questions. Routes to the correct technical skill (@moralis-data-api or @moralis-streams-api) after answering.
-version: 1.4.1
+version: 1.4.2
 license: MIT
 compatibility: Knowledge-only skill. Read/Grep/Glob access bundled reference files (FAQ, ProductComparison, UseCaseGuide). Does not require or access any API keys or environment variables.
 metadata:
@@ -23,7 +23,7 @@ allowed-tools: Read Grep Glob
 2. The two skills available and when to use each:
    - **@moralis-data-api** (156 endpoints) — query wallet balances, tokens, NFTs, DeFi positions, prices, transactions, analytics, Bitcoin address/xpub data, and Universal API data. Use for "what is the current/historical state?"
    - **@moralis-streams-api** (45 endpoints across EVM, Solana, and Bitcoin) — real-time webhook delivery for contracts, wallets, programs, mints, addresses, and Bitcoin xpubs. Use for "notify me when something happens"
-3. Supported chains: 40+ EVM chains, Solana, and Bitcoin across the product surface
+3. Supported chains: 30+ chains across the product surface, with product-specific coverage for EVM, Solana, Bitcoin, Datashare, RPC Nodes, and Auth API
 4. How to get started: set `MORALIS_API_KEY` in `.env`, then use the skill that fits their need
 
 Keep it conversational and concise — think "onboarding tour", not "dump the docs". End by asking what they'd like to build so you can point them to the right skill.
@@ -39,8 +39,9 @@ Moralis is an enterprise-grade Web3 data infrastructure platform providing:
 - **Datashare** - Export historical data to Snowflake, BigQuery, S3
 - **Data Indexer** - Custom enterprise indexing pipelines
 - **RPC Nodes** - Direct blockchain node access
+- **Auth API** - Wallet signature authentication for EVM and Solana
 
-**Key Stats:** Powers 100M+ end users, 2B+ monthly API requests, 50+ supported chains.
+**Key Stats:** Powers 100M+ end users, 2B+ monthly API requests, and 30+ supported chains across the core platform. Product-specific coverage differs: Data Indexer docs describe 50+ chain enterprise coverage, while RPC Nodes currently cover 20+ networks.
 
 ---
 
@@ -61,6 +62,10 @@ After answering a general question, route users to the appropriate skill:
 | Webhooks for on-chain events | @moralis-streams-api |
 | Track transfers as they happen | @moralis-streams-api |
 | Monitor Bitcoin xpubs | @moralis-streams-api |
+| Authenticate users with wallet signatures | Auth API product docs |
+| Submit signed transactions or use raw JSON-RPC | RPC Nodes product docs |
+| Export bulk historical datasets | Datashare product docs |
+| Build custom managed indexing pipelines | Data Indexer product docs |
 
 **Rule of thumb:**
 - **Data API** = "What is the current/historical state?"
@@ -79,7 +84,7 @@ After answering a general question, route users to the appropriate skill:
 | Get wallet transaction history? | Yes, decoded | @moralis-data-api |
 | Get Bitcoin wallet or xpub history? | Yes, via Universal / Bitcoin endpoints | @moralis-data-api |
 | Get token prices? | Yes, real-time + OHLCV | @moralis-data-api |
-| Get NFT floor prices? | Yes (ETH, Base, Sei) | @moralis-data-api |
+| Get NFT floor prices? | Yes on supported mainnet chains including ETH, Polygon, BSC, Arbitrum, Base, Optimism, Avalanche, Ronin, Sei, and Monad | @moralis-data-api |
 | Get DeFi positions? | Yes (major chains) | @moralis-data-api |
 | Monitor wallets in real-time? | Yes (EVM, Solana, Bitcoin) | @moralis-streams-api |
 | Track contract events live? | Yes (EVM contracts, Solana programs) | @moralis-streams-api |
@@ -92,6 +97,9 @@ After answering a general question, route users to the appropriate skill:
 | Get trending tokens? | Yes | @moralis-data-api |
 | Get top tokens by market cap? | Yes | @moralis-data-api |
 | Search tokens by name/symbol? | Yes | @moralis-data-api |
+| Authenticate users by wallet signature? | Yes, Auth API | Product docs |
+| Run raw RPC calls? | Yes, RPC Nodes | Product docs |
+| Export raw historical datasets to object storage? | Yes, Datashare | Product docs |
 
 ### What Moralis Cannot Do
 
@@ -100,6 +108,7 @@ After answering a general question, route users to the appropriate skill:
 - Index custom smart contracts (use Data Indexer product)
 - Store user data (you handle storage)
 - Provide testnet price data (only mainnet prices)
+- Authenticate smart contract wallets through Auth API EIP-1271 signatures (EOA wallets only)
 
 ---
 
@@ -111,21 +120,23 @@ After answering a general question, route users to the appropriate skill:
 |-------|----------|-------|
 | Ethereum | 0x1 | All APIs including floor prices |
 | Base | 0x2105 | All APIs including floor prices |
-| Polygon | 0x89 | Missing only floor prices |
-| BSC | 0x38 | No profitability, no floor prices |
-| Arbitrum | 0xa4b1 | No profitability, no floor prices |
-| Optimism | 0xa | No profitability, no floor prices |
-| Avalanche | 0xa86a | No profitability, no floor prices |
+| Polygon | 0x89 | Full listed Data API coverage |
+| BSC | 0x38 | No profitability |
+| Arbitrum | 0xa4b1 | No profitability |
+| Optimism | 0xa | No profitability |
+| Avalanche | 0xa86a | No profitability |
 | Sei | 0x531 | Nearly full (no profitability), includes floor prices |
-| Monad | 0x8f | New chain, good support |
+| Monad | 0x8f | Nearly full (no profitability), includes floor prices |
 
 ### Also Supported
 
-Linea, Fantom, Cronos, Gnosis, Chiliz, Moonbeam, Moonriver, Flow, Ronin, Lisk, Pulse
+Linea, Fantom, Cronos, Gnosis, Chiliz, Moonbeam, Moonriver, Flow, Ronin, Lisk, Pulse.
+
+Fantom has a scheduled platform sunset on May 29, 2026, and Fantom Opera testnet has already been removed, so avoid recommending new Fantom integrations.
 
 ### Solana
 
-Mainnet and Devnet are supported in both Data API and Streams. Use `@moralis-streams-api` for real-time Solana webhook delivery and `@moralis-data-api` for state or history queries.
+Solana Data API supports Mainnet and Devnet, but price data is Mainnet-only. Solana Streams supports Mainnet. Use `@moralis-streams-api` for real-time Solana webhook delivery and `@moralis-data-api` for state or history queries.
 
 ### Bitcoin
 
@@ -137,6 +148,26 @@ Bitcoin is supported in two ways:
 ### Coming Soon
 
 Blast, zkSync, Mantle, opBNB, Polygon zkEVM, Zetachain
+
+---
+
+## Other Product Surfaces
+
+### Auth API
+
+Use Auth API for wallet-based login flows. It creates a challenge message, verifies the user's wallet signature, and returns a stable `profileId` across sessions. It supports EVM chains and Solana, multi-wallet profiles, and EIP-4361 style wallet authentication. It does **not** support EIP-1271 smart contract wallet signatures; Safe/Argent-style contract wallets cannot authenticate through Auth API today.
+
+### RPC Nodes
+
+Use RPC Nodes when the user needs direct JSON-RPC access, raw blockchain reads, archive state, WebSocket subscriptions, or signed transaction submission. RPC usage is billed by method-specific CU weights; archive reads often cost more, and JSON-RPC batches reduce HTTP overhead but do not reduce total CU cost.
+
+### Datashare
+
+Use Datashare for large historical or ongoing dataset exports into object storage or warehouse workflows. Exports are raw on-chain data, not enriched Data API responses: token names, symbols, logos, spam labels, and metadata enrichment are not included. Recommended format is Parquet for analytics; CSV and JSON are also supported. Estimates are free and credits are based on uncompressed export volume.
+
+### Data Indexer
+
+Use Data Indexer for enterprise custom indexing pipelines that need custom schemas, real-time indexing plus historical backfills, custom filters/transforms, and delivery into warehouses, object storage, or databases. It is an early-access product for managed custom pipelines rather than the general request/response Data API.
 
 ---
 

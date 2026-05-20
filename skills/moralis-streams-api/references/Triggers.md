@@ -2,6 +2,10 @@
 
 Triggers allow you to enrich webhook data with on-chain read calls. When a stream event fires, Moralis executes a read-only (`view`/`pure`) smart contract function and attaches the result to the webhook payload.
 
+## EVM-Only Scope
+
+Triggers are only available for EVM streams. Do not configure triggers on Solana or Bitcoin streams, and do not combine trigger fields with Solana `programIds` / `mintAddresses` or Bitcoin address/xpub monitoring.
+
 ## Trigger Interface
 
 Each trigger object has the following fields:
@@ -10,9 +14,9 @@ Each trigger object has the following fields:
 |-------|------|----------|-------------|
 | `type` | string | Yes | Event type that activates this trigger |
 | `contractAddress` | string | Yes | Contract to call (use `$contract` for dynamic) |
-| `functionAbi` | object | Yes | ABI of the `view`/`pure` function to call |
-| `inputs` | array | Yes | Function input values (supports dynamic selectors) |
-| `topic0` | string | No | Filter to specific event signature |
+| `functionAbi` | object | Yes | ABI of one `view`/`pure` function to call |
+| `inputs` | array | No | Function input values (supports dynamic selectors) |
+| `topic0` | string | No | Restrict `log` triggers to a specific event signature |
 | `callFrom` | string | No | Address to use as `msg.sender` for the call |
 
 ## Valid Trigger Types
@@ -39,6 +43,14 @@ Instead of hardcoding addresses or values, use selectors that reference fields f
 ## Constraint
 
 Only functions with `stateMutability: "view"` or `"pure"` are allowed. State-modifying functions (`nonpayable`, `payable`) will be rejected.
+
+Additional constraints:
+
+- `functionAbi` must be a single ABI item, not an array
+- selectors are not supported inside the ABI definition itself
+- `topic0` is only valid when `type` is `log`
+- invalid selectors are rejected during stream create or update
+- contract existence is not validated ahead of time
 
 ## Example: balanceOf Enrichment for ERC-20 Transfers
 
@@ -132,6 +144,8 @@ The `triggers` array contains one entry per trigger defined on the stream, in th
 |-------|-------------|
 | `name` | Function name from `functionAbi` |
 | `value` | Return value from the contract call (as string) |
+
+If an individual contract call fails at stream time, the webhook is still delivered and the trigger result contains an error for that trigger. Design consumers to handle partial enrichment failures without rejecting the whole webhook.
 
 ## Use Cases
 

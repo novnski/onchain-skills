@@ -84,6 +84,8 @@ Moralis automatically handles blockchain reorganizations (re-orgs):
 - **Limit:** 5 requests per 5 minutes for adding addresses to a stream
 - **Recommendation:** Use batch operations — send multiple addresses in a single `POST /streams/evm/{id}/address` call using the `address` field
 - **Maximum per batch:** 50,000 addresses per request
+- **Chain-specific counting:** Bitcoin xpub additions are a separate operation and do not count as address-add requests. Solana program IDs and mint addresses count toward the same address-add limit when added through address endpoints.
+- **Activation timing:** Adding addresses can trigger internal stream reloads. If an address is added while a relevant block is already being processed, events for that new address in that block may be missed.
 
 ### Stream Reloads
 

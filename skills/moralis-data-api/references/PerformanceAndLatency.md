@@ -6,6 +6,23 @@ Best practices for optimizing Data API response times and configuring client tim
 
 Most endpoints return responses quickly under normal conditions. Simple lookups (balance, price, metadata) are the fastest. Complex decoded endpoints (wallet history, DeFi positions) may take longer, especially for wallets with extensive on-chain activity.
 
+Typical production latency for core read endpoints:
+
+| Percentile | Latency |
+|------------|---------|
+| p50 | < 50 ms |
+| p90 | < 500 ms |
+| p95 | < 1 s |
+
+Typical freshness for indexed on-chain data:
+
+| Percentile | Freshness |
+|------------|-----------|
+| p50 | < 4 s |
+| p90 | < 8 s |
+
+Blocks, transactions, and transfers are indexed near real time. Price and market data update continuously. Derived metrics such as holders, analytics, PnL, and other enrichment can lag slightly during high activity.
+
 ## What Affects Response Time
 
 ### Wallet Size
@@ -48,7 +65,21 @@ curl "...?limit=100" -H "X-API-Key: $MORALIS_API_KEY"
 
 ## Rate Limiting & Throughput
 
-429 responses mean you've exceeded your plan's CU/s throughput. Implement exponential backoff:
+Moralis Data API throughput is evaluated over a **rolling 4-second window**, not a strict one-second bucket. Short bursts are allowed as long as total request volume remains within the plan's rolling-window limit.
+
+Current documented Data API request throughput:
+
+| Plan | Throughput |
+|------|------------|
+| Free | 40 reqs/s |
+| Starter | 40 reqs/s |
+| Pro | 80 reqs/s |
+| Business | 200 reqs/s |
+| Enterprise | Custom |
+
+Enterprise plans can support custom throughput and dedicated capacity, including 1,000+ RPS where commercially agreed.
+
+429 responses mean you've exceeded your plan's request throughput or another plan limit. Implement exponential backoff:
 
 ```
 Retry 1: wait 1s
@@ -57,7 +88,7 @@ Retry 3: wait 4s
 Retry 4: wait 8s (max)
 ```
 
-See [../../learn-moralis/references/FAQ.md](../../learn-moralis/references/FAQ.md) for plan-specific rate limits.
+See [../../learn-moralis/references/FAQ.md](../../learn-moralis/references/FAQ.md) for plan-specific rate-limit guidance, and verify the live docs/pricing page before production sizing.
 
 ## Caching Recommendations
 

@@ -7,10 +7,12 @@ Common response formats, status codes, and field descriptions for the Moralis We
 | Code | Description                               |
 | ---- | ----------------------------------------- |
 | 200  | Success                                   |
+| 201  | Created - Resource created or queued      |
+| 202  | Accepted - Resource created or queued     |
 | 400  | Bad Request - Invalid parameters          |
 | 401  | Unauthorized - Invalid or missing API key |
-| 404  | Not Found - Resource doesn't exist        |
-| 429  | Too Many Requests - Rate limit exceeded   |
+| 404  | Not Found - Resource does not exist, such as a pair or token on the requested chain |
+| 429  | Too Many Requests - Rate limit exceeded; reduce request rate or upgrade plan |
 | 500  | Internal Server Error                     |
 
 ## Common Response Fields

@@ -141,6 +141,8 @@ If the stream remains in `error` state for **24 hours**, it becomes `terminated`
 
 **5 requests per 5 minutes** for address addition endpoints. To stay within limits, use batch operations — send multiple addresses in a single request using the `address` field (up to 50,000 addresses per batch).
 
+Bitcoin xpub additions are managed through xpub endpoints and do not count as address-add requests. Solana program IDs and mint addresses count toward the same address-add limit when added through address endpoints.
+
 ```bash
 curl -X POST "https://api.moralis-streams.com/streams/evm/STREAM_ID/address" \
   -H "X-API-Key: $MORALIS_API_KEY" \

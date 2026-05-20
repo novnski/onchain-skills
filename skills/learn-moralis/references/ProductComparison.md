@@ -11,6 +11,7 @@ Detailed comparison of Moralis products to help users choose the right solution.
 | **Datashare** | Bulk data export | Analytics, ML, data warehouses |
 | **Data Indexer** | Custom indexing | Enterprise custom schemas |
 | **RPC Nodes** | Direct node access | Raw blockchain interaction |
+| **Auth API** | Wallet authentication | Sign-in with wallet ownership proof |
 
 ---
 
@@ -87,22 +88,66 @@ Detailed comparison of Moralis products to help users choose the right solution.
 | Aspect | Datashare | Data APIs |
 |--------|-----------|-----------|
 | Data volume | Bulk/all | Per-request |
-| Format | Parquet/CSV | JSON |
-| Destination | Snowflake/BigQuery/S3 | Your app |
+| Format | Parquet/CSV/JSON | JSON |
+| Destination | S3-compatible object storage and warehouses | Your app |
 | Use case | Analytics, ML | Real-time apps |
 | Update frequency | Periodic | Real-time |
+| Enrichment | Raw on-chain data, no token names/logos/spam labels by default | Enriched API responses where available |
 
 **Use Datashare when:**
 - Building analytics dashboards on historical data
 - Training ML models on blockchain data
 - Need to join blockchain data with internal data
 - Running complex SQL queries
+- Need direct exports to AWS S3, Google Cloud Storage, Cloudflare R2, Backblaze B2, DigitalOcean Spaces, Wasabi, MinIO, Akamai/Linode, Vultr, or Scaleway
+- Want to estimate export size before spending credits
 
 **Use Data APIs when:**
 - Building user-facing applications
 - Need real-time data
 - Querying specific addresses/tokens
 - Don't need bulk historical data
+
+**Datashare caveats:**
+- Exports are raw on-chain data; plan a separate enrichment step if you need token names, symbols, logos, spam labels, or metadata.
+- Parquet is recommended for analytics. Credits are calculated on uncompressed export volume regardless of output compression.
+- Date range is the largest cost driver. Use free estimates before exporting.
+
+---
+
+## Data Indexer vs Data APIs vs Datashare
+
+| Aspect | Data Indexer | Data APIs | Datashare |
+|--------|--------------|-----------|-----------|
+| Shape | Custom schema and transforms | Fixed REST endpoint schemas | Dataset exports |
+| Timing | Real-time plus historical backfill | Request/response | Batch or scheduled export |
+| Delivery | Warehouse, object storage, or database | API response | Object storage / warehouse workflow |
+| Best for | Enterprise custom pipelines | Product features and app backends | Analytics and ML datasets |
+| Availability | Early access | Public product | Early access |
+
+Use Data Indexer when a team needs Moralis to manage a custom indexing pipeline with custom schemas, filters, transformations, and delivery into their infrastructure. Use Data APIs when existing endpoints answer the use case. Use Datashare when the main need is bulk raw data export rather than a custom live pipeline.
+
+---
+
+## RPC Nodes vs Data APIs
+
+| Aspect | RPC Nodes | Data APIs |
+|--------|-----------|-----------|
+| Interface | JSON-RPC | REST |
+| Data shape | Raw chain/node responses | Decoded and enriched Moralis schemas |
+| Writes | Can submit signed transactions | Read-only |
+| Archive access | Supported; archive reads can cost more CUs | Historical endpoints/params where available |
+| Batching | JSON-RPC batch max 20; no CU discount | Endpoint-specific batch endpoints |
+
+Use RPC Nodes for raw node compatibility, signed transaction submission, WebSocket subscriptions, or archive state queries. Use Data APIs when the user wants decoded wallet/token/NFT/DeFi/price data without building decoding/indexing logic.
+
+---
+
+## Auth API vs Data APIs
+
+Auth API is a separate product for proving wallet ownership during login. It generates a challenge, verifies the wallet signature, and returns a stable `profileId`. It supports EVM and Solana wallet signatures and multi-wallet profiles, but not EIP-1271 smart contract wallet signatures.
+
+After authentication, use Data APIs to fetch the authenticated user's wallet data.
 
 ---
 
@@ -179,6 +224,7 @@ Detailed comparison of Moralis products to help users choose the right solution.
 | Streams | Per-record CUs (10 CU/record, confirmed only) |
 | Datashare | Per-GB exported |
 | RPC Nodes | Per-request |
+| Auth API | Product-plan dependent |
 
 For most applications, **Data APIs + Streams** provides the best balance of:
 - Predictable costs

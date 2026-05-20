@@ -30,30 +30,30 @@ Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
 | **Ethereum** (0x1)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Sepolia** (0xaa36a7) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Holesky** (0x4268)   | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Polygon** (0x89)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ❌           |
+| **Polygon** (0x89)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Amoy** (0x13882)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **BSC** (0x38)         | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ❌           |
+| **BSC** (0x38)         | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **BSC Testnet** (0x61) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 
 ### L2 Chains
 
 | Chain                           | Wallet | NFT | Token | DeFi | Entity | Blockchain | PnL | Prices | Internal Tx | NFT Trades | NFT Prices | Floor Prices |
 | ------------------------------- | ------ | --- | ----- | ---- | ------ | ---------- | --- | ------ | ----------- | ---------- | ---------- | ------------ |
-| **Arbitrum** (0xa4b1)           | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ❌           |
+| **Arbitrum** (0xa4b1)           | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Arbitrum Sepolia** (0x66eee)  | ❌     | ❌  | ❌    | ❌   | ❌     | ❌         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Base** (0x2105)               | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Base Sepolia** (0x14a34)      | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Optimism** (0xa)              | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ❌           |
+| **Optimism** (0xa)              | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Optimism Sepolia** (0xaa37dc) | ❌     | ❌  | ❌    | ❌   | ❌     | ❌         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 
 ### Alternative Chains
 
 | Chain                      | Wallet | NFT | Token | DeFi | Entity | Blockchain | PnL | Prices | Internal Tx | NFT Trades | NFT Prices | Floor Prices |
 | -------------------------- | ------ | --- | ----- | ---- | ------ | ---------- | --- | ------ | ----------- | ---------- | ---------- | ------------ |
-| **Avalanche** (0xa86a)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ❌           |
-| **Fantom** (0xfa)          | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
+| **Avalanche** (0xa86a)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
+| **Fantom** (0xfa)          | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
 | **Fantom Testnet** (0xfa2) | ❌     | ❌  | ❌    | ❌   | ❌     | ❌         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Cronos** (0x19)          | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
+| **Cronos** (0x19)          | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ❌          | ❌         | ❌         | ❌           |
 | **Gnosis** (0x64)          | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ❌          | ❌         | ❌         | ❌           |
 | **Gnosis Chiado** (0x27d8) | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Linea** (0xe708)         | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
@@ -65,19 +65,19 @@ Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
 | ---------------------------- | ------ | --- | ----- | ---- | ------ | ---------- | --- | ------ | ----------- | ---------- | ---------- | ------------ |
 | **Chiliz** (0x15b38)         | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
 | **Chiliz Testnet** (0x15b32) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Moonbeam** (0x504)         | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ❌          | ❌         | ❌         | ❌           |
+| **Moonbeam** (0x504)         | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Moonriver** (0x505)        | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Moonbase** (0x507)         | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Flow** (0x2eb)             | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Flow Testnet** (0x221)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Ronin** (0x7e4)            | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
+| **Ronin** (0x7e4)            | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Ronin Saigon** (0x7e5)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Lisk** (0x46f)             | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
 | **Lisk Sepolia** (0x106a)    | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Pulse** (0x171)            | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
 | **Sei** (0x531)              | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Sei Testnet** (0x530)      | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Monad** (0x8f)             | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ❌           |
+| **Monad** (0x8f)             | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 
 ### Coming Soon / Unsupported
 
@@ -134,21 +134,23 @@ Use `chainAlias=bitcoin` or `chains=bitcoin` for Bitcoin examples unless the end
 
 ### Full API Coverage
 
-Only **Ethereum (0x1)** and **Base (0x2105)** have complete coverage of all APIs including floor prices.
+Only **Ethereum (0x1)**, **Polygon (0x89)**, and **Base (0x2105)** have full coverage across the listed Data API columns, including PnL and floor prices.
 
 ### Strong Coverage (Most APIs)
 
-- **Polygon** - Missing only floor prices
-- **BSC** - Missing only profitability and floor prices
-- **Arbitrum** - Missing profitability and floor prices
-- **Avalanche** - Missing profitability and floor prices
-- **Sei** - Missing profitability (new chain)
+- **BSC** - Missing profitability
+- **Arbitrum** - Missing profitability
+- **Optimism** - Missing profitability
+- **Avalanche** - Missing profitability
+- **Ronin** - Missing DeFi and profitability
+- **Sei** - Missing profitability
+- **Monad** - Missing profitability
 
 ### Common Limitations
 
 - **Profitability API**: Only supported on Ethereum, Polygon, Base
 - **Internal Transactions**: EVM-only; supported on documented EVM mainnets with historical and real-time coverage. Testnets are not supported.
-- **NFT Floor Prices**: Only Ethereum, Base, and Sei support this
+- **NFT Floor Prices**: Supported on the mainnet chains marked in the table, including Ethereum, Polygon, BSC, Arbitrum, Base, Optimism, Avalanche, Ronin, Sei, and Monad
 - **DeFi API**: Testnets generally don't support DeFi protocol data
 
 ### Chain Query Params

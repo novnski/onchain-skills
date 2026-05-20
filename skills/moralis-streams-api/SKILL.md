@@ -1,7 +1,7 @@
 ---
 name: moralis-streams-api
 description: Real-time blockchain event monitoring with webhooks across EVM, Solana, and Bitcoin. Use when user asks about setting up webhooks, monitoring wallet/program/contract activity, tracking token or NFT transfers as they happen, adding or removing stream addresses, managing Bitcoin xpubs, replaying blocks, or receiving onchain events in real time. NOT for querying historical or current blockchain state - use moralis-data-api instead.
-version: 1.5.1
+version: 1.5.2
 license: MIT
 compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for authentication.
 metadata:
@@ -110,6 +110,8 @@ Use Solana streams when the user wants program, mint, or address activity on `ma
 - Primary filters are `programIds` and `mintAddresses`
 - `network` is an array such as `["mainnet"]` or `["devnet"]`
 - There is no EVM-style `topic0`, `abi`, or `chainIds`
+- Solana addresses are base58 and case-sensitive; never lowercase them
+- Solana payloads use `transactions[].signature`, `accountKeys`, `instructions`, `innerInstructions`, and pre/post token balances instead of EVM event arrays
 
 See [references/SolanaStreams.md](references/SolanaStreams.md).
 
@@ -184,7 +186,7 @@ Only send `active` or `paused` in update requests.
 - Moralis sends a mandatory **test webhook** on create and update. Your endpoint must return `2xx`.
 - Streams are **at-least-once delivered**. Build idempotent consumers.
 - EVM and Solana webhook flows use `confirmed: false` then `confirmed: true`.
-- Bitcoin docs describe a mempool-phase delivery followed by a confirmed delivery for the same `txid`.
+- Bitcoin can deliver up to three lifecycle notifications for one `txid`: mempool (`block.hash: "mempool"`, `block.height: "0"`), in-block but unconfirmed (`confirmed: false`), then reorg-safe (`confirmed: true`) after the 2-block confirmation depth.
 - Streams can enter `error` and then `terminated` if webhook delivery keeps failing.
 
 See [references/DeliveryGuarantees.md](references/DeliveryGuarantees.md), [references/ErrorHandling.md](references/ErrorHandling.md), and [references/WebhookSecurity.md](references/WebhookSecurity.md).
