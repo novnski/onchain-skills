@@ -8,28 +8,36 @@ GET
 
 ## Base URL
 
-`https://solana-gateway.moralis.io`
+`https://api.moralis.com`
 
 ## Path
 
-`/token/:network/pairs/:pairAddress/swaps`
+`/v1/chains/:chainAlias/pairs/:pairAddress/swaps`
 
 ## Path Params
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| network | string (mainnet) | Yes | The network to query | - |
-| pairAddress | string | Yes | The address of the pair to query | \`YOUR_PAIR_ADDRESS\` |
+| chainAlias | string | Yes | The alias of the chain. | \`bitcoin\` |
+| pairAddress | string | Yes | The address | \`YOUR_PAIR_ADDRESS\` |
 
 ## Query Params
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| limit | number | No | The limit per page | - |
-| cursor | string | No | The cursor to the next page | - |
+| limit | number | No | The limit per page | \`100\` |
+| cursor | string | No | The cursor to the next page | \`YOUR_CURSOR\` |
 | order | string | No | The order of items | - |
-| fromDate | string | No | The starting date (format in seconds or datestring accepted by momentjs) | - |
-| toDate | string | No | The ending date (format in seconds or datestring accepted by momentjs) | - |
+| fromDate | string | No | The start date from which to get the swaps (format in seconds or string accepted by momentjs)
+* Provide the param 'fromBlock' or 'fromDate'
+* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used. | - |
+| toDate | string | No | The end date from which to get the swaps (format in seconds or string accepted by momentjs)
+* Provide the param 'toBlock' or 'toDate'
+* If 'toDate' and 'toBlock' are provided, 'toBlock' will be used. | - |
+| fromBlock | number | No | The minimum block number from which to get the swaps
+* Provide the param 'fromBlock' or 'fromDate'
+* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used. | - |
+| toBlock | number | No | The block number to get the swaps until | - |
 | transactionTypes | string | No | Transaction types to fetch. Possible values: 'buy', 'sell', 'addLiquidity' or 'removeLiquidity' separated by comma | \`buy,sell,addLiquidity,removeLiquidity\` |
 
 ## Cursor/Pagination
@@ -45,52 +53,60 @@ Status: 200
 
 ```json
 {
+  "cursor": "eyJhbGciOi...VCaaw",
   "page": 1,
   "pageSize": 100,
-  "cursor": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...kJ8E_653QrA4Q8zb_9OCn6opE9aBo8PjqLeQU_VCaaw",
   "exchangeName": "Raydium AMM v4",
-  "exchangeLogo": "https://entities-logos.s3.amazonaws.com/raydium.png",
+  "exchangeLogo": "https://entities-logos.s3.us-east-1.amazonaws.com/uniswap.png",
   "exchangeAddress": "YOUR_ADDRESS",
-  "pairLabel": "BREAD/SOL",
+  "pairLabel": "BRETT/WETH",
   "pairAddress": "YOUR_PAIR_ADDRESS",
   "baseToken": {
     "address": "YOUR_ADDRESS",
     "name": "MAD",
     "symbol": "MAD",
-    "logo": "https://example.com/RESOURCE_URL",
+    "logo": "https://entities-logos.s3.us-east-1.amazonaws.com/uniswap.png",
     "decimals": "18"
   },
   "quoteToken": {
     "address": "YOUR_ADDRESS",
     "name": "MAD",
     "symbol": "MAD",
-    "logo": "https://example.com/RESOURCE_URL",
+    "logo": "https://entities-logos.s3.us-east-1.amazonaws.com/uniswap.png",
     "decimals": "18"
   },
   "result": [
     {
-      "transactionHash": "3o9NfCBWaDEb8JLJGdp8tfWwXURNokanCvUJf9A9f5nFqmZkRvWcfhkek4t47UhRDSGKHsSzi8MBusin8H7x7YYD",
+      "transactionHash": "YOUR_TX_HASH",
       "transactionType": "sell",
       "transactionIndex": 250,
       "subCategory": "sellAll",
       "blockTimestamp": "2024-11-28T09:44:55.000Z",
       "blockNumber": 304108120,
       "walletAddress": "YOUR_ADDRESS",
+      "walletAddressLabel": "Murad Wallet",
       "baseTokenAmount": "199255.444466200",
       "quoteTokenAmount": "0.007374998",
       "baseTokenPriceUsd": 0.000008794,
       "quoteTokenPriceUsd": 237.60336565,
       "baseQuotePrice": "0.0000000370127",
-      "totalValueUsd": 1.752324346
+      "totalValueUsd": 1.752324346,
+      "entityName": "Murad",
+      "entityLogo": "https://entities-logos.s3.us-east-1.amazonaws.com/murad.png"
     }
-  ]
+  ],
+  "meta": {
+    "syncedAt": {
+      "0x1": 19800000
+    }
+  }
 }
 ```
 
 ## Example (curl)
 
 ```bash
-curl -X GET "https://solana-gateway.moralis.io/token/mainnet/pairs/YOUR_PAIR_ADDRESS/swaps?transactionTypes=buy%2Csell%2CaddLiquidity%2CremoveLiquidity" \
+curl -X GET "https://api.moralis.com/v1/chains/bitcoin/pairs/YOUR_PAIR_ADDRESS/swaps?limit=100&cursor=YOUR_CURSOR&transactionTypes=buy%2Csell%2CaddLiquidity%2CremoveLiquidity" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

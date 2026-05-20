@@ -1,7 +1,7 @@
 ---
 name: moralis-streams-api
 description: Real-time blockchain event monitoring with webhooks across EVM, Solana, and Bitcoin. Use when user asks about setting up webhooks, monitoring wallet/program/contract activity, tracking token or NFT transfers as they happen, adding or removing stream addresses, managing Bitcoin xpubs, replaying blocks, or receiving onchain events in real time. NOT for querying historical or current blockchain state - use moralis-data-api instead.
-version: 1.4.0
+version: 1.5.0
 license: MIT
 compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for authentication.
 metadata:
@@ -445,6 +445,7 @@ The live Moralis docs also publish a dedicated supported-chains page for EVM Str
 - [references/ListenToAllAddresses.md](references/ListenToAllAddresses.md) - EVM all-address monitoring
 - [references/MonitorMultipleAddresses.md](references/MonitorMultipleAddresses.md) - Address-list patterns
 - [references/ReplayFailedWebhooks.md](references/ReplayFailedWebhooks.md) - Replay failed webhook deliveries
+- [references/ReliabilityAndLifecycle.md](references/ReliabilityAndLifecycle.md) - Confirmation, idempotency, lifecycle, rate limits, and re-org handling
 - [references/Triggers.md](references/Triggers.md) - EVM read-only contract call enrichment
 - [references/Tutorials.md](references/Tutorials.md) - Real-world examples
 - [references/UsefulStreamOptions.md](references/UsefulStreamOptions.md) - EVM-only advanced options

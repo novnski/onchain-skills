@@ -28,18 +28,18 @@ Yes, there's a free tier with 40,000 Compute Units per day. Enough for developme
 
 | Category | Data Types |
 |----------|------------|
-| Wallet | Balances, tokens, NFTs, history, approvals, net worth |
+| Wallet | Balances, tokens, NFTs, history, approvals, net worth, Bitcoin address/xpub history |
 | Token | Prices, metadata, holders, pairs, analytics, security |
 | NFT | Metadata, traits, transfers, trades, floor prices |
 | DeFi | Positions, protocols, liquidity, yields |
-| Blockchain | Blocks, transactions, logs |
+| Blockchain | Blocks, transactions, logs, Bitcoin block/transaction lookup |
 | Entity | Labeled addresses (exchanges, funds, whales) |
 
 ### What chains does Moralis support?
 
 **50+ chains** including:
 - **EVM:** Ethereum, Polygon, BSC, Arbitrum, Optimism, Base, Avalanche, Linea, Fantom, and more
-- **Non-EVM:** Solana
+- **Non-EVM:** Solana and Bitcoin Data API paths
 - **Emerging:** Monad, Sei, Ronin
 
 Full list: [SupportedApisAndChains.md](../../moralis-data-api/references/SupportedApisAndChains.md)

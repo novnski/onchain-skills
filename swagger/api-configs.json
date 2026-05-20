@@ -19331,90 +19331,7 @@
       "queryParams": [],
       "bodyParam": {
         "required": true,
-        "type": "json",
-        "fields": [
-          {
-            "name": "chain",
-            "type": "string",
-            "required": true,
-            "description": "Chain hex ID (e.g. \"0x1\" for Ethereum). Required unless 'chains' is provided. See references/FilteredTokens.md for metrics and filter details.",
-            "example": "0x1"
-          },
-          {
-            "name": "filters",
-            "type": "array",
-            "required": true,
-            "description": "Array of filter objects. Each has metric, timeFrame, and at least one of gt/lt/eq. Filters are combined with AND logic. See references/FilteredTokens.md for all metrics and timeframes.",
-            "example": [
-              {
-                "metric": "volumeUsd",
-                "timeFrame": "oneDay",
-                "gt": 100000
-              }
-            ]
-          },
-          {
-            "name": "sortBy",
-            "type": "object",
-            "required": true,
-            "description": "Sort configuration with metric, timeFrame, and type (ASC or DESC). See references/FilteredTokens.md for all metrics and timeframes.",
-            "example": {
-              "metric": "volumeUsd",
-              "timeFrame": "oneDay",
-              "type": "DESC"
-            }
-          },
-          {
-            "name": "limit",
-            "type": "number",
-            "required": true,
-            "description": "Maximum number of tokens to return",
-            "example": 20
-          },
-          {
-            "name": "chains",
-            "type": "array",
-            "description": "Array of chain hex IDs for multi-chain queries. Use instead of 'chain' to query multiple chains.",
-            "example": [
-              "0x1",
-              "0x89"
-            ]
-          },
-          {
-            "name": "categories",
-            "type": "object",
-            "description": "Category-based filtering. Object with 'include' and/or 'exclude' arrays (e.g. [\"stablecoin\", \"meme\"]).",
-            "example": {
-              "exclude": [
-                "stablecoin"
-              ]
-            }
-          },
-          {
-            "name": "timeFramesToReturn",
-            "type": "array",
-            "description": "Which timeframes to include in response metrics. Defaults to all if omitted. See references/FilteredTokens.md for values.",
-            "example": [
-              "oneDay",
-              "oneWeek"
-            ]
-          },
-          {
-            "name": "metricsToReturn",
-            "type": "array",
-            "description": "Which metrics to include in response. Defaults to all if omitted. See references/FilteredTokens.md for values.",
-            "example": [
-              "volumeUsd",
-              "usdPricePercentChange"
-            ]
-          },
-          {
-            "name": "excludeMetadata",
-            "type": "boolean",
-            "description": "If true, omits token metadata from response to reduce payload size",
-            "example": false
-          }
-        ]
+        "type": "json"
       },
       "responses": [
         {
@@ -23195,7 +23112,7 @@
                 "name": "cursor",
                 "type": "string",
                 "description": "The cursor to use for the next page",
-                "example": "<cursor_from_previous_response>"
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
               },
               {
                 "name": "result",
@@ -23400,7 +23317,7 @@
                 "name": "cursor",
                 "type": "string",
                 "description": "The cursor to use for the next page",
-                "example": "<cursor_from_previous_response>"
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
               },
               {
                 "name": "result",
@@ -23605,7 +23522,7 @@
                 "name": "cursor",
                 "type": "string",
                 "description": "The cursor to use for the next page",
-                "example": "<cursor_from_previous_response>"
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
               },
               {
                 "name": "result",
@@ -24200,6 +24117,12 @@
           "field": {
             "type": "string"
           }
+        },
+        {
+          "name": "includeChainBreakdown",
+          "description": "When true, includes a per-chain breakdown array in the response with both native and USD values.",
+          "required": false,
+          "type": "boolean"
         }
       ],
       "responses": [
@@ -24388,6 +24311,12 @@
                 "example": 9
               },
               {
+                "name": "mostActiveChain",
+                "type": "string",
+                "description": "The chain ID with the most active days",
+                "example": "0x1"
+              },
+              {
                 "name": "transactionsInitiated",
                 "type": "number",
                 "description": "Number of transactions initiated by the wallet",
@@ -24475,11 +24404,6 @@
                     "type": "integer",
                     "description": "Number of unique counterparties received from",
                     "example": 615
-                  },
-                  "total": {
-                    "type": "integer",
-                    "description": "Total unique counterparties",
-                    "example": 777
                   }
                 }
               },
@@ -24488,6 +24412,408 @@
                 "type": "number",
                 "description": "Total swap volume in USD",
                 "example": 11778.556304337722
+              },
+              {
+                "name": "totalGasSpentUsd",
+                "type": "string",
+                "description": "Total gas spent in USD across requested chains",
+                "example": "55.23"
+              },
+              {
+                "name": "avgGasPerTransactionUsd",
+                "type": "string",
+                "description": "Average gas per initiated transaction in USD",
+                "example": "0.59"
+              },
+              {
+                "name": "nativeVolumeSentUsd",
+                "type": "string",
+                "description": "Total native token volume sent in USD",
+                "example": "4025.93"
+              },
+              {
+                "name": "nativeVolumeReceivedUsd",
+                "type": "string",
+                "description": "Total native token volume received in USD",
+                "example": "2081.83"
+              },
+              {
+                "name": "nativeNetFlowUsd",
+                "type": "string",
+                "description": "Net native token flow in USD. Negative means outflow",
+                "example": "-1944.10"
+              },
+              {
+                "name": "uniqueTokensInteracted",
+                "type": "number",
+                "description": "Number of unique ERC20 token contracts interacted with",
+                "example": 4
+              },
+              {
+                "name": "contractsCreated",
+                "type": "number",
+                "description": "Number of contracts created (deployed)",
+                "example": 58
+              },
+              {
+                "name": "largestNativeTransferInUsd",
+                "type": "string",
+                "description": "Largest single native transfer received in USD",
+                "example": "2061.94"
+              },
+              {
+                "name": "largestNativeTransferOutUsd",
+                "type": "string",
+                "description": "Largest single native transfer sent in USD",
+                "example": "1570.53"
+              },
+              {
+                "name": "chainBreakdown",
+                "type": "array",
+                "description": "Per-chain breakdown with both native and USD values. Only included when includeChainBreakdown=true.",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "chain",
+                      "type": "string",
+                      "description": "The chain ID",
+                      "example": "0x1"
+                    },
+                    {
+                      "name": "walletAgeDays",
+                      "type": "number",
+                      "description": "Wallet age in days on this chain"
+                    },
+                    {
+                      "name": "firstActivityAt",
+                      "type": "object",
+                      "nullable": true,
+                      "properties": {
+                        "chain": {
+                          "type": "string",
+                          "description": "Chain ID",
+                          "example": "0x1"
+                        },
+                        "blockNumber": {
+                          "type": "string",
+                          "description": "Block number",
+                          "example": "23583751"
+                        },
+                        "blockTimestamp": {
+                          "type": "string",
+                          "description": "Block timestamp",
+                          "example": "2025-10-15T14:41:23.000Z"
+                        },
+                        "transactionHash": {
+                          "type": "string",
+                          "description": "Transaction hash",
+                          "example": "0x..."
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "Activity type",
+                          "example": "tokenTransfer"
+                        },
+                        "direction": {
+                          "type": "string",
+                          "description": "Direction (in or out)",
+                          "example": "in"
+                        }
+                      }
+                    },
+                    {
+                      "name": "lastActivityAt",
+                      "type": "object",
+                      "nullable": true,
+                      "properties": {
+                        "chain": {
+                          "type": "string",
+                          "description": "Chain ID",
+                          "example": "0x1"
+                        },
+                        "blockNumber": {
+                          "type": "string",
+                          "description": "Block number",
+                          "example": "23583751"
+                        },
+                        "blockTimestamp": {
+                          "type": "string",
+                          "description": "Block timestamp",
+                          "example": "2025-10-15T14:41:23.000Z"
+                        },
+                        "transactionHash": {
+                          "type": "string",
+                          "description": "Transaction hash",
+                          "example": "0x..."
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "Activity type",
+                          "example": "tokenTransfer"
+                        },
+                        "direction": {
+                          "type": "string",
+                          "description": "Direction (in or out)",
+                          "example": "in"
+                        }
+                      }
+                    },
+                    {
+                      "name": "firstInitiatedAt",
+                      "type": "object",
+                      "nullable": true,
+                      "properties": {
+                        "chain": {
+                          "type": "string",
+                          "description": "Chain ID",
+                          "example": "0x1"
+                        },
+                        "blockNumber": {
+                          "type": "string",
+                          "description": "Block number",
+                          "example": "23583751"
+                        },
+                        "blockTimestamp": {
+                          "type": "string",
+                          "description": "Block timestamp",
+                          "example": "2025-10-15T14:41:23.000Z"
+                        },
+                        "transactionHash": {
+                          "type": "string",
+                          "description": "Transaction hash",
+                          "example": "0x..."
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "Activity type",
+                          "example": "tokenTransfer"
+                        },
+                        "direction": {
+                          "type": "string",
+                          "description": "Direction (in or out)",
+                          "example": "in"
+                        }
+                      }
+                    },
+                    {
+                      "name": "lastInitiatedAt",
+                      "type": "object",
+                      "nullable": true,
+                      "properties": {
+                        "chain": {
+                          "type": "string",
+                          "description": "Chain ID",
+                          "example": "0x1"
+                        },
+                        "blockNumber": {
+                          "type": "string",
+                          "description": "Block number",
+                          "example": "23583751"
+                        },
+                        "blockTimestamp": {
+                          "type": "string",
+                          "description": "Block timestamp",
+                          "example": "2025-10-15T14:41:23.000Z"
+                        },
+                        "transactionHash": {
+                          "type": "string",
+                          "description": "Transaction hash",
+                          "example": "0x..."
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "Activity type",
+                          "example": "tokenTransfer"
+                        },
+                        "direction": {
+                          "type": "string",
+                          "description": "Direction (in or out)",
+                          "example": "in"
+                        }
+                      }
+                    },
+                    {
+                      "name": "activeDays",
+                      "type": "number",
+                      "description": "Number of unique active days on this chain"
+                    },
+                    {
+                      "name": "transactionsInitiated",
+                      "type": "number",
+                      "description": "Number of transactions initiated on this chain"
+                    },
+                    {
+                      "name": "transactionsInvolved",
+                      "type": "number",
+                      "description": "Number of transactions involving the wallet on this chain"
+                    },
+                    {
+                      "name": "nativeTransfers",
+                      "type": "object",
+                      "properties": {
+                        "sent": {
+                          "type": "integer",
+                          "description": "Number of transfers sent",
+                          "example": 210
+                        },
+                        "received": {
+                          "type": "integer",
+                          "description": "Number of transfers received",
+                          "example": 272
+                        },
+                        "total": {
+                          "type": "integer",
+                          "description": "Total number of transfers",
+                          "example": 482
+                        }
+                      }
+                    },
+                    {
+                      "name": "erc20Transfers",
+                      "type": "object",
+                      "properties": {
+                        "sent": {
+                          "type": "integer",
+                          "description": "Number of transfers sent",
+                          "example": 210
+                        },
+                        "received": {
+                          "type": "integer",
+                          "description": "Number of transfers received",
+                          "example": 272
+                        },
+                        "total": {
+                          "type": "integer",
+                          "description": "Total number of transfers",
+                          "example": 482
+                        }
+                      }
+                    },
+                    {
+                      "name": "nftTransfers",
+                      "type": "object",
+                      "properties": {
+                        "sent": {
+                          "type": "integer",
+                          "description": "Number of transfers sent",
+                          "example": 210
+                        },
+                        "received": {
+                          "type": "integer",
+                          "description": "Number of transfers received",
+                          "example": 272
+                        },
+                        "total": {
+                          "type": "integer",
+                          "description": "Total number of transfers",
+                          "example": 482
+                        }
+                      }
+                    },
+                    {
+                      "name": "uniqueCounterparties",
+                      "type": "object",
+                      "properties": {
+                        "sentTo": {
+                          "type": "integer",
+                          "description": "Number of unique counterparties sent to",
+                          "example": 412
+                        },
+                        "receivedFrom": {
+                          "type": "integer",
+                          "description": "Number of unique counterparties received from",
+                          "example": 615
+                        }
+                      }
+                    },
+                    {
+                      "name": "swapVolumeUsd",
+                      "type": "number",
+                      "description": "Total swap volume in USD on this chain"
+                    },
+                    {
+                      "name": "totalGasSpentNative",
+                      "type": "string",
+                      "description": "Total gas spent in native token"
+                    },
+                    {
+                      "name": "totalGasSpentUsd",
+                      "type": "string",
+                      "description": "Total gas spent in USD"
+                    },
+                    {
+                      "name": "avgGasPerTransactionNative",
+                      "type": "string",
+                      "description": "Average gas per initiated transaction in native token"
+                    },
+                    {
+                      "name": "avgGasPerTransactionUsd",
+                      "type": "string",
+                      "description": "Average gas per initiated transaction in USD"
+                    },
+                    {
+                      "name": "nativeVolumeSent",
+                      "type": "string",
+                      "description": "Total native token volume sent"
+                    },
+                    {
+                      "name": "nativeVolumeSentUsd",
+                      "type": "string",
+                      "description": "Total native token volume sent in USD"
+                    },
+                    {
+                      "name": "nativeVolumeReceived",
+                      "type": "string",
+                      "description": "Total native token volume received"
+                    },
+                    {
+                      "name": "nativeVolumeReceivedUsd",
+                      "type": "string",
+                      "description": "Total native token volume received in USD"
+                    },
+                    {
+                      "name": "nativeNetFlow",
+                      "type": "string",
+                      "description": "Net native token flow (received - sent). Negative means outflow"
+                    },
+                    {
+                      "name": "nativeNetFlowUsd",
+                      "type": "string",
+                      "description": "Net native token flow in USD"
+                    },
+                    {
+                      "name": "uniqueTokensInteracted",
+                      "type": "number",
+                      "description": "Number of unique ERC20 token contracts interacted with"
+                    },
+                    {
+                      "name": "contractsCreated",
+                      "type": "number",
+                      "description": "Number of contracts created (deployed)"
+                    },
+                    {
+                      "name": "largestNativeTransferIn",
+                      "type": "string",
+                      "description": "Largest single native transfer received"
+                    },
+                    {
+                      "name": "largestNativeTransferInUsd",
+                      "type": "string",
+                      "description": "Largest single native transfer received in USD"
+                    },
+                    {
+                      "name": "largestNativeTransferOut",
+                      "type": "string",
+                      "description": "Largest single native transfer sent"
+                    },
+                    {
+                      "name": "largestNativeTransferOutUsd",
+                      "type": "string",
+                      "description": "Largest single native transfer sent in USD"
+                    }
+                  ]
+                }
               }
             ]
           }
@@ -26159,6 +26485,12 @@
             "type": "object",
             "fields": [
               {
+                "name": "chainId",
+                "type": "string",
+                "description": "The chain ID",
+                "example": "0x1"
+              },
+              {
                 "name": "categoryId",
                 "type": "string",
                 "example": "0x1"
@@ -26801,6 +27133,12 @@
                 "field": {
                   "type": "object",
                   "fields": [
+                    {
+                      "name": "chainId",
+                      "type": "string",
+                      "description": "The chain ID",
+                      "example": "0x1"
+                    },
                     {
                       "name": "categoryId",
                       "type": "string",
@@ -28690,7 +29028,7 @@
               {
                 "name": "cursor",
                 "type": "string",
-                "example": "<cursor_from_previous_response>"
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...kJ8E_653QrA4Q8zb_9OCn6opE9aBo8PjqLeQU_VCaaw"
               },
               {
                 "name": "exchangeName",
@@ -28953,7 +29291,7 @@
               {
                 "name": "cursor",
                 "type": "string",
-                "example": "<cursor_from_previous_response>"
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...Caaw"
               },
               {
                 "name": "result",
@@ -30866,6 +31204,2968 @@
                 "name": "totalSupply",
                 "type": "string",
                 "description": "The total supply of the token"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "universal": {
+    "getAddressesByXpub": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get derived addresses from a Bitcoin extended public key (xpub).",
+      "description": "Returns all derived addresses and their transfer counts for a given Bitcoin xpub key.",
+      "method": "GET",
+      "path": "/v1/chains/:chainAlias/wallets/:publicKey/addresses",
+      "pathParams": [
+        {
+          "name": "publicKey",
+          "description": "The Bitcoin extended public key (xpub)",
+          "required": true,
+          "example": "YOUR_XPUB",
+          "type": "string"
+        },
+        {
+          "name": "chainAlias",
+          "description": "The alias of the chain.",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        }
+      ],
+      "queryParams": [],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "addresses",
+                "type": "array",
+                "description": "Derived addresses from the xpub key",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "address",
+                      "type": "string",
+                      "description": "The derived Bitcoin address",
+                      "example": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"
+                    },
+                    {
+                      "name": "path",
+                      "type": "string",
+                      "description": "BIP44 derivation path",
+                      "example": "m/44'/0'/0'/0/0"
+                    },
+                    {
+                      "name": "transfers",
+                      "type": "number",
+                      "description": "Number of transactions involving this address",
+                      "example": 3
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last ingested block number per chain ID",
+                    "additionalProperties": {
+                      "type": "number"
+                    },
+                    "example": {
+                      "0x1": 19800000
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getBlockByNumberOrHash": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get a block by chain and block number or hash",
+      "description": "Returns full block data including transactions, logs, token transfers, and internal transactions for a given chain and block number or block hash.",
+      "method": "GET",
+      "path": "/v1/chains/:chainAlias/blocks/:blockIdentifier",
+      "pathParams": [
+        {
+          "name": "blockIdentifier",
+          "description": "The block number (integer) or block hash (hex string) to retrieve. All-digit values are interpreted as block heights. Any other value is forwarded as a hash.",
+          "required": true,
+          "example": 123456,
+          "type": "string"
+        },
+        {
+          "name": "chainAlias",
+          "description": "The alias of the chain.",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "enrich",
+          "description": "Master switch for ABI decoding enrichment (method labels, decoded logs, decoded input). Defaults to false.",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "name": "includeMethodLabel",
+          "description": "Include method labels on transactions (overrides enrich).",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "name": "decodeInput",
+          "description": "Decode transaction input data (overrides enrich).",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "name": "decodeLogs",
+          "description": "Decode log events (overrides enrich).",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "name": "includedTopicZeros",
+          "description": "Whitelist logs by topic0 (comma-separated hex values).",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "excludeFields",
+          "description": "Fields to exclude from response (comma-separated: logs, internalTransactions, tokenTransfers, etc.).",
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": ""
+        }
+      ]
+    },
+    "getTransactionByHash": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get a transaction by chain and transaction hash",
+      "description": "Returns full transaction data including logs, token transfers, and internal transactions for a given chain and transaction hash.",
+      "method": "GET",
+      "path": "/v1/chains/:chainAlias/transactions/:txHash",
+      "pathParams": [
+        {
+          "name": "txHash",
+          "description": "The transaction hash to retrieve",
+          "required": true,
+          "example": "YOUR_TX_HASH",
+          "type": "string"
+        },
+        {
+          "name": "chainAlias",
+          "description": "The alias of the chain.",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "enrich",
+          "description": "Master switch for ABI decoding enrichment (method labels, decoded logs, decoded input). Defaults to false.",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "name": "includeMethodLabel",
+          "description": "Include method labels on the transaction (overrides enrich).",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "name": "decodeInput",
+          "description": "Decode transaction input data (overrides enrich).",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "name": "decodeLogs",
+          "description": "Decode log events (overrides enrich).",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "name": "includedTopicZeros",
+          "description": "Whitelist logs by topic0 (comma-separated hex values).",
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": ""
+        }
+      ]
+    },
+    "getCandleSticks": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get the OHLCV candle stick by using pair address",
+      "description": "Get OHLCV (Open, High, Low, Close, Volume) candlestick data for a specific pair address.",
+      "method": "GET",
+      "path": "/v1/chains/:chainAlias/pairs/:pairAddress/ohlcv",
+      "pathParams": [
+        {
+          "name": "chainAlias",
+          "description": "The alias of the chain.",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        },
+        {
+          "name": "pairAddress",
+          "description": "The address",
+          "required": true,
+          "example": "YOUR_PAIR_ADDRESS",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "limit",
+          "description": "The limit per page",
+          "required": false,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "cursor",
+          "description": "The cursor to the next page",
+          "required": false,
+          "example": "YOUR_CURSOR",
+          "type": "string"
+        },
+        {
+          "name": "timeframe",
+          "description": "The time interval of the candles",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "fromDate",
+          "description": "The starting date (format in seconds or datestring accepted by momentjs)",
+          "required": true,
+          "example": "2025-01-01T00:00:00Z",
+          "type": "string"
+        },
+        {
+          "name": "toDate",
+          "description": "The ending date (format in seconds or datestring accepted by momentjs)",
+          "required": true,
+          "example": "2026-01-01T00:00:00Z",
+          "type": "string"
+        },
+        {
+          "name": "currency",
+          "description": "The currency of the candles",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "connectedCandles",
+          "description": "Whether to use connected candles (\"open\" value of the candle is equal \"close\" value of the previous candle)",
+          "required": false,
+          "type": "boolean"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "cursor",
+                "type": "string",
+                "description": "The cursor to be used for getting the next page of results",
+                "example": "eyJhbGciOi...VCaaw"
+              },
+              {
+                "name": "page",
+                "type": "number",
+                "description": "The current page number",
+                "example": 1
+              },
+              {
+                "name": "pairAddress",
+                "type": "string",
+                "description": "The pair address",
+                "example": "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852"
+              },
+              {
+                "name": "tokenAddress",
+                "type": "object",
+                "description": "The token address",
+                "example": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                "fields": []
+              },
+              {
+                "name": "timeframe",
+                "type": "string",
+                "description": "The time interval of the candles",
+                "example": "1h"
+              },
+              {
+                "name": "currency",
+                "type": "string",
+                "description": "The currency of the candles",
+                "example": "usd"
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "description": "The list of candles",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "timestamp",
+                      "type": "string",
+                      "description": "The timestamp of the candle",
+                      "example": "2025-01-02T09:00:00.000Z"
+                    },
+                    {
+                      "name": "open",
+                      "type": "number",
+                      "description": "The open price in the specified currency",
+                      "example": 1.25
+                    },
+                    {
+                      "name": "close",
+                      "type": "number",
+                      "description": "The close price in the specified currency",
+                      "example": 1.3
+                    },
+                    {
+                      "name": "high",
+                      "type": "number",
+                      "description": "The high price in the specified currency",
+                      "example": 1.35
+                    },
+                    {
+                      "name": "low",
+                      "type": "number",
+                      "description": "The low price in the specified currency",
+                      "example": 1.2
+                    },
+                    {
+                      "name": "volume",
+                      "type": "number",
+                      "description": "The volume in the specified currency",
+                      "example": 1625.58
+                    },
+                    {
+                      "name": "trades",
+                      "type": "number",
+                      "description": "The number of swaps in this candle period",
+                      "example": 42
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last ingested block number per chain ID",
+                    "additionalProperties": {
+                      "type": "number"
+                    },
+                    "example": {
+                      "0x1": 19800000
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getDefiPositions": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get DeFi positions for a wallet across multiple chains",
+      "description": "Returns all DeFi positions (lending, liquidity, staking) for a wallet address across specified chains in a unified schema.",
+      "method": "GET",
+      "path": "/v1/wallets/:walletAddress/defi/positions",
+      "pathParams": [
+        {
+          "name": "walletAddress",
+          "description": "The address",
+          "required": true,
+          "example": "YOUR_EVM_ADDRESS",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "chains",
+          "description": "Chains to query",
+          "required": false,
+          "example": "bitcoin",
+          "type": "array",
+          "field": {
+            "type": "string",
+            "enum": [
+              "0x1",
+              "ethereum",
+              "0x15b38",
+              "chiliz",
+              "0x19",
+              "cro",
+              "0x2105",
+              "base",
+              "0x38",
+              "binance",
+              "0x440",
+              "metis",
+              "0x46f",
+              "lisk",
+              "0x504",
+              "moon beam",
+              "0x505",
+              "moon river",
+              "0x531",
+              "sei",
+              "0x64",
+              "gnosis",
+              "0x7e4",
+              "ronin",
+              "0x89",
+              "polygon",
+              "0x8f",
+              "monad",
+              "0x92",
+              "sonic",
+              "0xa",
+              "optimism",
+              "0xa4b1",
+              "arbitrum",
+              "0xa86a",
+              "avalanche",
+              "0xe708",
+              "linea",
+              "0xfa",
+              "fantom",
+              "solana-mainnet",
+              "sol",
+              "all",
+              "mainnets",
+              "testnets"
+            ]
+          }
+        },
+        {
+          "name": "limit",
+          "description": "Maximum number of positions to return per page",
+          "required": false,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "cursor",
+          "description": "Pagination cursor for next page",
+          "required": false,
+          "example": "YOUR_CURSOR",
+          "type": "string"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last sync block position for each chain in the response. The literal 'latest' indicates the chain is synced up to the latest block (no pinned block number available).",
+                    "additionalProperties": {
+                      "oneOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "example": {
+                      "0x1": 1710000000,
+                      "solana-mainnet": "latest"
+                    }
+                  },
+                  "unsupportedChains": {
+                    "description": "Requested chains that are not supported",
+                    "nullable": true,
+                    "example": [
+                      "0x89"
+                    ],
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "failedChains": {
+                    "description": "Requested chains that are not supported",
+                    "nullable": true,
+                    "example": [
+                      "0x89"
+                    ],
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ChainFailureDto"
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt",
+                  "unsupportedChains",
+                  "failedChains"
+                ]
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "chainId",
+                      "type": "string",
+                      "example": "0x1"
+                    },
+                    {
+                      "name": "protocolId",
+                      "type": "string"
+                    },
+                    {
+                      "name": "protocolName",
+                      "type": "string"
+                    },
+                    {
+                      "name": "protocolUrl",
+                      "type": "object",
+                      "fields": []
+                    },
+                    {
+                      "name": "protocolLogo",
+                      "type": "object",
+                      "fields": []
+                    },
+                    {
+                      "name": "position",
+                      "type": "object",
+                      "properties": {
+                        "label": {
+                          "type": "string",
+                          "enum": [
+                            "lending",
+                            "liquidity",
+                            "staking",
+                            "farming",
+                            "perps",
+                            "vault",
+                            "yield",
+                            "vesting",
+                            "other"
+                          ]
+                        },
+                        "address": {
+                          "type": "object",
+                          "nullable": true,
+                          "description": "On-chain position identifier (pool, obligation, account)"
+                        },
+                        "tokens": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/UniversalDefiTokenDto"
+                          }
+                        },
+                        "balanceUsd": {
+                          "type": "object",
+                          "nullable": true
+                        },
+                        "unclaimedUsd": {
+                          "type": "object",
+                          "nullable": true
+                        },
+                        "details": {
+                          "nullable": true,
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/PositionDetailsDto"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "label",
+                        "tokens"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "cursor",
+                "type": "string",
+                "description": "The cursor to be used for getting the next page of results",
+                "example": "eyJhbGciOi...VCaaw"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getDefiProtocolPositions": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get DeFi positions for a specific protocol",
+      "description": "Returns DeFi positions for a wallet address filtered by a specific protocol across specified chains.",
+      "method": "GET",
+      "path": "/v1/wallets/:walletAddress/defi/:protocol/positions",
+      "pathParams": [
+        {
+          "name": "walletAddress",
+          "description": "The address",
+          "required": true,
+          "example": "YOUR_EVM_ADDRESS",
+          "type": "string"
+        },
+        {
+          "name": "protocol",
+          "description": "Protocol identifier (e.g. \"aave-v3\", \"uniswap-v3\")",
+          "required": true,
+          "example": "uniswap-v3",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "chains",
+          "description": "Chains to query",
+          "required": false,
+          "example": "bitcoin",
+          "type": "array",
+          "field": {
+            "type": "string",
+            "enum": [
+              "0x1",
+              "ethereum",
+              "0x15b38",
+              "chiliz",
+              "0x19",
+              "cro",
+              "0x2105",
+              "base",
+              "0x38",
+              "binance",
+              "0x440",
+              "metis",
+              "0x46f",
+              "lisk",
+              "0x504",
+              "moon beam",
+              "0x505",
+              "moon river",
+              "0x531",
+              "sei",
+              "0x64",
+              "gnosis",
+              "0x7e4",
+              "ronin",
+              "0x89",
+              "polygon",
+              "0x8f",
+              "monad",
+              "0x92",
+              "sonic",
+              "0xa",
+              "optimism",
+              "0xa4b1",
+              "arbitrum",
+              "0xa86a",
+              "avalanche",
+              "0xe708",
+              "linea",
+              "0xfa",
+              "fantom",
+              "solana-mainnet",
+              "sol",
+              "all",
+              "mainnets",
+              "testnets"
+            ]
+          }
+        },
+        {
+          "name": "limit",
+          "description": "Maximum number of positions to return per page",
+          "required": false,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "cursor",
+          "description": "Pagination cursor for next page",
+          "required": false,
+          "example": "YOUR_CURSOR",
+          "type": "string"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last sync block position for each chain in the response. The literal 'latest' indicates the chain is synced up to the latest block (no pinned block number available).",
+                    "additionalProperties": {
+                      "oneOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "example": {
+                      "0x1": 1710000000,
+                      "solana-mainnet": "latest"
+                    }
+                  },
+                  "unsupportedChains": {
+                    "description": "Requested chains that are not supported",
+                    "nullable": true,
+                    "example": [
+                      "0x89"
+                    ],
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "failedChains": {
+                    "description": "Requested chains that are not supported",
+                    "nullable": true,
+                    "example": [
+                      "0x89"
+                    ],
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ChainFailureDto"
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt",
+                  "unsupportedChains",
+                  "failedChains"
+                ]
+              },
+              {
+                "name": "result"
+              },
+              {
+                "name": "cursor",
+                "type": "string",
+                "description": "The cursor to be used for getting the next page of results",
+                "example": "eyJhbGciOi...VCaaw"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getDefiSummary": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get DeFi positions summary for a wallet across multiple chains",
+      "description": "Returns a summary of all DeFi positions for a wallet address across specified chains.",
+      "method": "GET",
+      "path": "/v1/wallets/:walletAddress/defi/summary",
+      "pathParams": [
+        {
+          "name": "walletAddress",
+          "description": "The address",
+          "required": true,
+          "example": "YOUR_EVM_ADDRESS",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "chains",
+          "description": "Chains to query",
+          "required": false,
+          "example": "bitcoin",
+          "type": "array",
+          "field": {
+            "type": "string",
+            "enum": [
+              "0x1",
+              "ethereum",
+              "0x15b38",
+              "chiliz",
+              "0x19",
+              "cro",
+              "0x2105",
+              "base",
+              "0x38",
+              "binance",
+              "0x440",
+              "metis",
+              "0x46f",
+              "lisk",
+              "0x504",
+              "moon beam",
+              "0x505",
+              "moon river",
+              "0x531",
+              "sei",
+              "0x64",
+              "gnosis",
+              "0x7e4",
+              "ronin",
+              "0x89",
+              "polygon",
+              "0x8f",
+              "monad",
+              "0x92",
+              "sonic",
+              "0xa",
+              "optimism",
+              "0xa4b1",
+              "arbitrum",
+              "0xa86a",
+              "avalanche",
+              "0xe708",
+              "linea",
+              "0xfa",
+              "fantom",
+              "solana-mainnet",
+              "sol",
+              "all",
+              "mainnets",
+              "testnets"
+            ]
+          }
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last sync block position for each chain in the response. The literal 'latest' indicates the chain is synced up to the latest block (no pinned block number available).",
+                    "additionalProperties": {
+                      "oneOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "example": {
+                      "0x1": 1710000000,
+                      "solana-mainnet": "latest"
+                    }
+                  },
+                  "unsupportedChains": {
+                    "description": "Requested chains that are not supported",
+                    "nullable": true,
+                    "example": [
+                      "0x89"
+                    ],
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "failedChains": {
+                    "description": "Requested chains that are not supported",
+                    "nullable": true,
+                    "example": [
+                      "0x89"
+                    ],
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ChainFailureDto"
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt",
+                  "unsupportedChains",
+                  "failedChains"
+                ]
+              },
+              {
+                "name": "result",
+                "type": "object",
+                "properties": {
+                  "activeProtocols": {
+                    "type": "number"
+                  },
+                  "totalPositions": {
+                    "type": "number"
+                  },
+                  "totalUsd": {
+                    "type": "object",
+                    "nullable": true
+                  },
+                  "totalUnclaimedUsd": {
+                    "type": "object",
+                    "nullable": true
+                  },
+                  "protocols": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/DefiProtocolSummaryDto"
+                    }
+                  }
+                },
+                "required": [
+                  "activeProtocols",
+                  "totalPositions",
+                  "protocols"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getSwapsByPairAddress": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get all swap related transactions (buy, sell, add liquidity & remove liquidity)",
+      "description": "Get all swap related transactions (buy, sell, add liquidity & remove liquidity) for a specific pair address.",
+      "method": "GET",
+      "path": "/v1/chains/:chainAlias/pairs/:pairAddress/swaps",
+      "pathParams": [
+        {
+          "name": "chainAlias",
+          "description": "The alias of the chain.",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        },
+        {
+          "name": "pairAddress",
+          "description": "The address",
+          "required": true,
+          "example": "YOUR_PAIR_ADDRESS",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "limit",
+          "description": "The limit per page",
+          "required": false,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "cursor",
+          "description": "The cursor to the next page",
+          "required": false,
+          "example": "YOUR_CURSOR",
+          "type": "string"
+        },
+        {
+          "name": "order",
+          "description": "The order of items",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "fromDate",
+          "description": "The start date from which to get the swaps (format in seconds or string accepted by momentjs)\n* Provide the param 'fromBlock' or 'fromDate'\n* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used.",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "toDate",
+          "description": "The end date from which to get the swaps (format in seconds or string accepted by momentjs)\n* Provide the param 'toBlock' or 'toDate'\n* If 'toDate' and 'toBlock' are provided, 'toBlock' will be used.",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "fromBlock",
+          "description": "The minimum block number from which to get the swaps\n* Provide the param 'fromBlock' or 'fromDate'\n* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used.",
+          "required": false,
+          "type": "number"
+        },
+        {
+          "name": "toBlock",
+          "description": "The block number to get the swaps until",
+          "required": false,
+          "type": "number"
+        },
+        {
+          "name": "transactionTypes",
+          "description": "Transaction types to fetch. Possible values: 'buy', 'sell', 'addLiquidity' or 'removeLiquidity' separated by comma",
+          "required": false,
+          "example": "buy,sell,addLiquidity,removeLiquidity",
+          "type": "string"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "cursor",
+                "type": "string",
+                "description": "The cursor to be used for getting the next page of results",
+                "example": "eyJhbGciOi...VCaaw"
+              },
+              {
+                "name": "page",
+                "type": "number",
+                "example": 1
+              },
+              {
+                "name": "pageSize",
+                "type": "number",
+                "example": 100
+              },
+              {
+                "name": "exchangeName",
+                "type": "string",
+                "example": "Raydium AMM v4"
+              },
+              {
+                "name": "exchangeLogo",
+                "type": "string",
+                "example": "https://entities-logos.s3.us-east-1.amazonaws.com/uniswap.png"
+              },
+              {
+                "name": "exchangeAddress",
+                "type": "string",
+                "example": "0x1f98431c8ad98523631ae4a59f267346ea31f984"
+              },
+              {
+                "name": "pairLabel",
+                "type": "string",
+                "example": "BRETT/WETH"
+              },
+              {
+                "name": "pairAddress",
+                "type": "string",
+                "example": "0x36a46dff597c5a444bbc521d26787f57867d2214"
+              },
+              {
+                "name": "baseToken",
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "0x36a46dff597c5a444bbc521d26787f57867d2214"
+                  },
+                  "name": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "MAD"
+                  },
+                  "symbol": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "MAD"
+                  },
+                  "logo": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "https://entities-logos.s3.us-east-1.amazonaws.com/uniswap.png"
+                  },
+                  "decimals": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "18"
+                  }
+                },
+                "required": [
+                  "address",
+                  "name",
+                  "symbol",
+                  "logo",
+                  "decimals"
+                ]
+              },
+              {
+                "name": "quoteToken",
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "0x36a46dff597c5a444bbc521d26787f57867d2214"
+                  },
+                  "name": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "MAD"
+                  },
+                  "symbol": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "MAD"
+                  },
+                  "logo": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "https://entities-logos.s3.us-east-1.amazonaws.com/uniswap.png"
+                  },
+                  "decimals": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "18"
+                  }
+                },
+                "required": [
+                  "address",
+                  "name",
+                  "symbol",
+                  "logo",
+                  "decimals"
+                ]
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "transactionHash",
+                      "type": "string",
+                      "example": "0x2bfcba4715774420936669cd0ff2241d70e9abec"
+                    },
+                    {
+                      "name": "transactionType",
+                      "type": "string",
+                      "example": "sell"
+                    },
+                    {
+                      "name": "transactionIndex",
+                      "type": "number",
+                      "example": 250
+                    },
+                    {
+                      "name": "subCategory",
+                      "type": "string",
+                      "example": "sellAll"
+                    },
+                    {
+                      "name": "blockTimestamp",
+                      "type": "string",
+                      "example": "2024-11-28T09:44:55.000Z"
+                    },
+                    {
+                      "name": "blockNumber",
+                      "type": "number",
+                      "example": 304108120
+                    },
+                    {
+                      "name": "walletAddress",
+                      "type": "string",
+                      "example": "0x2bfcba4715774420936669cd0ff2241d70e9abec"
+                    },
+                    {
+                      "name": "walletAddressLabel",
+                      "type": "string",
+                      "example": "Murad Wallet"
+                    },
+                    {
+                      "name": "baseTokenAmount",
+                      "type": "string",
+                      "example": "199255.444466200"
+                    },
+                    {
+                      "name": "quoteTokenAmount",
+                      "type": "string",
+                      "example": "0.007374998"
+                    },
+                    {
+                      "name": "baseTokenPriceUsd",
+                      "type": "number",
+                      "example": 0.000008794
+                    },
+                    {
+                      "name": "quoteTokenPriceUsd",
+                      "type": "number",
+                      "example": 237.60336565
+                    },
+                    {
+                      "name": "baseQuotePrice",
+                      "type": "string",
+                      "example": "0.0000000370127"
+                    },
+                    {
+                      "name": "totalValueUsd",
+                      "type": "number",
+                      "example": 1.752324346
+                    },
+                    {
+                      "name": "entityName",
+                      "type": "string",
+                      "example": "Murad"
+                    },
+                    {
+                      "name": "entityLogo",
+                      "type": "string",
+                      "example": "https://entities-logos.s3.us-east-1.amazonaws.com/murad.png"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last ingested block number per chain ID",
+                    "additionalProperties": {
+                      "type": "number"
+                    },
+                    "example": {
+                      "0x1": 19800000
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getSwapsByTokenAddress": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get all swap related transactions (buy, sell)",
+      "description": "Get all swap related transactions (buy, sell) for a specific token address.",
+      "method": "GET",
+      "path": "/v1/chains/:chainAlias/tokens/:tokenAddress/swaps",
+      "pathParams": [
+        {
+          "name": "chainAlias",
+          "description": "The alias of the chain.",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        },
+        {
+          "name": "tokenAddress",
+          "description": "The address",
+          "required": true,
+          "example": "YOUR_TOKEN_ADDRESS",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "limit",
+          "description": "The limit per page",
+          "required": false,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "cursor",
+          "description": "The cursor to the next page",
+          "required": false,
+          "example": "YOUR_CURSOR",
+          "type": "string"
+        },
+        {
+          "name": "fromDate",
+          "description": "The start date from which to get the swaps (format in seconds or string accepted by momentjs)\n* Provide the param 'fromBlock' or 'fromDate'\n* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used.",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "toDate",
+          "description": "The end date from which to get the swaps (format in seconds or string accepted by momentjs)\n* Provide the param 'toBlock' or 'toDate'\n* If 'toDate' and 'toBlock' are provided, 'toBlock' will be used.",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "fromBlock",
+          "description": "The minimum block number from which to get the swaps\n* Provide the param 'fromBlock' or 'fromDate'\n* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used.",
+          "required": false,
+          "type": "number"
+        },
+        {
+          "name": "toBlock",
+          "description": "The block number to get the swaps until",
+          "required": false,
+          "type": "number"
+        },
+        {
+          "name": "order",
+          "description": "The order of the results, in ascending (ASC) or descending (DESC).",
+          "required": false,
+          "example": "DESC",
+          "type": "string"
+        },
+        {
+          "name": "transactionTypes",
+          "description": "Transaction types to fetch. Possible values: 'buy','sell' or both separated by comma",
+          "required": false,
+          "example": "buy,sell",
+          "type": "string"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "cursor",
+                "type": "string",
+                "description": "The cursor to be used for getting the next page of results",
+                "example": "eyJhbGciOi...VCaaw"
+              },
+              {
+                "name": "page",
+                "type": "number",
+                "example": 1
+              },
+              {
+                "name": "pageSize",
+                "type": "number",
+                "example": 100
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "transactionHash",
+                      "type": "string",
+                      "example": "0x2bfcba4715774420936669cd0ff2241d70e9abec"
+                    },
+                    {
+                      "name": "transactionIndex",
+                      "type": "number",
+                      "example": 5
+                    },
+                    {
+                      "name": "transactionType",
+                      "type": "string",
+                      "example": "buy"
+                    },
+                    {
+                      "name": "blockNumber",
+                      "type": "number",
+                      "example": 12345678
+                    },
+                    {
+                      "name": "blockTimestamp",
+                      "type": "string",
+                      "example": "2024-11-21T09:22:28.000Z"
+                    },
+                    {
+                      "name": "subCategory",
+                      "type": "string",
+                      "example": "ACCUMULATION"
+                    },
+                    {
+                      "name": "walletAddress",
+                      "type": "string",
+                      "example": "0x1c584a6baecb7c5d51caa0ef3a579e08bd49d4e5"
+                    },
+                    {
+                      "name": "walletAddressLabel",
+                      "type": "string",
+                      "example": "Murad Wallet"
+                    },
+                    {
+                      "name": "pairAddress",
+                      "type": "string",
+                      "example": "0xdded227d71a096c6b5d87807c1b5c456771aaa94"
+                    },
+                    {
+                      "name": "pairLabel",
+                      "type": "string",
+                      "example": "USDC/WETH"
+                    },
+                    {
+                      "name": "exchangeAddress",
+                      "type": "string",
+                      "example": "0x1080ee857d165186af7f8d63e8ec510c28a6d1ea"
+                    },
+                    {
+                      "name": "exchangeName",
+                      "type": "string",
+                      "example": "Uniswap"
+                    },
+                    {
+                      "name": "exchangeLogo",
+                      "type": "string",
+                      "example": "https://logo.moralis.io/0xe708_0xe5d7c2a44ffddf6b295a15c148167daaaf5cf34f_769a0b766bd3d6d1830f0a95d7b3e313"
+                    },
+                    {
+                      "name": "baseToken",
+                      "type": "string",
+                      "example": "ETH"
+                    },
+                    {
+                      "name": "quoteToken",
+                      "type": "string",
+                      "example": "USDT"
+                    },
+                    {
+                      "name": "bought",
+                      "example": {
+                        "address": "0xe5d7c2a44ffddf6b295a15c148167daaaf5cf34f",
+                        "name": "Wrapped Ether",
+                        "symbol": "SYM",
+                        "logo": "https://example.com/logo-token1.png",
+                        "amount": "0.000014332429005002",
+                        "usdPrice": 3148.1828278180296,
+                        "usdAmount": 1230,
+                        "tokenType": "token1"
+                      }
+                    },
+                    {
+                      "name": "sold",
+                      "example": {
+                        "address": "0x176211869ca2b568f2a7d4ee941e073a821ee1ff",
+                        "name": "USDC",
+                        "symbol": "SYM",
+                        "logo": "https://example.com/logo-token2.png",
+                        "amount": "1000",
+                        "usdPrice": 0.9999999999999986,
+                        "usdAmount": -0.045138999999999936,
+                        "tokenType": "token0"
+                      }
+                    },
+                    {
+                      "name": "baseQuotePrice",
+                      "type": "string",
+                      "example": "0.01"
+                    },
+                    {
+                      "name": "totalValueUsd",
+                      "type": "number",
+                      "example": 1230
+                    },
+                    {
+                      "name": "entityName",
+                      "type": "string",
+                      "example": "Murad"
+                    },
+                    {
+                      "name": "entityLogo",
+                      "type": "string",
+                      "example": "https://entities-logos.s3.us-east-1.amazonaws.com/murad.png"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last ingested block number per chain ID",
+                    "additionalProperties": {
+                      "type": "number"
+                    },
+                    "example": {
+                      "0x1": 19800000
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getTokenPrice": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get the price of a token by its address",
+      "description": "Get the current price and additional information for a specific token address.",
+      "method": "GET",
+      "path": "/v1/chains/:chainAlias/tokens/:tokenAliasOrTokenAddress/price",
+      "pathParams": [
+        {
+          "name": "chainAlias",
+          "description": "The alias of the chain.",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        },
+        {
+          "name": "tokenAliasOrTokenAddress",
+          "description": "The token address or alias",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "toBlock",
+          "description": "Block number to check the price from",
+          "required": false,
+          "type": "number"
+        },
+        {
+          "name": "maxTokenInactivity",
+          "description": "Exclude tokens inactive for more than the specified days",
+          "required": false,
+          "type": "number"
+        },
+        {
+          "name": "liquidityThreshold",
+          "description": "Minimum liquidity in USD",
+          "required": false,
+          "type": "number"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "chain",
+                "type": "string",
+                "description": "The chain alias",
+                "example": "eth"
+              },
+              {
+                "name": "tokenName",
+                "type": "string",
+                "description": "The token name",
+                "example": "Pepe"
+              },
+              {
+                "name": "tokenSymbol",
+                "type": "string",
+                "description": "The token symbol",
+                "example": "PEPE"
+              },
+              {
+                "name": "tokenAddress",
+                "type": "string",
+                "description": "The token contract address",
+                "example": "0x6982508145454ce325ddbe47a25d4ec3d2311933"
+              },
+              {
+                "name": "tokenLogo",
+                "type": "string",
+                "description": "The token logo URL",
+                "example": "https://logo.moralis.io/0x1_0x69825081454ce6d19f71c224cba025989229.jpeg"
+              },
+              {
+                "name": "tokenDecimals",
+                "type": "number",
+                "description": "The token decimals",
+                "example": 18
+              },
+              {
+                "name": "usdPrice",
+                "type": "number",
+                "description": "The USD price",
+                "example": 2534.12
+              },
+              {
+                "name": "24hrChangeUsd",
+                "type": "number",
+                "description": "The 24hr USD price change",
+                "example": 35.82
+              },
+              {
+                "name": "24hrChangePercent",
+                "type": "number",
+                "description": "The 24hr price percent change",
+                "example": 1.43
+              },
+              {
+                "name": "nativePrice",
+                "description": "The native price information"
+              },
+              {
+                "name": "verifiedContract",
+                "type": "boolean",
+                "description": "Whether the contract is verified",
+                "example": true
+              },
+              {
+                "name": "securityScore",
+                "type": "number",
+                "description": "The security score",
+                "example": 99
+              },
+              {
+                "name": "possibleSpam",
+                "type": "boolean",
+                "description": "Whether the token is possibly spam",
+                "example": false
+              },
+              {
+                "name": "updatedAt",
+                "description": "Information about when the price was last updated"
+              },
+              {
+                "name": "dexInformation",
+                "description": "DEX exchange and pair information (null for Bitcoin)"
+              },
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last ingested block number per chain ID",
+                    "additionalProperties": {
+                      "type": "number"
+                    },
+                    "example": {
+                      "0x1": 19800000
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getTokenPriceSparkline": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get sparkline price data for a token",
+      "description": "Get a small set of historical price points suitable for sparkline charts (tiny charts in token lists, watchlists, portfolio rows). Returns a fixed number of points based on the selected range.",
+      "method": "GET",
+      "path": "/v1/chains/:chainAlias/tokens/:tokenAliasOrTokenAddress/price/sparkline",
+      "pathParams": [
+        {
+          "name": "chainAlias",
+          "description": "The alias of the chain.",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        },
+        {
+          "name": "tokenAliasOrTokenAddress",
+          "description": "The token address or alias",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "range",
+          "description": "The time range for the sparkline. Determines the interval and window size.",
+          "required": true,
+          "example": "7d",
+          "type": "string"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "chain",
+                "type": "string",
+                "description": "The resolved blockchain chain ID",
+                "example": "0x1"
+              },
+              {
+                "name": "range",
+                "type": "string",
+                "description": "The sparkline range used for this result",
+                "example": "7d"
+              },
+              {
+                "name": "fromDate",
+                "type": "string",
+                "description": "ISO-8601 timestamp of the computed window start",
+                "example": "2025-01-01T00:00:00.000Z"
+              },
+              {
+                "name": "toDate",
+                "type": "string",
+                "description": "ISO-8601 timestamp of the computed window end",
+                "example": "2025-01-08T00:00:00.000Z"
+              },
+              {
+                "name": "page",
+                "type": "number",
+                "description": "Always 1. Sparkline responses are not paginated.",
+                "example": 1
+              },
+              {
+                "name": "cursor",
+                "type": "object",
+                "description": "Always null. Sparkline responses are not paginated.",
+                "example": null,
+                "fields": []
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "description": "Array of price data points",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "timestamp",
+                      "type": "string",
+                      "description": "The timestamp of the price point in ISO-8601 format",
+                      "example": "2025-01-02T09:00:00.000Z"
+                    },
+                    {
+                      "name": "price",
+                      "type": "string",
+                      "description": "The price in USD at this timestamp",
+                      "example": "0.00123"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last ingested block number per chain ID",
+                    "additionalProperties": {
+                      "type": "number"
+                    },
+                    "example": {
+                      "0x1": 19800000
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getTokenPriceTimeSeries": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get historical price time-series for a token",
+      "description": "Get historical price data points for a specific token address, suitable for rendering line charts. Supports various time intervals from 5 minutes to monthly.",
+      "method": "GET",
+      "path": "/v1/chains/:chainAlias/tokens/:tokenAliasOrTokenAddress/price/timeseries",
+      "pathParams": [
+        {
+          "name": "chainAlias",
+          "description": "The alias of the chain.",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        },
+        {
+          "name": "tokenAliasOrTokenAddress",
+          "description": "The token address or alias",
+          "required": true,
+          "example": "bitcoin",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "limit",
+          "description": "The limit per page",
+          "required": false,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "cursor",
+          "description": "The cursor to the next page",
+          "required": false,
+          "example": "YOUR_CURSOR",
+          "type": "string"
+        },
+        {
+          "name": "interval",
+          "description": "The time interval for price data points. Defaults to 5m if not provided.",
+          "required": false,
+          "example": "hourly",
+          "type": "string"
+        },
+        {
+          "name": "fromDate",
+          "description": "The starting date (format in seconds or datestring accepted by momentjs). Defaults to 24 hours before toDate if not provided.",
+          "required": false,
+          "example": "2025-01-01T00:00:00Z",
+          "type": "string"
+        },
+        {
+          "name": "toDate",
+          "description": "The ending date (format in seconds or datestring accepted by momentjs). Defaults to now if not provided.",
+          "required": false,
+          "example": "2025-01-07T00:00:00Z",
+          "type": "string"
+        },
+        {
+          "name": "forwardFill",
+          "description": "When true, fills gaps in the time series with interpolated values",
+          "required": false,
+          "type": "boolean"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "cursor",
+                "type": "string",
+                "description": "The cursor to be used for getting the next page of results",
+                "example": "eyJhbGciOi...VCaaw"
+              },
+              {
+                "name": "chain",
+                "type": "string",
+                "description": "The blockchain network chain ID",
+                "example": "0x1"
+              },
+              {
+                "name": "fromDate",
+                "type": "string",
+                "description": "The starting date of the time series in ISO 8601 format",
+                "example": "2025-01-01T00:00:00.000Z"
+              },
+              {
+                "name": "toDate",
+                "type": "string",
+                "description": "The ending date of the time series in ISO 8601 format",
+                "example": "2025-01-07T00:00:00.000Z"
+              },
+              {
+                "name": "interval",
+                "type": "string",
+                "description": "The time interval used for the price data points",
+                "example": "5m"
+              },
+              {
+                "name": "page",
+                "type": "number",
+                "description": "The current page number",
+                "example": 1
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "description": "The list of price data points",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "timestamp",
+                      "type": "string",
+                      "description": "The timestamp of the price point in ISO-8601 format",
+                      "example": "2025-01-02T09:00:00.000Z"
+                    },
+                    {
+                      "name": "price",
+                      "type": "string",
+                      "description": "The price in USD at this timestamp",
+                      "example": "0.00123"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last ingested block number per chain ID",
+                    "additionalProperties": {
+                      "type": "number"
+                    },
+                    "example": {
+                      "0x1": 19800000
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getTokenBalances": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get token balances from multiple chains for a specific wallet address.",
+      "description": "Get token balances from multiple chains for a specific wallet address.",
+      "method": "GET",
+      "path": "/v1/wallets/:walletAddressOrPublicKey/tokens",
+      "pathParams": [
+        {
+          "name": "walletAddressOrPublicKey",
+          "description": "The address or public key of the account",
+          "required": true,
+          "example": "YOUR_BTC_ADDRESS",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "chains",
+          "description": "Chains to query",
+          "required": false,
+          "example": "bitcoin",
+          "type": "array",
+          "field": {
+            "type": "string",
+            "enum": [
+              "0x1",
+              "ethereum",
+              "0x171",
+              "pulse",
+              "0x2105",
+              "base",
+              "0x38",
+              "binance",
+              "0x530",
+              "sei-testnet",
+              "0x531",
+              "sei",
+              "0x89",
+              "polygon",
+              "0x8f",
+              "monad",
+              "0xa",
+              "optimism",
+              "0xa86a",
+              "avalanche",
+              "all",
+              "mainnets",
+              "testnets"
+            ]
+          }
+        },
+        {
+          "name": "cursor",
+          "description": "The cursor to the next page",
+          "required": false,
+          "example": "YOUR_CURSOR",
+          "type": "string"
+        },
+        {
+          "name": "limit",
+          "description": "The limit per page",
+          "required": false,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "tokenAddresses",
+          "description": "The token addresses to be filtered in",
+          "required": false,
+          "example": [
+            "0xdac17f958d2ee523a2206206994597c13d831ec7"
+          ],
+          "type": "array",
+          "field": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "excludeSpam",
+          "description": "Should exclude spam contract",
+          "required": false,
+          "example": true,
+          "type": "boolean"
+        },
+        {
+          "name": "excludeUnverifiedContracts",
+          "description": "Should exclude unverified contract",
+          "required": false,
+          "example": true,
+          "type": "boolean"
+        },
+        {
+          "name": "excludeNative",
+          "description": "Should exclude native contract",
+          "required": false,
+          "example": true,
+          "type": "boolean"
+        },
+        {
+          "name": "maxTokenInactivity",
+          "description": "Should filter out contract exceeding max token inactivity",
+          "required": false,
+          "example": 1,
+          "type": "number"
+        },
+        {
+          "name": "liquidityThreshold",
+          "description": "Should filter out contract under liquidity threshold",
+          "required": false,
+          "example": 0,
+          "type": "number"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "meta",
+                "description": "Metadata about the multi-chain request"
+              },
+              {
+                "name": "address",
+                "type": "string",
+                "description": "The wallet address",
+                "example": "0xcb1c1fde09f811b294172696404e88e658659905"
+              },
+              {
+                "name": "addressType",
+                "type": "string",
+                "description": "The wallet address type",
+                "example": "evm"
+              },
+              {
+                "name": "cursor",
+                "type": "string",
+                "description": "The cursor to be used for getting the next page of results",
+                "example": "eyJhbGciOi...VCaaw"
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "description": "The list of items",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "tokenAddress",
+                      "type": "string",
+                      "description": "The token address",
+                      "example": "0xdac17f958d2ee523a2206206994597c13d831ec7"
+                    },
+                    {
+                      "name": "balanceRaw",
+                      "type": "string",
+                      "description": "The balance",
+                      "example": "8541786218567066193031597821"
+                    },
+                    {
+                      "name": "chainId",
+                      "type": "string",
+                      "description": "The chain id",
+                      "example": "0x1"
+                    },
+                    {
+                      "name": "name",
+                      "type": "string",
+                      "description": "The name of the token",
+                      "example": "Tether USD"
+                    },
+                    {
+                      "name": "symbol",
+                      "type": "string",
+                      "description": "The symbol of the token",
+                      "example": "USDT"
+                    },
+                    {
+                      "name": "decimals",
+                      "type": "number",
+                      "description": "The decimals of the token",
+                      "example": 6
+                    },
+                    {
+                      "name": "logo",
+                      "type": "string",
+                      "description": "The logo of the token",
+                      "example": "https://logo.moralis.io/0x1_0xdac17f958d2ee523a2206206994597c13d831ec7_3b83ef2ba0dba0e3385a845032e48304.webp"
+                    },
+                    {
+                      "name": "possibleSpam",
+                      "type": "boolean",
+                      "description": "If the token is a spam contract",
+                      "example": false
+                    },
+                    {
+                      "name": "verifiedContract",
+                      "type": "boolean",
+                      "description": "If the token is a verified contract",
+                      "example": true
+                    },
+                    {
+                      "name": "balance",
+                      "type": "string",
+                      "description": "The formatted balance of the token",
+                      "example": "8541786218567066193031.597821"
+                    },
+                    {
+                      "name": "securityScore",
+                      "type": "number",
+                      "description": "The security score of the token",
+                      "example": 99
+                    },
+                    {
+                      "name": "portfolioPercentage",
+                      "type": "number",
+                      "description": "The percentage of token relative to wallet's portfolio",
+                      "example": 100
+                    },
+                    {
+                      "name": "usdPrice",
+                      "type": "number",
+                      "description": "The token in USD price",
+                      "example": 1
+                    },
+                    {
+                      "name": "usdPrice24hrUsdChange",
+                      "type": "number",
+                      "description": "The token 24hr change in USD price",
+                      "example": 0
+                    },
+                    {
+                      "name": "usdPrice24hrPercentChange",
+                      "type": "number",
+                      "description": "The token 24hr change in USD price percent",
+                      "example": 0
+                    },
+                    {
+                      "name": "usdValue",
+                      "type": "number",
+                      "description": "The balance in USD price",
+                      "example": 1
+                    },
+                    {
+                      "name": "usdValue24hrUsdChange",
+                      "type": "number",
+                      "description": "The balance 24hr change in USD price",
+                      "example": 0
+                    },
+                    {
+                      "name": "nativeToken",
+                      "type": "boolean",
+                      "description": "If the token is a native token",
+                      "example": false
+                    },
+                    {
+                      "name": "derivedAddress",
+                      "type": "string",
+                      "description": "The derived Bitcoin address (only present for xpub token balance queries)",
+                      "example": "1EfgV2Hr5CDjXPavHDpDMjmU33BA2veHy6"
+                    },
+                    {
+                      "name": "derivedPath",
+                      "type": "string",
+                      "description": "The BIP44 derivation path (only present for xpub token balance queries)",
+                      "example": "m/44'/0'/0'/0/0"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getWalletHistory": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get wallet transaction history across multiple chains.",
+      "description": "Get enriched wallet transaction history using ClickHouse pointers and Envelope Service hydration.\n\n**Supported chain families:**\n- **EVM** — Ethereum, Polygon, BSC, etc. Includes native, ERC-20, ERC-721, and ERC-1155 transfers.\n- **Bitcoin** — Native BTC transfers only.\n- **Solana** — Native SOL transfers.\n\nCross-family requests (e.g. EVM address with Bitcoin chain) return 400. When no `chains` param is provided, all mainnets for the detected address family are queried.",
+      "method": "GET",
+      "path": "/v1/wallets/:walletAddressOrPublicKey/history",
+      "pathParams": [
+        {
+          "name": "walletAddressOrPublicKey",
+          "description": "The address or public key of the account",
+          "required": true,
+          "example": "YOUR_BTC_ADDRESS",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "chains",
+          "description": "Chains to query",
+          "required": false,
+          "example": "bitcoin",
+          "type": "array",
+          "field": {
+            "type": "string",
+            "enum": [
+              "0x1",
+              "ethereum",
+              "0x171",
+              "pulse",
+              "0x2105",
+              "base",
+              "0x38",
+              "binance",
+              "0x530",
+              "sei-testnet",
+              "0x531",
+              "sei",
+              "0x89",
+              "polygon",
+              "0x8f",
+              "monad",
+              "0xa",
+              "optimism",
+              "0xa86a",
+              "avalanche",
+              "solana-mainnet",
+              "sol",
+              "all",
+              "mainnets",
+              "testnets"
+            ]
+          }
+        },
+        {
+          "name": "limit",
+          "description": "The limit per page",
+          "required": false,
+          "example": 100,
+          "type": "number"
+        },
+        {
+          "name": "cursor",
+          "description": "The cursor to the next page",
+          "required": false,
+          "example": "YOUR_CURSOR",
+          "type": "string"
+        },
+        {
+          "name": "order",
+          "description": "The order of items",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "fromDate",
+          "description": "The start date from which to get the wallet history (format in seconds or string accepted by momentjs)\n* Provide the param 'fromBlock' or 'fromDate'\n* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used.",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "toDate",
+          "description": "The end date from which to get the wallet history (format in seconds or string accepted by momentjs)\n* Provide the param 'toBlock' or 'toDate'\n* If 'toDate' and 'toBlock' are provided, 'toBlock' will be used.",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "fromBlock",
+          "description": "The minimum block number from which to get the wallet history\n* Provide the param 'fromBlock' or 'fromDate'\n* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used.",
+          "required": false,
+          "type": "number"
+        },
+        {
+          "name": "toBlock",
+          "description": "The block number to get the wallet history until",
+          "required": false,
+          "type": "number"
+        },
+        {
+          "name": "verbose",
+          "description": "When true, returns full raw chain-specific data including logs, input data, and vin/vout arrays. Array fields are capped at 100 items with a hasMore flag.",
+          "required": false,
+          "type": "boolean"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "address",
+                "type": "string",
+                "description": "The queried wallet address",
+                "example": "0xd8da6bf26964af9d7eed9e03e53415d37aa96045"
+              },
+              {
+                "name": "addressType",
+                "type": "string",
+                "description": "Address type derived from chain family (evm for Ethereum-compatible, bitcoin for BTC, solana for Solana)",
+                "example": "evm"
+              },
+              {
+                "name": "cursor",
+                "type": "string",
+                "description": "Opaque cursor token for pagination (null when no more pages)"
+              },
+              {
+                "name": "page",
+                "type": "number",
+                "description": "Current page number (1-indexed)",
+                "example": 1
+              },
+              {
+                "name": "pageSize",
+                "type": "number",
+                "description": "Number of items in this page"
+              },
+              {
+                "name": "result",
+                "type": "array",
+                "description": "Array of wallet history items",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "chainId",
+                      "type": "string",
+                      "description": "Chain ID (e.g. \"0x1\", \"0x89\", \"solana-mainnet\")",
+                      "example": "0x1"
+                    },
+                    {
+                      "name": "block",
+                      "description": "Block information"
+                    },
+                    {
+                      "name": "transaction",
+                      "description": "Transaction information with transfers and enrichment"
+                    },
+                    {
+                      "name": "raw",
+                      "description": "Chain-family-specific raw data (only the matching chain family key is present)"
+                    },
+                    {
+                      "name": "meta",
+                      "type": "object",
+                      "description": "Extensible metadata placeholder (Universal API convention)",
+                      "example": {},
+                      "fields": []
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "meta",
+                "description": "Response metadata with sync status and diagnostics"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "getWalletInsight": {
+      "apiHost": "https://api.moralis.com",
+      "summary": "Get wallet insight metrics across multiple chains.",
+      "description": "Get wallet insight metrics including activity, transfers, gas usage, and optional per-chain breakdown.",
+      "method": "GET",
+      "path": "/v1/wallets/:walletAddress/insight",
+      "pathParams": [
+        {
+          "name": "walletAddress",
+          "description": "The address",
+          "required": true,
+          "example": "YOUR_EVM_ADDRESS",
+          "type": "string"
+        }
+      ],
+      "queryParams": [
+        {
+          "name": "chains",
+          "description": "Chains to query",
+          "required": false,
+          "example": "bitcoin",
+          "type": "array",
+          "field": {
+            "type": "string",
+            "enum": [
+              "0x1",
+              "ethereum",
+              "0x171",
+              "pulse",
+              "0x2105",
+              "base",
+              "0x38",
+              "binance",
+              "0x530",
+              "sei-testnet",
+              "0x531",
+              "sei",
+              "0x89",
+              "polygon",
+              "0x8f",
+              "monad",
+              "0xa",
+              "optimism",
+              "0xa86a",
+              "avalanche",
+              "all",
+              "mainnets",
+              "testnets"
+            ]
+          }
+        },
+        {
+          "name": "includeChainBreakdown",
+          "description": "Whether to include per-chain breakdown in the response",
+          "required": false,
+          "type": "boolean"
+        }
+      ],
+      "responses": [
+        {
+          "status": "200",
+          "description": "",
+          "body": {
+            "type": "object",
+            "fields": [
+              {
+                "name": "walletAgeDays",
+                "type": "number",
+                "example": 365
+              },
+              {
+                "name": "firstActivityAt"
+              },
+              {
+                "name": "lastActivityAt"
+              },
+              {
+                "name": "firstInitiatedAt"
+              },
+              {
+                "name": "lastInitiatedAt"
+              },
+              {
+                "name": "activeDays",
+                "type": "number",
+                "example": 120
+              },
+              {
+                "name": "transactionsInitiated",
+                "type": "number",
+                "example": 200
+              },
+              {
+                "name": "transactionsInvolved",
+                "type": "number",
+                "example": 350
+              },
+              {
+                "name": "nativeTransfers",
+                "type": "object",
+                "properties": {
+                  "sent": {
+                    "type": "number",
+                    "example": 300
+                  },
+                  "received": {
+                    "type": "number",
+                    "example": 150
+                  },
+                  "total": {
+                    "type": "number",
+                    "example": 450
+                  }
+                },
+                "required": [
+                  "sent",
+                  "received",
+                  "total"
+                ]
+              },
+              {
+                "name": "erc20Transfers",
+                "type": "object",
+                "properties": {
+                  "sent": {
+                    "type": "number",
+                    "example": 300
+                  },
+                  "received": {
+                    "type": "number",
+                    "example": 150
+                  },
+                  "total": {
+                    "type": "number",
+                    "example": 450
+                  }
+                },
+                "required": [
+                  "sent",
+                  "received",
+                  "total"
+                ]
+              },
+              {
+                "name": "nftTransfers",
+                "type": "object",
+                "properties": {
+                  "sent": {
+                    "type": "number",
+                    "example": 300
+                  },
+                  "received": {
+                    "type": "number",
+                    "example": 150
+                  },
+                  "total": {
+                    "type": "number",
+                    "example": 450
+                  }
+                },
+                "required": [
+                  "sent",
+                  "received",
+                  "total"
+                ]
+              },
+              {
+                "name": "uniqueCounterparties",
+                "type": "object",
+                "properties": {
+                  "sentTo": {
+                    "type": "number",
+                    "example": 200
+                  },
+                  "receivedFrom": {
+                    "type": "number",
+                    "example": 142
+                  }
+                },
+                "required": [
+                  "sentTo",
+                  "receivedFrom"
+                ]
+              },
+              {
+                "name": "swapVolumeUsd",
+                "type": "number",
+                "example": 125000.5
+              },
+              {
+                "name": "totalGasSpentUsd",
+                "type": "string",
+                "example": "3005.67"
+              },
+              {
+                "name": "avgGasPerTransactionUsd",
+                "type": "string",
+                "example": "0.051"
+              },
+              {
+                "name": "nativeVolumeSentUsd",
+                "type": "string",
+                "example": "12175.60"
+              },
+              {
+                "name": "nativeVolumeReceivedUsd",
+                "type": "string",
+                "example": "7305.36"
+              },
+              {
+                "name": "nativeNetFlowUsd",
+                "type": "string",
+                "example": "-4870.24"
+              },
+              {
+                "name": "uniqueTokensInteracted",
+                "type": "number",
+                "example": 42
+              },
+              {
+                "name": "contractsCreated",
+                "type": "number",
+                "example": 3
+              },
+              {
+                "name": "largestNativeTransferInUsd",
+                "type": "string",
+                "example": "2435.12"
+              },
+              {
+                "name": "largestNativeTransferOutUsd",
+                "type": "string",
+                "example": "1217.56"
+              },
+              {
+                "name": "meta",
+                "type": "object",
+                "properties": {
+                  "syncedAt": {
+                    "type": "object",
+                    "description": "Last sync block position for each chain in the response. The literal 'latest' indicates the chain is synced up to the latest block (no pinned block number available).",
+                    "additionalProperties": {
+                      "oneOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "example": {
+                      "0x1": 1710000000,
+                      "solana-mainnet": "latest"
+                    }
+                  },
+                  "unsupportedChains": {
+                    "description": "Requested chains that are not supported",
+                    "nullable": true,
+                    "example": [
+                      "0x89"
+                    ],
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "failedChains": {
+                    "description": "Requested chains that are not supported",
+                    "nullable": true,
+                    "example": [
+                      "0x89"
+                    ],
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ChainFailureDto"
+                    }
+                  }
+                },
+                "required": [
+                  "syncedAt",
+                  "unsupportedChains",
+                  "failedChains"
+                ]
+              },
+              {
+                "name": "address",
+                "type": "string",
+                "example": "0x1234..."
+              },
+              {
+                "name": "addressType",
+                "type": "string",
+                "example": "evm"
+              },
+              {
+                "name": "activeChains",
+                "type": "number",
+                "example": 5
+              },
+              {
+                "name": "mostActiveChain",
+                "type": "string",
+                "example": "0x1"
+              },
+              {
+                "name": "chainBreakdown",
+                "type": "array",
+                "field": {
+                  "type": "object",
+                  "fields": [
+                    {
+                      "name": "walletAgeDays",
+                      "type": "number",
+                      "example": 365
+                    },
+                    {
+                      "name": "firstActivityAt"
+                    },
+                    {
+                      "name": "lastActivityAt"
+                    },
+                    {
+                      "name": "firstInitiatedAt"
+                    },
+                    {
+                      "name": "lastInitiatedAt"
+                    },
+                    {
+                      "name": "activeDays",
+                      "type": "number",
+                      "example": 120
+                    },
+                    {
+                      "name": "transactionsInitiated",
+                      "type": "number",
+                      "example": 200
+                    },
+                    {
+                      "name": "transactionsInvolved",
+                      "type": "number",
+                      "example": 350
+                    },
+                    {
+                      "name": "nativeTransfers",
+                      "type": "object",
+                      "properties": {
+                        "sent": {
+                          "type": "number",
+                          "example": 300
+                        },
+                        "received": {
+                          "type": "number",
+                          "example": 150
+                        },
+                        "total": {
+                          "type": "number",
+                          "example": 450
+                        }
+                      },
+                      "required": [
+                        "sent",
+                        "received",
+                        "total"
+                      ]
+                    },
+                    {
+                      "name": "erc20Transfers",
+                      "type": "object",
+                      "properties": {
+                        "sent": {
+                          "type": "number",
+                          "example": 300
+                        },
+                        "received": {
+                          "type": "number",
+                          "example": 150
+                        },
+                        "total": {
+                          "type": "number",
+                          "example": 450
+                        }
+                      },
+                      "required": [
+                        "sent",
+                        "received",
+                        "total"
+                      ]
+                    },
+                    {
+                      "name": "nftTransfers",
+                      "type": "object",
+                      "properties": {
+                        "sent": {
+                          "type": "number",
+                          "example": 300
+                        },
+                        "received": {
+                          "type": "number",
+                          "example": 150
+                        },
+                        "total": {
+                          "type": "number",
+                          "example": 450
+                        }
+                      },
+                      "required": [
+                        "sent",
+                        "received",
+                        "total"
+                      ]
+                    },
+                    {
+                      "name": "uniqueCounterparties",
+                      "type": "object",
+                      "properties": {
+                        "sentTo": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "receivedFrom": {
+                          "type": "number",
+                          "example": 142
+                        }
+                      },
+                      "required": [
+                        "sentTo",
+                        "receivedFrom"
+                      ]
+                    },
+                    {
+                      "name": "swapVolumeUsd",
+                      "type": "number",
+                      "example": 125000.5
+                    },
+                    {
+                      "name": "totalGasSpentUsd",
+                      "type": "string",
+                      "example": "3005.67"
+                    },
+                    {
+                      "name": "avgGasPerTransactionUsd",
+                      "type": "string",
+                      "example": "0.051"
+                    },
+                    {
+                      "name": "nativeVolumeSentUsd",
+                      "type": "string",
+                      "example": "12175.60"
+                    },
+                    {
+                      "name": "nativeVolumeReceivedUsd",
+                      "type": "string",
+                      "example": "7305.36"
+                    },
+                    {
+                      "name": "nativeNetFlowUsd",
+                      "type": "string",
+                      "example": "-4870.24"
+                    },
+                    {
+                      "name": "uniqueTokensInteracted",
+                      "type": "number",
+                      "example": 42
+                    },
+                    {
+                      "name": "contractsCreated",
+                      "type": "number",
+                      "example": 3
+                    },
+                    {
+                      "name": "largestNativeTransferInUsd",
+                      "type": "string",
+                      "example": "2435.12"
+                    },
+                    {
+                      "name": "largestNativeTransferOutUsd",
+                      "type": "string",
+                      "example": "1217.56"
+                    },
+                    {
+                      "name": "chain",
+                      "type": "string",
+                      "example": "0x1"
+                    },
+                    {
+                      "name": "totalGasSpentNative",
+                      "type": "string",
+                      "example": "1.23456789"
+                    },
+                    {
+                      "name": "avgGasPerTransactionNative",
+                      "type": "string",
+                      "example": "0.000021"
+                    },
+                    {
+                      "name": "nativeVolumeSent",
+                      "type": "string",
+                      "example": "5.0"
+                    },
+                    {
+                      "name": "nativeVolumeReceived",
+                      "type": "string",
+                      "example": "3.0"
+                    },
+                    {
+                      "name": "nativeNetFlow",
+                      "type": "string",
+                      "example": "-2.0"
+                    },
+                    {
+                      "name": "largestNativeTransferIn",
+                      "type": "string",
+                      "example": "1.0"
+                    },
+                    {
+                      "name": "largestNativeTransferOut",
+                      "type": "string",
+                      "example": "0.5"
+                    }
+                  ]
+                }
               }
             ]
           }
@@ -34191,10 +37491,6 @@
             "type": "object",
             "fields": [
               {
-                "name": "cursor",
-                "type": "string"
-              },
-              {
                 "name": "total",
                 "type": "number"
               },
@@ -35051,10 +38347,6 @@
           "body": {
             "type": "object",
             "fields": [
-              {
-                "name": "cursor",
-                "type": "string"
-              },
               {
                 "name": "total",
                 "type": "number"

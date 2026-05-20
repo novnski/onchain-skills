@@ -30,6 +30,7 @@ Successful response
 {
   "categories": [
     {
+      "chainId": "0x1",
       "categoryId": "0x1",
       "totalBuyVolume": {
         "5m": 6516719.425429553,

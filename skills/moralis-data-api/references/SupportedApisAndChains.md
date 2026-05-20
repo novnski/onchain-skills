@@ -109,14 +109,26 @@ Solana uses a separate base URL (`https://solana-gateway.moralis.io`) and dedica
 - **Wallet**: Native balance (`balance__solana`), portfolio (`getPortfolio__solana`)
 - **Token**: Metadata (`getTokenMetadata__solana`), prices (`getTokenPrice__solana`, `getMultipleTokenPrices__solana`)
 - **NFT**: Metadata (`getNFTMetadata__solana`), owned NFTs (`getNFTs__solana`)
+- **DeFi**: Wallet positions, protocol positions, and protocol summary through Universal v1 DeFi endpoints
 - **SPL**: SPL token balances (`getSPL__solana`)
 - **Analytics**: Token scores, trending tokens, volume stats, candlesticks, pair stats
 
 **Limitations:**
-- No DeFi position tracking on Solana
 - No profitability/PnL analysis
 - No floor price data
 - Price data only available on Mainnet
+
+### Universal / Bitcoin
+
+Universal v1 endpoints use `https://api.moralis.com` and are represented by rule files with the `__universal` suffix. These endpoints power the Bitcoin Data API pages and selected cross-chain Universal API pages.
+
+**Bitcoin Data API support:**
+- **Wallet**: BTC balances and wallet history by Bitcoin address or xpub (`getTokenBalances__universal`, `getWalletHistory__universal`)
+- **Blockchain**: Bitcoin block and transaction lookup (`getBlockByNumberOrHash__universal`, `getTransactionByHash__universal`)
+- **Price**: Current BTC price, historical time series, and sparkline data (`getTokenPrice__universal`, `getTokenPriceTimeSeries__universal`, `getTokenPriceSparkline__universal`)
+- **Xpub utility**: Derived Bitcoin addresses and transfer counts (`getAddressesByXpub__universal`)
+
+Use `chainAlias=bitcoin` or `chains=bitcoin` for Bitcoin examples unless the endpoint rule documents a different cross-chain request shape.
 
 ## Key Insights
 

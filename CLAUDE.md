@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a collection of Claude Code skills for integrating with the Moralis Web3 API. It provides modular skills for querying blockchain data from both EVM (Ethereum, Polygon, BSC, etc.) and Solana networks, plus real-time event streaming across EVM, Solana, and Bitcoin.
+This is a collection of Claude Code skills for integrating with the Moralis Web3 API. It provides modular skills for querying blockchain data from EVM (Ethereum, Polygon, BSC, etc.), Solana, and Universal / Bitcoin API paths, plus real-time event streaming across EVM, Solana, and Bitcoin.
 
 **Zero-dependency architecture:** All code uses only Node.js built-in modules (https, fs, path, url, crypto). No npm packages are installed.
 
@@ -18,12 +18,13 @@ skills/
 │   │   ├── ProductComparison.md
 │   │   └── UseCaseGuide.md
 │   └── SKILL.md
-├── moralis-data-api/           # Unified EVM + Solana data API (136 endpoints)
+├── moralis-data-api/           # Unified EVM + Solana + Universal / Bitcoin data API (156 endpoints)
 │   ├── rules/                  # Auto-generated endpoint docs (one per endpoint)
 │   ├── references/
 │   │   ├── ApiResponseCodes.md       # API response code patterns and handling guidance
 │   │   ├── CommonPitfalls.md         # Gotchas: data types, HTTP methods, path inconsistencies
 │   │   ├── DataTransformations.md    # Type conversions, field mappings, snake_case → camelCase
+│   │   ├── DataFeatureGuidance.md    # Enrichment, safety, pricing, and discovery feature behavior
 │   │   ├── DefiProtocols.md          # Supported DeFi protocols and chains
 │   │   ├── FilteredTokens.md         # Token discovery metrics, timeframes, and filter examples
 │   │   ├── NftMarketplaces.md        # Supported NFT marketplaces for trade/floor price endpoints
@@ -35,6 +36,7 @@ skills/
 │   │   ├── SpamDetection.md          # Spam flag interpretation and filtering guidance
 │   │   ├── TokenHoldersFaq.md        # Token Holders API FAQ and important notes
 │   │   ├── TokenSearch.md            # Token search functionality reference
+│   │   ├── UniversalAndBitcoin.md    # Universal v1 and Bitcoin Data API request patterns
 │   │   └── WalletHistory.md          # Wallet history categories and classifications
 │   └── SKILL.md
 └── moralis-streams-api/        # Real-time blockchain event streaming
@@ -49,6 +51,7 @@ skills/
     │   ├── ListenToAllAddresses.md   # Monitor events across every contract on a chain
     │   ├── MonitorMultipleAddresses.md # Best practices for multiple addresses
     │   ├── ReplayFailedWebhooks.md   # Replay events for failed webhook deliveries
+    │   ├── ReliabilityAndLifecycle.md # Confirmation, idempotency, lifecycle, rate limits, and re-org handling
     │   ├── SolanaStreams.md         # Solana program, mint, and network guidance
     │   ├── StreamConfiguration.md    # Cross-family configuration reference
     │   ├── Triggers.md              # Read-only contract call enrichment (balanceOf, etc.)
@@ -70,6 +73,7 @@ Each skill includes pattern reference files containing complete reference materi
 - `references/CommonPitfalls.md` - Gotchas: data type assumptions, HTTP methods, path inconsistencies
 - `references/ApiResponseCodes.md` - API response code patterns, response handling, and retry guidance
 - `references/DataTransformations.md` - Type conversions, field mappings (block numbers, timestamps, balances, snake_case → camelCase)
+- `references/DataFeatureGuidance.md` - Enrichment, safety, pricing, and discovery feature behavior
 - `references/DefiProtocols.md` - Supported DeFi protocols and chains for position endpoints
 - `references/FilteredTokens.md` - Token discovery metrics, timeframes, and filter examples
 - `references/NftMarketplaces.md` - Supported NFT marketplaces for trade/floor price endpoints
@@ -81,6 +85,7 @@ Each skill includes pattern reference files containing complete reference materi
 - `references/SpamDetection.md` - Spam flag interpretation, filtering behavior, and recommended handling
 - `references/TokenHoldersFaq.md` - Token Holders API FAQ and important notes
 - `references/TokenSearch.md` - Token search functionality reference
+- `references/UniversalAndBitcoin.md` - Universal v1 and Bitcoin Data API request patterns
 - `references/WalletHistory.md` - Wallet history categories and classifications
 
 ### moralis-streams-api
@@ -94,6 +99,7 @@ Each skill includes pattern reference files containing complete reference materi
 - `references/ListenToAllAddresses.md` - Monitor events across every contract on a chain
 - `references/MonitorMultipleAddresses.md` - Best practices for multiple addresses in streams
 - `references/ReplayFailedWebhooks.md` - Replay events for failed webhook deliveries
+- `references/ReliabilityAndLifecycle.md` - Confirmation, idempotency, lifecycle, rate limits, and re-org handling
 - `references/SolanaStreams.md` - Solana network, program, mint, and address guidance
 - `references/StreamConfiguration.md` - Cross-family stream config reference
 - `references/Triggers.md` - Read-only contract call enrichment (balanceOf, etc.)
@@ -158,7 +164,7 @@ node scripts/bump-version.js <skill|all> <major|minor|patch>
 
 ## Source of Truth
 
-`swagger/api-configs.json` defines all endpoints. The `generate-endpoint-rules.js` script:
+`swagger/api-configs.json` defines all endpoints and is generated from the docs-owned OpenAPI files in `scripts/swagger-config.json`. The `generate-endpoint-rules.js` script:
 1. Reads `api-configs.json`
 2. Creates per-endpoint markdown files in `skills/*/rules/`
 3. Updates SKILL.md files with endpoint catalogs
@@ -169,6 +175,7 @@ node scripts/bump-version.js <skill|all> <major|minor|patch>
 
 - **Solana endpoints:** Always suffixed with `__solana` (e.g., `balance__solana.md`)
 - **EVM endpoints:** No suffix unless collision exists (then `__evm`)
+- **Universal v1 endpoints:** Always suffixed with `__universal` because operation IDs often overlap with EVM/Solana
 - This convention is strictly enforced by the generator script
 
 ## Sensitive Literal Policy

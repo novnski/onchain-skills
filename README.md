@@ -50,28 +50,29 @@ Without the key, the skills can't call the Moralis API on your behalf.
 
 | Skill | Description |
 |-------|-------------|
-| **moralis-data-api** | EVM + Solana blockchain data (136 endpoints) |
+| **moralis-data-api** | EVM + Solana + Universal / Bitcoin blockchain data (156 endpoints) |
 | **moralis-streams-api** | Real-time event monitoring with webhooks across EVM, Solana, and Bitcoin (45 endpoints) |
 | **learn-moralis** | Routing, FAQ, pricing, and capability guidance |
 
 ## moralis-data-api
 
-Unified skill for all blockchain data queries. Auto-detects EVM vs Solana from address format.
+Unified skill for blockchain data queries across EVM, Solana, and Universal / Bitcoin API paths. Auto-detects EVM vs Solana from address format, and uses Universal v1 rules for Bitcoin address, xpub, block, transaction, price, and cross-chain requests.
 
 **Default Chain:** For EVM addresses without a specified chain, defaults to Ethereum (`0x1`).
 
-**136 endpoints** (102 EVM + 34 Solana) across these categories:
+**156 endpoints** (106 EVM + 35 Solana + 15 Universal / Bitcoin) across these categories:
 
-- **Wallet** (17) — balances, tokens, NFTs, history, profitability, net worth
+- **Wallet** (18) — balances, tokens, NFTs, history, profitability, approvals, insights, net worth
 - **Token** (22) — prices, metadata, pairs, DEX swaps, analytics, security scores, snipers
-- **NFT** (22) — metadata, transfers, traits, rarity, floor prices, trades
+- **NFT** (24) — metadata, transfers, traits, rarity, floor prices, trades
 - **DeFi** (3) — protocol positions, liquidity, exposure
 - **Entity** (2) — labeled addresses (exchanges, funds, whales)
 - **Price** (4) — OHLCV, token prices, pair prices
 - **Blockchain** (5) — blocks, transactions, date-to-block
-- **Discovery** (13) — trending tokens, market movers, top gainers/losers
+- **Discovery** (14) — trending tokens, market movers, top gainers/losers
 - **Other** (14) — address resolution, token search, bonding, candlesticks, graduated tokens
-- **Solana** (34) — native Solana endpoints + EVM endpoints with Solana support
+- **Solana** (35) — native Solana endpoints + EVM endpoints with Solana support
+- **Universal / Bitcoin** (15) — Bitcoin xpubs, balances, history, blocks, transactions, prices, and cross-chain Universal endpoints
 
 ```
 /moralis-data-api Get the balance of YOUR_EVM_ADDRESS
@@ -79,6 +80,10 @@ Unified skill for all blockchain data queries. Auto-detects EVM vs Solana from a
 /moralis-data-api Get the balance of YOUR_EVM_ADDRESS on Polygon
 
 /moralis-data-api Get the balance of Solana wallet YOUR_SOLANA_ADDRESS
+
+/moralis-data-api Get Bitcoin wallet history for YOUR_BTC_ADDRESS
+
+/moralis-data-api Derive addresses from YOUR_XPUB
 ```
 
 > **Tip:** Prefix your prompt with the skill name (e.g. `/moralis-data-api`) to load it directly. Some agents auto-detect skills, but tagging ensures it works across all agents.
@@ -119,7 +124,7 @@ Knowledge-only skill for answering general questions about Moralis. Routes users
 
 **Solana:** mainnet, devnet
 
-**Bitcoin:** mainnet
+**Bitcoin:** mainnet via Universal Data API and Streams
 
 ## Architecture
 
@@ -132,8 +137,10 @@ Knowledge-only skill for answering general questions about Moralis. Routes users
 ## Documentation
 
 - Get API key: [admin.moralis.com/register](https://admin.moralis.com/register)
-- [EVM API Docs](https://deep-index.moralis.io/api-docs-2.2/)
-- [Solana API Docs](https://solana-gateway.moralis.io/api/)
+- [EVM API Docs](https://docs.moralis.com/data-api/evm/overview.md)
+- [Solana API Docs](https://docs.moralis.com/data-api/solana/solana-index.md)
+- [Bitcoin Data API Docs](https://docs.moralis.com/data-api/bitcoin/bitcoin-index.md)
+- [Universal API Docs](https://docs.moralis.com/data-api/universal/overview.md)
 - [Streams API Docs](https://docs.moralis.com/streams/overview.md)
 - [Bitcoin Streams Docs](https://docs.moralis.com/streams/bitcoin-streams.md)
 

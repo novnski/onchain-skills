@@ -46,7 +46,7 @@ Returns the bonding tokens for the specified exchange.
   "total": 10,
   "page": 1,
   "page_size": 100,
-  "cursor": "<cursor_from_previous_response>",
+  "cursor": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
   "result": [
     {
       "tokenAddress": "YOUR_TOKEN_ADDRESS",

@@ -428,6 +428,58 @@ const applySwaggerFixes = (configs) => {
     rewriteDocUrls(configs);
 
     const streams = configs.streams;
+    const universal = configs.universal;
+
+    if (universal) {
+        const universalPathExamples = {
+            chainAlias: "bitcoin",
+            publicKey: "YOUR_XPUB",
+            blockIdentifier: 123456,
+            txHash: "YOUR_TX_HASH",
+            tokenAliasOrTokenAddress: "bitcoin",
+            pairAddress: "YOUR_PAIR_ADDRESS",
+            tokenAddress: "YOUR_TOKEN_ADDRESS",
+            walletAddressOrPublicKey: "YOUR_BTC_ADDRESS",
+            walletAddress: "YOUR_EVM_ADDRESS",
+            protocol: "uniswap-v3",
+        };
+        const universalPathDescriptions = {
+            chainAlias: "Chain alias such as bitcoin, eth, polygon, base, or solana",
+            publicKey: "Bitcoin extended public key (xpub)",
+            blockIdentifier: "Block number or block hash",
+            txHash: "Transaction hash",
+            tokenAliasOrTokenAddress: "Token alias such as bitcoin or a token address",
+            pairAddress: "DEX pair address",
+            tokenAddress: "Token address",
+            walletAddressOrPublicKey: "Wallet address or Bitcoin xpub",
+            walletAddress: "Wallet address",
+            protocol: "Protocol identifier",
+        };
+
+        for (const endpoint of Object.values(universal)) {
+            for (const param of endpoint.pathParams || []) {
+                if (Object.prototype.hasOwnProperty.call(universalPathExamples, param.name)) {
+                    param.example = universalPathExamples[param.name];
+                    param.description = param.description || universalPathDescriptions[param.name];
+                }
+            }
+
+            for (const param of endpoint.queryParams || []) {
+                if (param.name === "chains") {
+                    param.example = "bitcoin";
+                    param.description =
+                        param.description || "Comma-separated chain aliases, such as bitcoin or eth,polygon";
+                } else if (param.name === "chain") {
+                    param.example = "bitcoin";
+                } else if (param.name === "limit" && param.example === undefined) {
+                    param.example = 100;
+                } else if (param.name === "cursor" && param.example === undefined) {
+                    param.example = "YOUR_CURSOR";
+                }
+            }
+        }
+    }
+
     if (!streams) return;
 
     const streamSummaryFixes = {

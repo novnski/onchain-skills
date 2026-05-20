@@ -109,7 +109,7 @@ Detailed comparison of Moralis products to help users choose the right solution.
 ## API Categories Within Data APIs
 
 ### Wallet API
-- Balances, tokens, NFTs, history
+- Balances, tokens, NFTs, history, Bitcoin address/xpub history
 - Per-address queries
 - Most common starting point
 
@@ -129,12 +129,12 @@ Detailed comparison of Moralis products to help users choose the right solution.
 - Portfolio/risk management
 
 ### Blockchain API
-- Blocks, transactions, logs
+- Blocks, transactions, logs, Bitcoin block/transaction lookup
 - Raw chain data access
 - Explorer-like functionality
 
 ### Price API
-- Real-time and historical prices
+- Real-time and historical prices, including Universal / Bitcoin price paths
 - OHLCV candlestick data
 - Trading/charting use cases
 

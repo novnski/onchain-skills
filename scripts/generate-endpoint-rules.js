@@ -17,7 +17,7 @@ const SKILLS_DIR = path.join(__dirname, "../skills");
 // Skill mappings
 const SKILL_MAPPINGS = {
   "moralis-data-api": {
-    sources: ["evm", "solana"],
+    sources: ["evm", "solana", "universal"],
     rulesDir: path.join(SKILLS_DIR, "moralis-data-api", "rules"),
   },
   "moralis-streams-api": {
@@ -38,18 +38,13 @@ const IGNORED_ENDPOINTS = new Set([
   "syncNFTContract",
   // EVM endpoints with incorrect names or not in official docs
   "endpointWeights", // should be getEndpointWeights
-  "getTrendingTokensV2", // should be getTrendingTokens
   // Discovery endpoints not in official reference docs
   "getBlueChipTokens",
   "getBuyingPressureTokens",
   "getExperiencedBuyersTokens",
-  "getHottestNFTCollectionsByTradingVolume",
   "getRisingLiquidityTokens",
   "getRiskyBetsTokens",
   "getSolidPerformersTokens",
-  "resyncNFTRarity",
-  // Deprecated in favor of better alternatives
-  "getWalletTokenBalances", // use getWalletTokenBalancesPrice instead (includes prices)
 ]);
 
 /**
@@ -73,9 +68,17 @@ function getFilename(operationId, source) {
     return operationId + "__solana.md";
   }
 
+  // Universal v1 endpoints use their own suffix because many operationIds
+  // overlap with EVM/Solana while pointing at /v1 paths.
+  if (source === "universal") {
+    return operationId + "__universal.md";
+  }
+
   // EVM endpoints - check if Solana version exists in pre-built registry
   if (source === "evm") {
-    const hasSolanaVersion = operationRegistry[operationId] === "solana";
+    const hasSolanaVersion =
+      operationRegistry[operationId] &&
+      operationRegistry[operationId].has("solana");
     if (hasSolanaVersion) {
       return operationId + "__evm.md";
     }
@@ -88,18 +91,17 @@ function getFilename(operationId, source) {
 
 /**
  * Register an operationId in the global registry for collision detection.
- * LAST registration wins for EVM/Solana collision detection.
+ * Register all sources for an operationId so filename decisions are stable.
  *
  * IMPORTANT: All endpoints must be registered BEFORE getFilename() is called
  * to ensure correct collision detection regardless of processing order.
  *
- * NOTE: Since sources are processed in order ["evm", "solana"], Solana entries
- * will overwrite EVM entries for the same operationId. This is intentional -
- * getFilename() checks if the registry equals "solana" to detect collisions.
  */
 function registerOperation(operationId, source) {
-  // Last registration wins (Solana overwrites EVM for collisions)
-  operationRegistry[operationId] = source;
+  if (!operationRegistry[operationId]) {
+    operationRegistry[operationId] = new Set();
+  }
+  operationRegistry[operationId].add(source);
 }
 
 /**
@@ -754,6 +756,7 @@ function generateEndpointMarkdown(operationId, endpoint, source) {
 function generateDataApiCatalog(apiConfigs) {
   const evm = apiConfigs.evm || {};
   const solana = apiConfigs.solana || {};
+  const universal = apiConfigs.universal || {};
 
   // Explicit endpoint categorization by operationId pattern
   const categoryPatterns = [
@@ -881,6 +884,9 @@ function generateDataApiCatalog(apiConfigs) {
   const solanaNativeCount = Object.keys(solana).filter(
     (id) => !shouldIgnoreEndpoint(id),
   ).length;
+  const universalCount = Object.keys(universal).filter(
+    (id) => !shouldIgnoreEndpoint(id),
+  ).length;
 
   // Count EVM endpoints with Solana chain support (for variants)
   const solanaOps = new Set(Object.keys(solana || {}));
@@ -894,7 +900,7 @@ function generateDataApiCatalog(apiConfigs) {
   }
 
   const totalSolana = solanaNativeCount + evmSolanaVariantCount;
-  const totalCount = evmCount + totalSolana;
+  const totalCount = evmCount + totalSolana + universalCount;
 
   // Generate catalog markdown
   let md = "## Endpoint Catalog\n\n";
@@ -905,7 +911,9 @@ function generateDataApiCatalog(apiConfigs) {
     evmCount +
     " EVM + " +
     totalSolana +
-    " Solana) organized by category.\n\n";
+    " Solana + " +
+    universalCount +
+    " Universal / Bitcoin) organized by category.\n\n";
 
   // EVM categories
   for (const [catKey, catDef] of Object.entries(categoryTitles)) {
@@ -978,6 +986,23 @@ function generateDataApiCatalog(apiConfigs) {
       "**Solana variant:** " + (endpoint.summary || "").substring(0, 60);
     const filename = opId + "__solana.md";
     md += "| [" + opId + "](rules/" + filename + ") | " + desc + " |\n";
+  }
+
+  if (universalCount > 0) {
+    md += "\n### Universal / Bitcoin Endpoints\n\n";
+    md +=
+      "Universal v1 endpoints used by the Bitcoin Data API and cross-chain Universal API pages.\n\n";
+    md += "| Endpoint | Description |\n";
+    md += "|----------|-------------|\n";
+
+    for (const [opId, endpoint] of Object.entries(universal).sort()) {
+      if (shouldIgnoreEndpoint(opId)) {
+        continue;
+      }
+      const desc = (endpoint.summary || "").substring(0, 120);
+      const filename = getFilename(opId, "universal");
+      md += "| [" + opId + "](rules/" + filename + ") | " + desc + " |\n";
+    }
   }
 
   return md;
