@@ -83,8 +83,8 @@ Returns a collection of NFT owners
       },
       "media": {
         "mimetype": "mimetype_example",
-        "category": null,
-        "status": null,
+        "category": "image",
+        "status": "success",
         "original_media_url": "original_media_url_example",
         "updatedAt": "updatedAt_example",
         "parent_hash": "parent_hash_example",

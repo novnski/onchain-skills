@@ -49,8 +49,8 @@ Status: 200
   "page": 0,
   "pairAddress": "pairAddress_example",
   "tokenAddress": "tokenAddress_example",
-  "timeframe": "timeframe_example",
-  "currency": "currency_example",
+  "timeframe": "1s",
+  "currency": "usd",
   "result": [
     {
       "timestamp": "timestamp_example",

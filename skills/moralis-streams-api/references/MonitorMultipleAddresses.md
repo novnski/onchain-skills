@@ -43,10 +43,7 @@ curl -X POST "https://api.moralis-streams.com/streams/evm/{streamId}/address" \
 
 ```json
 {
-  "addresses": [
-    "YOUR_EVM_ADDRESS",
-    "YOUR_EVM_ADDRESS"
-  ],
+  "address": "YOUR_EVM_ADDRESS",
   "streamId": "YOUR_STREAM_ID"
 }
 ```
@@ -86,9 +83,7 @@ curl -X DELETE "https://api.moralis-streams.com/streams/evm/{streamId}/address" 
 
 ```json
 {
-  "addresses": [
-    "YOUR_EVM_ADDRESS"
-  ],
+  "address": "YOUR_EVM_ADDRESS",
   "streamId": "YOUR_STREAM_ID"
 }
 ```
@@ -124,12 +119,10 @@ curl -X GET "https://api.moralis-streams.com/streams/evm/{streamId}/address?limi
 ```json
 {
   "result": [
-    "YOUR_EVM_ADDRESS",
-    "YOUR_EVM_ADDRESS",
-    "YOUR_EVM_ADDRESS"
+    { "address": "YOUR_EVM_ADDRESS" }
   ],
   "cursor": "<cursor_value>",
-  "total": 3
+  "total": 1
 }
 ```
 

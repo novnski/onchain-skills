@@ -48,13 +48,13 @@ Ok
       "id": "id_example",
       "streamId": "streamId_example",
       "chain": "chain_example",
-      "webhookUrl": "webhookUrl_example",
-      "tag": "tag_example",
+      "webhookUrl": "https://your-server.com/webhook",
+      "tag": "evm-monitor",
       "retries": 0,
-      "deliveryStatus": "deliveryStatus_example",
+      "deliveryStatus": "failed",
       "blockNumber": 0,
       "errorMessage": "errorMessage_example",
-      "type": "type_example",
+      "type": "evm",
       "createdAt": "createdAt_example",
       "transactionHashes": [
         "transactionHashes_example"

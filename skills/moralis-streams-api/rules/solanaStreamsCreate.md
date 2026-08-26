@@ -20,7 +20,7 @@ PUT
 | tag | string | Yes | A user-provided tag that will be send along the webhook | \`solana-monitor\` |
 | mintAddresses | array | No | Solana token mint addresses to filter transactions by | \`["YOUR_SOLANA_MINT"]\` |
 | programIds | array | No | Solana program IDs to filter transactions by | \`["YOUR_SOLANA_PROGRAM_ID"]\` |
-| network | array | Yes | The supported network. Solana Streams supports mainnet only. | \`["mainnet"]\` |
+| network | array (mainnet) | Yes | The supported network. Solana Streams supports mainnet only. | \`["mainnet"]\` |
 | description | string | Yes | A description for this stream | \`Monitor Solana program activity\` |
 | allAddresses | boolean | No | Include events for all addresses | \`false\` |
 
@@ -34,10 +34,10 @@ Ok
 {
   "id": "id_example",
   "allAddresses": true,
-  "description": "description_example",
+  "description": "Monitor Solana activity",
   "isErrorSince": "isErrorSince_example",
   "network": [
-    "network_example"
+    "mainnet"
   ],
   "programIds": [
     "programIds_example"
@@ -45,10 +45,10 @@ Ok
   "mintAddresses": [
     "mintAddresses_example"
   ],
-  "status": "[object Object]",
+  "status": "active",
   "statusMessage": "statusMessage_example",
-  "tag": "tag_example",
-  "webhookUrl": "webhookUrl_example",
+  "tag": "solana-monitor",
+  "webhookUrl": "https://your-server.com/webhook",
   "amountOfAddresses": 0,
   "updatedAt": "updatedAt_example"
 }

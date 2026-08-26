@@ -25,9 +25,9 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chains | array | No | Chains to query | \`bitcoin\` |
+| chains | array (0x1, ethereum, 0x15b38, chiliz, 0x19, cro, 0x2105, base, 0x38, binance, 0x440, metis, 0x46f, lisk, 0x504, moon beam, 0x505, moon river, 0x531, sei, 0x64, gnosis, 0x7e4, ronin, 0x89, polygon, 0x8f, monad, 0x92, sonic, 0xa, optimism, 0xa4b1, arbitrum, 0xa86a, avalanche, 0xe708, linea, solana-mainnet, sol, all, mainnets, testnets) | No | Chains to query | \`ethereum\` |
 | limit | number | No | Maximum number of positions to return per page | \`100\` |
-| cursor | string | No | Pagination cursor for next page | \`YOUR_CURSOR\` |
+| cursor | string | No | Pagination cursor for next page | - |
 
 ## Cursor/Pagination
 
@@ -68,11 +68,11 @@ Status: 200
     "totalUnclaimedUsd": {},
     "positions": [
       {
-        "label": "label_example",
+        "label": "lending",
         "address": {},
         "tokens": [
           {
-            "tokenType": "tokenType_example",
+            "tokenType": "supplied",
             "name": {},
             "symbol": {},
             "address": "address_example",
@@ -87,7 +87,7 @@ Status: 200
         "balanceUsd": {},
         "unclaimedUsd": {},
         "details": {
-          "type": "type_example",
+          "type": "lending",
           "isDebt": true,
           "lending": {
             "healthFactor": {}
@@ -106,7 +106,7 @@ Status: 200
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis.com/v1/wallets/YOUR_EVM_ADDRESS/defi/uniswap-v3/positions?chains=bitcoin&limit=100&cursor=YOUR_CURSOR" \
+curl -X GET "https://api.moralis.com/v1/wallets/YOUR_EVM_ADDRESS/defi/uniswap-v3/positions?chains=ethereum&limit=100" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

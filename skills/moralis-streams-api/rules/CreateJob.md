@@ -16,11 +16,11 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chainId | string | Yes | - | \`string\` |
-| streamId | string | Yes | - | \`string\` |
-| fromTimestamp | number | Yes | - | \`0\` |
-| toTimestamp | number | Yes | - | \`0\` |
-| addresses | array | No | - | \`[]\` |
+| chainId | string | Yes | Hex chain ID for the stream, such as 0x1 for Ethereum | \`0x1\` |
+| streamId | string | Yes | The stream ID to backfill | \`YOUR_STREAM_ID\` |
+| fromTimestamp | number | Yes | Start of the historical window as a Unix timestamp in seconds | \`1700000000\` |
+| toTimestamp | number | Yes | End of the historical window as a Unix timestamp in seconds | \`1700000060\` |
+| addresses | array | No | - | \`["YOUR_EVM_ADDRESS"]\` |
 
 ## Response Example
 
@@ -46,10 +46,12 @@ curl -X POST "https://api.moralis-streams.com/historical-jobs/create-job" \
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "chainId": "string",
-  "streamId": "string",
-  "fromTimestamp": 0,
-  "toTimestamp": 0,
-  "addresses": []
+  "chainId": "0x1",
+  "streamId": "YOUR_STREAM_ID",
+  "fromTimestamp": 1700000000,
+  "toTimestamp": 1700000060,
+  "addresses": [
+    "YOUR_EVM_ADDRESS"
+  ]
 }'
 ```

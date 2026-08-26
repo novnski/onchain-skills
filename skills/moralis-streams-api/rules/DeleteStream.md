@@ -18,8 +18,7 @@ DELETE
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | Stringified UUIDv4.
-See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
+| id | string | Yes | Stringified UUIDv4.<br>See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
 
 ## Response Example
 
@@ -29,9 +28,9 @@ Ok
 
 ```json
 {
-  "webhookUrl": "webhookUrl_example",
-  "description": "description_example",
-  "tag": "tag_example",
+  "webhookUrl": "https://your-server.com/webhook",
+  "description": "Monitor EVM activity",
+  "tag": "evm-monitor",
   "topic0": [
     "topic0_example"
   ],
@@ -45,19 +44,19 @@ Ok
       "selectors": [
         "selectors_example"
       ],
-      "type": "type_example"
+      "type": "tx"
     }
   ],
   "abi": null,
   "advancedOptions": null,
   "chainIds": [
-    "chainIds_example"
+    "0x1"
   ],
   "filterPossibleSpamAddresses": true,
   "demo": true,
   "triggers": [
     {
-      "type": "type_example",
+      "type": "tx",
       "contractAddress": "contractAddress_example",
       "inputs": [
         "inputs_example"
@@ -97,7 +96,7 @@ Ok
     }
   ],
   "id": "id_example",
-  "status": "[object Object]",
+  "status": "active",
   "statusMessage": "statusMessage_example",
   "updatedAt": "updatedAt_example",
   "amountOfAddresses": 0

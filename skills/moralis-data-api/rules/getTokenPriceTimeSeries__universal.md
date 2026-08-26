@@ -26,7 +26,7 @@ GET
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
 | limit | number | No | The limit per page | \`100\` |
-| cursor | string | No | The cursor to the next page | \`YOUR_CURSOR\` |
+| cursor | string | No | The cursor to the next page | - |
 | interval | string (5m, hourly, daily, weekly, monthly) | No | The time interval for price data points. Defaults to 5m if not provided. | \`hourly\` |
 | fromDate | string | No | The starting date (format in seconds or datestring accepted by momentjs). Defaults to 24 hours before toDate if not provided. | \`2025-01-01T00:00:00Z\` |
 | toDate | string | No | The ending date (format in seconds or datestring accepted by momentjs). Defaults to now if not provided. | \`2025-01-07T00:00:00Z\` |
@@ -66,7 +66,7 @@ Status: 200
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis.com/v1/chains/bitcoin/tokens/native/price/timeseries?limit=100&cursor=YOUR_CURSOR&interval=hourly&fromDate=2025-01-01T00%3A00%3A00Z&toDate=2025-01-07T00%3A00%3A00Z" \
+curl -X GET "https://api.moralis.com/v1/chains/bitcoin/tokens/native/price/timeseries?limit=100&interval=hourly&fromDate=2025-01-01T00%3A00%3A00Z&toDate=2025-01-07T00%3A00%3A00Z" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

@@ -10,7 +10,7 @@ Webhook payloads are family-specific. Do not parse Solana or Bitcoin payloads wi
 | --- | --- | --- | --- |
 | EVM | `transactionHash` inside event arrays or `hash` inside `txs` | `logs`, `txs`, `txsInternal`, `erc20Transfers`, `nftTransfers` | Uses hex `chainId`, ABI decoding, and EVM event arrays |
 | Solana | `signature` | `transactions` | Uses `accountKeys`, `instructions`, `innerInstructions`, `preTokenBalances`, and `postTokenBalances` |
-| Bitcoin | `txid` | `txs` | Uses UTXO `vin` / `vout`; output values are BTC decimals |
+| Bitcoin | `txid` | `transactions` | Uses UTXO `vin` / `vout`; output values are BTC decimals |
 
 ## Common EVM Fields
 
@@ -57,9 +57,9 @@ Reach for these fields first in Bitcoin payloads:
 | Field | Description |
 | --- | --- |
 | `chainId` | Bitcoin chain identifier such as `btc-mainnet` |
-| `txs[].txid` | Bitcoin transaction id |
-| `txs[].vout` | Parsed outputs; values are BTC decimals |
-| `txs[].vin` | Input structure; address and value may be null on confirmed-block deliveries |
+| `transactions[].txid` | Bitcoin transaction id |
+| `transactions[].vout` | Parsed outputs; values are BTC decimals |
+| `transactions[].vin` | Input structure; address and value may be null on confirmed-block deliveries |
 
 For Bitcoin mempool deliveries, the same payload shape is used with sentinel block values: `block.height: "0"` and `block.hash: "mempool"`. Branch on those values before doing block-specific work.
 
@@ -508,7 +508,7 @@ When [Triggers](Triggers.md) are configured on a stream, matching events include
       "from": "0x1234...",
       "to": "0x5678...",
       "value": "1000000000000000000",
-      "triggered_by": "erc20transfer",
+      "triggered_by": ["erc20transfer"],
       "triggers": [
         {
           "name": "balanceOf",
@@ -522,7 +522,7 @@ When [Triggers](Triggers.md) are configured on a stream, matching events include
 
 | Field | Description |
 |-------|-------------|
-| `triggered_by` | The event type that activated the trigger |
+| `triggered_by` | Array of event types that activated the trigger |
 | `triggers` | Array of trigger results with `name` (function name) and `value` (return value) |
 
 ## Block Object

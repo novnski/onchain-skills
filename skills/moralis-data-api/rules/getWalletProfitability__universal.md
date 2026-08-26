@@ -24,13 +24,13 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chains | array | No | Chains to query | \`ethereum\` |
+| chains | array (0x1, ethereum, 0x171, pulse, 0x2105, base, 0x38, binance, 0x89, polygon, 0xa, optimism, 0xa86a, avalanche, all, mainnets) | No | Chains to query | \`ethereum\` |
 | tokenAddresses | array | No | Filter to specific token addresses. A single value is coerced to a one-element array. Omit to return all tokens. | - |
 | period | string | No | Period (e.g. 7d, 30d, all). Ignored when fromTimestamp/toTimestamp are provided. | \`7d\` |
 | fromTimestamp | string | No | From timestamp in ms. | - |
 | toTimestamp | string | No | To timestamp in ms. | - |
 | limit | number | No | - | \`100\` |
-| cursor | string | No | Encoded v2 cursor (JWT). | \`YOUR_CURSOR\` |
+| cursor | string | No | Encoded v2 cursor (JWT). | - |
 | sortBy | string (realizedPnl, unrealizedPnl, totalPnl, volume, tradeCount) | No | - | - |
 | excludeLowLiquidity | boolean | No | - | - |
 | minVolumeUsd | number | No | - | - |
@@ -106,7 +106,7 @@ Status: 200
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis.com/v1/wallets/YOUR_EVM_ADDRESS/pnl?chains=ethereum&period=7d&limit=100&cursor=YOUR_CURSOR" \
+curl -X GET "https://api.moralis.com/v1/wallets/YOUR_EVM_ADDRESS/pnl?chains=ethereum&period=7d&limit=100" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

@@ -29,7 +29,7 @@ GET
 | fromTimestamp | string | No | - | - |
 | toTimestamp | string | No | - | - |
 | limit | number | No | - | \`100\` |
-| cursor | string | No | Encoded v2 cursor (JWT). | \`YOUR_CURSOR\` |
+| cursor | string | No | Encoded v2 cursor (JWT). | - |
 | sortBy | string (realizedPnl, unrealizedPnl, totalPnl, volume, tradeCount) | No | - | - |
 | excludeLowLiquidity | boolean | No | - | - |
 | minVolumeUsd | number | No | - | - |
@@ -90,7 +90,7 @@ Status: 200
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis.com/v1/chains/ethereum/tokens/YOUR_TOKEN_ADDRESS/top-traders?limit=100&cursor=YOUR_CURSOR" \
+curl -X GET "https://api.moralis.com/v1/chains/ethereum/tokens/YOUR_TOKEN_ADDRESS/top-traders?limit=100" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

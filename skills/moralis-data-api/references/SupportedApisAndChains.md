@@ -21,7 +21,7 @@ Complete list of supported Web3 Data APIs and blockchain networks with feature a
 
 ## Support by Chain
 
-Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
+Legend: ✅ Supported | ❌ Not Supported
 
 ### Major EVM Chains
 
@@ -31,7 +31,7 @@ Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
 | **Sepolia** (0xaa36a7) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Polygon** (0x89)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Amoy** (0x13882)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **BSC** (0x38)         | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
+| **BSC** (0x38)         | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **BSC Testnet** (0x61) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 
 ### L2 Chains
@@ -42,14 +42,14 @@ Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
 | **Arbitrum Sepolia** (0x66eee)  | ❌     | ❌  | ❌    | ❌   | ❌     | ❌         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Base** (0x2105)               | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Base Sepolia** (0x14a34)      | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Optimism** (0xa)              | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
+| **Optimism** (0xa)              | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Optimism Sepolia** (0xaa37dc) | ❌     | ❌  | ❌    | ❌   | ❌     | ❌         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 
 ### Alternative Chains
 
 | Chain                      | Wallet | NFT | Token | DeFi | Entity | Blockchain | PnL | Prices | Internal Tx | NFT Trades | NFT Prices | Floor Prices |
 | -------------------------- | ------ | --- | ----- | ---- | ------ | ---------- | --- | ------ | ----------- | ---------- | ---------- | ------------ |
-| **Avalanche** (0xa86a)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
+| **Avalanche** (0xa86a)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Cronos** (0x19)          | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ❌          | ❌         | ❌         | ❌           |
 | **Gnosis** (0x64)          | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ❌          | ❌         | ❌         | ❌           |
 | **Linea** (0xe708)         | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
@@ -66,26 +66,26 @@ Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
 | **Ronin** (0x7e4)            | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Ronin Saigon** (0x7e5)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Lisk** (0x46f, deprecated Sep 25) | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| **Pulse** (0x171)            | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
+| **Pulse** (0x171)            | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ✅  | ✅     | ✅          | ❌         | ❌         | ❌           |
 | **Sei** (0x531)              | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Sei Testnet** (0x530)      | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Monad** (0x8f)             | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 
-### Coming Soon / Unsupported
+### Not Supported by the Data API
 
 | Chain                             | Status         |
 | --------------------------------- | -------------- |
-| **Blast** (0x13e31)               | 🔄 Coming Soon |
-| **Blast Sepolia** (0xa0c71fd)     | 🔄 Coming Soon |
-| **zkSync** (0x144)                | 🔄 Coming Soon |
-| **zkSync Sepolia** (0x12c)        | 🔄 Coming Soon |
-| **Mantle** (0x1388)               | 🔄 Coming Soon |
-| **Mantle Sepolia** (0x138b)       | 🔄 Coming Soon |
-| **opBNB** (0xcc)                  | 🔄 Coming Soon |
-| **Polygon zkEVM** (0x44d)         | 🔄 Coming Soon |
-| **Polygon zkEVM Cardona** (0x98a) | 🔄 Coming Soon |
-| **Zetachain** (0x1b58)            | 🔄 Coming Soon |
-| **Zetachain Testnet** (0x1b59)    | 🔄 Coming Soon |
+| **Blast** (0x13e31)               | ❌ Unsupported |
+| **Blast Sepolia** (0xa0c71fd)     | ❌ Unsupported |
+| **zkSync** (0x144)                | ❌ Unsupported |
+| **zkSync Sepolia** (0x12c)        | ❌ Unsupported |
+| **Mantle** (0x1388)               | ❌ Unsupported |
+| **Mantle Sepolia** (0x138b)       | ❌ Unsupported |
+| **opBNB** (0xcc)                  | ❌ Unsupported |
+| **Polygon zkEVM** (0x44d)         | ❌ Unsupported |
+| **Polygon zkEVM Cardona** (0x98a) | ❌ Unsupported |
+| **Zetachain** (0x1b58)            | ❌ Unsupported |
+| **Zetachain Testnet** (0x1b59)    | ❌ Unsupported |
 | **HyperEVM** (0x3e7)              | ❌ Unsupported |
 
 ### Solana
@@ -127,21 +127,19 @@ Use `chainAlias=bitcoin` or `chains=bitcoin` for Bitcoin examples unless the end
 
 ### Full API Coverage
 
-Only **Ethereum (0x1)**, **Polygon (0x89)**, and **Base (0x2105)** have full coverage across the listed Data API columns, including PnL and floor prices.
+**Ethereum, Polygon, BSC, Base, Optimism, and Avalanche** have full coverage across the listed Data API columns, including Universal PnL and floor prices.
 
 ### Strong Coverage (Most APIs)
 
-- **BSC** - Missing profitability
 - **Arbitrum** - Missing profitability
-- **Optimism** - Missing profitability
-- **Avalanche** - Missing profitability
 - **Ronin** - Missing DeFi and profitability
 - **Sei** - Missing profitability
 - **Monad** - Missing profitability
+- **Pulse** - Universal PnL is supported, while NFT and DeFi coverage remains limited
 
 ### Common Limitations
 
-- **Profitability API**: Only supported on Ethereum, Polygon, Base
+- **Universal PnL**: Supported on Ethereum, Base, BNB Chain, Polygon, Optimism, Avalanche, and Pulse
 - **Internal Transactions**: EVM-only; supported on documented EVM mainnets with historical and real-time coverage. Testnets are not supported.
 - **NFT Floor Prices**: Supported on the mainnet chains marked in the table, including Ethereum, Polygon, BSC, Arbitrum, Base, Optimism, Avalanche, Ronin, Sei, and Monad
 - **DeFi API**: Testnets generally don't support DeFi protocol data

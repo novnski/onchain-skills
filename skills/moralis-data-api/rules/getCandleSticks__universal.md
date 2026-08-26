@@ -18,7 +18,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chainAlias | string (0x1, ethereum, 0x15b38, chiliz, 0x171, pulse, 0x19, cro, 0x2105, base, 0x2eb, flow, 0x38, binance, 0x46f, lisk, 0x504, moon beam, 0x531, sei, 0x64, gnosis, 0x89, polygon, 0x8f, monad, 0xa, optimism, 0xa4b1, arbitrum, 0xa86a, avalanche, 0xe708, linea) | Yes | The alias of the chain. | \`bitcoin\` |
+| chainAlias | string (0x1, ethereum, 0x15b38, chiliz, 0x171, pulse, 0x19, cro, 0x2105, base, 0x2eb, flow, 0x38, binance, 0x46f, lisk, 0x504, moon beam, 0x531, sei, 0x64, gnosis, 0x89, polygon, 0x8f, monad, 0xa, optimism, 0xa4b1, arbitrum, 0xa86a, avalanche, 0xe708, linea) | Yes | The alias of the chain. | \`ethereum\` |
 | pairAddress | string | Yes | The address | \`YOUR_PAIR_ADDRESS\` |
 
 ## Query Params
@@ -26,7 +26,7 @@ GET
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
 | limit | number | No | The limit per page | \`100\` |
-| cursor | string | No | The cursor to the next page | \`YOUR_CURSOR\` |
+| cursor | string | No | The cursor to the next page | - |
 | timeframe | string (1s, 10s, 30s, 1min, 5min, 10min, 30min, 1h, 4h, 12h, 1d, 1w, 1M) | Yes | The time interval of the candles | \`1s\` |
 | fromDate | string | Yes | The starting date (format in seconds or datestring accepted by momentjs) | \`2025-01-01T00:00:00Z\` |
 | toDate | string | Yes | The ending date (format in seconds or datestring accepted by momentjs) | \`2026-01-01T00:00:00Z\` |
@@ -72,7 +72,7 @@ Status: 200
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis.com/v1/chains/bitcoin/pairs/YOUR_PAIR_ADDRESS/ohlcv?limit=100&cursor=YOUR_CURSOR&timeframe=1s&fromDate=2025-01-01T00%3A00%3A00Z&toDate=2026-01-01T00%3A00%3A00Z&currency=native" \
+curl -X GET "https://api.moralis.com/v1/chains/ethereum/pairs/YOUR_PAIR_ADDRESS/ohlcv?limit=100&timeframe=1s&fromDate=2025-01-01T00%3A00%3A00Z&toDate=2026-01-01T00%3A00%3A00Z&currency=native" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

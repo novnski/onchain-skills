@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
 
@@ -21,13 +20,6 @@ function runStep(name, cmd, args) {
     }
     process.exit(result.status || 1);
   }
-}
-
-function hasApiKeyContext() {
-  if (process.env.MORALIS_API_KEY) return true;
-  if (fs.existsSync(path.join(ROOT, ".env"))) return true;
-  if (fs.existsSync(path.join(ROOT, ".claude/.env"))) return true;
-  return false;
 }
 
 function main() {
@@ -58,13 +50,14 @@ function main() {
     runStep(name, cmd, args);
   }
 
-  if (withApiTests || hasApiKeyContext()) {
-    runStep("Run API-key dependent tests", "bash", ["scripts/test-all-skills.sh"]);
+  if (withApiTests) {
+    runStep("Audit against live Swagger", "node", [
+      "scripts/audit-generated-rules.js",
+      "--live",
+    ]);
   } else {
-    console.log(
-      "\n==> Skip API-key dependent tests (no MORALIS_API_KEY/.env detected)",
-    );
-    console.log("    Run `bun run build:full` to force this step.");
+    console.log("\n==> Skip live Swagger audit");
+    console.log("    Run `bun run build:full` to include it.");
   }
 
   console.log("\nBuild completed successfully.");

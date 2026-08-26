@@ -16,8 +16,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | Stringified UUIDv4.
-See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
+| id | string | Yes | Stringified UUIDv4.<br>See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
 
 ## Response Example
 
@@ -29,10 +28,10 @@ Ok
 {
   "id": "id_example",
   "allAddresses": true,
-  "description": "description_example",
+  "description": "Monitor Solana activity",
   "isErrorSince": "isErrorSince_example",
   "network": [
-    "network_example"
+    "mainnet"
   ],
   "programIds": [
     "programIds_example"
@@ -40,10 +39,10 @@ Ok
   "mintAddresses": [
     "mintAddresses_example"
   ],
-  "status": "[object Object]",
+  "status": "active",
   "statusMessage": "statusMessage_example",
-  "tag": "tag_example",
-  "webhookUrl": "webhookUrl_example",
+  "tag": "solana-monitor",
+  "webhookUrl": "https://your-server.com/webhook",
   "amountOfAddresses": 0,
   "updatedAt": "updatedAt_example"
 }

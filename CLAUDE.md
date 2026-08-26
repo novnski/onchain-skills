@@ -120,8 +120,14 @@ Each skill includes pattern reference files containing complete reference materi
 # One-shot build (preferred): generation + validation + non-API tests
 bun run build
 
-# Full build including API-key dependent tests
+# Full build including the live Swagger audit
 bun run build:full
+
+# Re-fetch live Swagger and audit every generated rule
+bun run audit:rules
+
+# Credentialed read-only request matrix
+bun run smoke:rules -- --env-file /path/to/.env
 
 # Generate endpoint markdown rules from swagger config
 node scripts/generate-endpoint-rules.js
@@ -166,12 +172,24 @@ bash scripts/test-installation.sh
 node scripts/bump-version.js <skill|all> <major|minor|patch>
 ```
 
+## User Installation and Updates
+
+Verified project commands:
+
+```bash
+npx skills add novnski/onchain-skills
+npx skills update -p -y
+```
+
+The install creates `skills-lock.json`; update uses that recorded GitHub source.
+
 ## Source of Truth
 
 `swagger/api-configs.json` defines all endpoints and is generated from the live service OpenAPI files in `scripts/swagger-config.json`. Narrative docs and changelog entries remain the source for migration and behavior guidance. The `generate-endpoint-rules.js` script:
 1. Reads `api-configs.json`
 2. Creates per-endpoint markdown files in `skills/*/rules/`
-3. Updates SKILL.md files with endpoint catalogs
+3. Removes stale generated rules
+4. Updates SKILL.md files with endpoint catalogs
 
 **Never edit individual rule files directly.** Edit `api-configs.json` and regenerate.
 
@@ -202,7 +220,7 @@ Skills use semver (`MAJOR.MINOR.PATCH`) in the `version` frontmatter field. Bump
 
 ## Skill Frontmatter Pattern
 
-All SKILL.md files use YAML frontmatter per the [Agent Skills Specification](https://agentskills.io/specification), extended with OpenClaw/ClawHub fields:
+All SKILL.md files use YAML frontmatter per the [Agent Skills Specification](https://agentskills.io/specification):
 
 ```yaml
 ---
@@ -213,13 +231,6 @@ license: MIT
 compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for authentication.
 metadata:
   author: MoralisWeb3
-  openclaw:
-    requires:
-      env:
-        - MORALIS_API_KEY
-      bins:
-        - curl
-    primaryEnv: MORALIS_API_KEY
 allowed-tools: Bash Read Grep Glob
 ---
 ```
@@ -235,16 +246,15 @@ allowed-tools: Bash Read Grep Glob
 
 | Field | Notes |
 |-------|-------|
-| `version` | Semver string. Must be top-level for ClawHub version detection |
+| `version` | Semver string; keep it top-level for installer/update detection |
 | `license` | License identifier |
 | `compatibility` | Max 500 chars, environment requirements (human-readable) |
 | `metadata` | Arbitrary key-value pairs (string keys to string values) |
-| `metadata.openclaw` | OpenClaw extension: `requires.env`, `requires.bins`, `primaryEnv`, `os`, `install` |
 | `allowed-tools` | Space-delimited list of pre-approved tools |
 
-## Query Client Pattern
+## Request Example Pattern
 
-Query clients use REST APIs via Node.js `https` module. The pattern:
+Generated rule files use copyable curl examples. The pattern:
 
 1. Read API key from `$MORALIS_API_KEY` environment variable (loaded from project `.env`)
 2. Build URL with path/query params
@@ -278,17 +288,22 @@ Make sure `.env` is in `.gitignore`.
 
 ## Adding New Endpoints
 
-1. Add endpoint definition to `swagger/api-configs.json`
-2. Run `node scripts/generate-endpoint-rules.js`
-3. Verify rule file was created in `skills/*/rules/`
-4. Test endpoint with curl before skill usage
+1. Confirm the endpoint exists in the relevant live Swagger source from `scripts/swagger-config.json`
+2. Run `node scripts/generate-api-configs.js`
+3. Run `node scripts/generate-endpoint-rules.js`
+4. Verify the rule file and catalog entry were created
+5. Run `bun run build` and test the request with a real API key
 
 ## Testing
 
-No automated test suite. Test via:
-1. Direct curl commands with `$MORALIS_API_KEY`
-2. Skill invocation with sample queries
-3. Verify both EVM and Solana routing when applicable
+The build validates generated inventories, complete Markdown table rows, enum-safe examples, response JSON, links, collisions, Solana naming, sensitive literals, and installation layout.
+
+For release review:
+1. Run `bun run build`
+2. Run `bun run audit:rules` against live Swagger
+3. Run the credentialed read-only smoke matrix
+4. For Streams mutations, use disposable uniquely tagged streams, a local tunneled webhook, and guaranteed cleanup
+5. Verify `git diff --check` and a clean post-build worktree
 
 ## Supported Chains
 

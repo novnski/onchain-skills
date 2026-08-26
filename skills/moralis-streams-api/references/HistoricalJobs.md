@@ -21,9 +21,8 @@ The live Swagger requires these create-job fields:
 
 ## Important Scope Caveat
 
-The live Swagger does not currently describe:
+Runtime verification shows that historical-job timestamps use Unix seconds. The live Swagger still does not currently describe:
 
-- whether timestamps are seconds or milliseconds
 - which stream families support historical jobs
 - job lifecycle/status semantics beyond the response schema
 

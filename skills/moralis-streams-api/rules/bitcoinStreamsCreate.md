@@ -18,7 +18,7 @@ PUT
 |------|------|----------|-------------|----------|
 | webhookUrl | string | Yes | Webhook URL where moralis will send the POST request. | \`https://your-server.com/webhook\` |
 | tag | string | Yes | A user-provided tag that will be send along the webhook | \`bitcoin-monitor\` |
-| network | array | Yes | The supported network. Bitcoin Streams supports mainnet only. | \`["mainnet"]\` |
+| network | array (mainnet) | Yes | The supported network. Bitcoin Streams supports mainnet only. | \`["mainnet"]\` |
 | includeOutputs | boolean | No | Include or not output details in webhook defaults to true | \`true\` |
 | includeInputs | boolean | No | Include or not input details in webhook defaults to true | \`true\` |
 | description | string | Yes | A description for this stream | \`Monitor Bitcoin transactions\` |
@@ -36,17 +36,17 @@ Ok
   "id": "id_example",
   "allAddresses": true,
   "demo": true,
-  "description": "description_example",
+  "description": "Monitor Bitcoin activity",
   "includeInputs": true,
   "includeOutputs": true,
   "isErrorSince": "isErrorSince_example",
   "network": [
-    "network_example"
+    "mainnet"
   ],
-  "status": "[object Object]",
+  "status": "active",
   "statusMessage": "statusMessage_example",
-  "tag": "tag_example",
-  "webhookUrl": "webhookUrl_example",
+  "tag": "bitcoin-monitor",
+  "webhookUrl": "https://your-server.com/webhook",
   "amountOfAddresses": 0,
   "updatedAt": "updatedAt_example"
 }

@@ -24,7 +24,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chains | array | No | Chains to query | \`bitcoin\` |
+| chains | array (0x1, ethereum, 0x13882, polygon amoy, 0x14a34, base sepolia, 0x15b38, chiliz, 0x171, pulse, 0x19, cro, 0x2105, base, 0x221, flow testnet, 0x2eb, flow, 0x38, binance, 0x46f, lisk, 0x504, moon beam, 0x505, moon river, 0x530, sei-testnet, 0x531, sei, 0x61, binance smart chain testnet, 0x64, gnosis, 0x7e4, ronin, 0x89, polygon, 0x8f, monad, 0xa, optimism, 0xa4b1, arbitrum, 0xa86a, avalanche, 0xaa36a7, sepolia, 0xe708, linea, all, mainnets, testnets) | No | Chains to query | \`ethereum\` |
 | includeChainBreakdown | boolean | No | Whether to include per-chain breakdown in the response | - |
 
 ## Response Example
@@ -201,7 +201,7 @@ Status: 200
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis.com/v1/wallets/YOUR_EVM_ADDRESS/insight?chains=bitcoin" \
+curl -X GET "https://api.moralis.com/v1/wallets/YOUR_EVM_ADDRESS/insight?chains=ethereum" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

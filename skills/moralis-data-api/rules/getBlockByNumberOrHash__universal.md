@@ -47,7 +47,7 @@ Status: 200
   "size": 0,
   "time": 0,
   "txCount": 0,
-  "chainFamily": "chainFamily_example",
+  "chainFamily": "EVM",
   "txs": [
     {
       "txid": "txid_example",
@@ -94,7 +94,7 @@ Status: 200
           "value": "value_example"
         }
       ],
-      "chainFamily": "chainFamily_example",
+      "chainFamily": "EVM",
       "evmSpecific": {
         "status": 0,
         "nonce": 0,

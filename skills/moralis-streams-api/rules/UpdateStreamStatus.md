@@ -18,14 +18,13 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | Stringified UUIDv4.
-See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
+| id | string | Yes | Stringified UUIDv4.<br>See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
 
 ## Body
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| status | string (active, paused) | Yes | The stream status: active (processing blocks) or paused (not processing blocks) | \`[object Object]\` |
+| status | string (active, paused) | Yes | The stream status: active (processing blocks) or paused (not processing blocks) | \`active\` |
 
 ## Response Example
 
@@ -35,9 +34,9 @@ Ok
 
 ```json
 {
-  "webhookUrl": "webhookUrl_example",
-  "description": "description_example",
-  "tag": "tag_example",
+  "webhookUrl": "https://your-server.com/webhook",
+  "description": "Monitor EVM activity",
+  "tag": "evm-monitor",
   "topic0": [
     "topic0_example"
   ],
@@ -51,19 +50,19 @@ Ok
       "selectors": [
         "selectors_example"
       ],
-      "type": "type_example"
+      "type": "tx"
     }
   ],
   "abi": null,
   "advancedOptions": null,
   "chainIds": [
-    "chainIds_example"
+    "0x1"
   ],
   "filterPossibleSpamAddresses": true,
   "demo": true,
   "triggers": [
     {
-      "type": "type_example",
+      "type": "tx",
       "contractAddress": "contractAddress_example",
       "inputs": [
         "inputs_example"
@@ -103,7 +102,7 @@ Ok
     }
   ],
   "id": "id_example",
-  "status": "[object Object]",
+  "status": "active",
   "statusMessage": "statusMessage_example",
   "updatedAt": "updatedAt_example",
   "amountOfAddresses": 0
@@ -118,6 +117,6 @@ curl -X POST "https://api.moralis-streams.com/streams/evm/YOUR_STREAM_ID/status"
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "status": "[object Object]"
+  "status": "active"
 }'
 ```

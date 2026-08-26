@@ -67,12 +67,11 @@ if [ $MISSING_SKILL_MD -eq 0 ]; then
 fi
 
 echo ""
-echo "=== Test 3: Check if skills CLI exists ==="
-if command -v skills &> /dev/null; then
-    pass "skills CLI is installed"
+echo "=== Test 3: Check if npx is available for skills CLI ==="
+if command -v npx &> /dev/null; then
+    pass "npx is available for the documented skills CLI command"
 else
-    warn "skills CLI not found in PATH - MEDIUM bug #3"
-    warn "Documentation mentions 'npx skills add' but tool is not available"
+    warn "npx not found; install Node.js before running the documented skills command"
 fi
 
 echo ""

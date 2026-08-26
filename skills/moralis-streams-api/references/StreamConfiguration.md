@@ -16,7 +16,7 @@ Do not treat stream IDs as transaction hashes or addresses.
 
 | Family | Create endpoint | Required fields | Optional filters | Notes |
 |--------|-----------------|-----------------|------------------|-------|
-| EVM | `/streams/evm` | `webhookUrl`, `description`, `tag`, usually `chainIds` plus event filters | `topic0`, `abi`, addresses, `advancedOptions`, `triggers`, `getNativeBalances` | Use hex chain IDs |
+| EVM | `/streams/evm` | `webhookUrl`, `description`, usually `chainIds` plus event filters | `tag`, `topic0`, `abi`, addresses, `advancedOptions`, `triggers`, `getNativeBalances` | Use hex chain IDs |
 | Solana | `/streams/solana` | `webhookUrl`, `description`, `tag`, `network` | `programIds`, `mintAddresses`, addresses, `allAddresses` | No EVM ABI / `topic0` model |
 | Bitcoin | `/streams/bitcoin` | `webhookUrl`, `description`, `tag`, `network` | addresses, `allAddresses`, `includeInputs`, `includeOutputs`, xpubs | Address and xpub monitoring |
 

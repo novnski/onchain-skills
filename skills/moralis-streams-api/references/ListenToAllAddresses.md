@@ -123,7 +123,7 @@ curl -X PUT "https://api.moralis-streams.com/streams/evm" \
 | `includeContractLogs` | boolean | Recommended | Set `true` to include contract event logs |
 | `chainIds` | string[] | Yes | Hex chain IDs (e.g., `["0x1", "0x89"]`) |
 | `webhookUrl` | string | Yes | URL to receive webhook events |
-| `tag` | string | Yes | Identifier for the stream |
+| `tag` | string | No | Optional identifier for the stream |
 | `advancedOptions` | object[] | No | Per-topic options like `includeNativeHash` |
 
 ---

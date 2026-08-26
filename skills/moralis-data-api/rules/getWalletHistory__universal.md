@@ -31,19 +31,13 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chains | array | No | Chains to query | \`bitcoin\` |
+| chains | array (0x1, ethereum, 0x13882, polygon amoy, 0x14a34, base sepolia, 0x15b38, chiliz, 0x171, pulse, 0x19, cro, 0x2105, base, 0x221, flow testnet, 0x2eb, flow, 0x38, binance, 0x46f, lisk, 0x504, moon beam, 0x505, moon river, 0x530, sei-testnet, 0x531, sei, 0x61, binance smart chain testnet, 0x64, gnosis, 0x7e4, ronin, 0x89, polygon, 0x8f, monad, 0xa, optimism, 0xa4b1, arbitrum, 0xa86a, avalanche, 0xaa36a7, sepolia, 0xe708, linea, bitcoin-mainnet, bitcoin, all, mainnets, testnets) | No | Chains to query | \`bitcoin\` |
 | limit | number | No | The limit per page | \`100\` |
-| cursor | string | No | The cursor to the next page | \`YOUR_CURSOR\` |
+| cursor | string | No | The cursor to the next page | - |
 | order | string (ASC, DESC) | No | The order of items | - |
-| fromDate | string | No | The start date from which to get the wallet history (format in seconds or string accepted by momentjs)
-* Provide the param 'fromBlock' or 'fromDate'
-* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used. | - |
-| toDate | string | No | The end date from which to get the wallet history (format in seconds or string accepted by momentjs)
-* Provide the param 'toBlock' or 'toDate'
-* If 'toDate' and 'toBlock' are provided, 'toBlock' will be used. | - |
-| fromBlock | number | No | The minimum block number from which to get the wallet history
-* Provide the param 'fromBlock' or 'fromDate'
-* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used. | - |
+| fromDate | string | No | The start date from which to get the wallet history (format in seconds or string accepted by momentjs)<br>* Provide the param 'fromBlock' or 'fromDate'<br>* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used. | - |
+| toDate | string | No | The end date from which to get the wallet history (format in seconds or string accepted by momentjs)<br>* Provide the param 'toBlock' or 'toDate'<br>* If 'toDate' and 'toBlock' are provided, 'toBlock' will be used. | - |
+| fromBlock | number | No | The minimum block number from which to get the wallet history<br>* Provide the param 'fromBlock' or 'fromDate'<br>* If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used. | - |
 | toBlock | number | No | The block number to get the wallet history until | - |
 | verbose | boolean | No | When true, returns full raw chain-specific data including logs, input data, and vin/vout arrays. Array fields are capped at 100 items with a hasMore flag. | - |
 
@@ -77,8 +71,8 @@ Status: 200
         "hash": "hash_example",
         "index": 0,
         "status": "status_example",
-        "direction": "direction_example",
-        "category": "category_example",
+        "direction": "incoming",
+        "category": "swap",
         "summary": "summary_example",
         "methodLabel": "methodLabel_example",
         "possibleSpam": true,
@@ -120,7 +114,7 @@ Status: 200
               "fromAddress": "fromAddress_example",
               "toAddress": "toAddress_example",
               "amount": "amount_example",
-              "direction": "direction_example",
+              "direction": "incoming",
               "isInternal": true,
               "balanceBefore": "balanceBefore_example",
               "balanceAfter": "balanceAfter_example"
@@ -134,7 +128,7 @@ Status: 200
               "fromAddress": "fromAddress_example",
               "toAddress": "toAddress_example",
               "value": "value_example",
-              "direction": "direction_example",
+              "direction": "incoming",
               "tokenAddress": "tokenAddress_example",
               "tokenSymbol": "tokenSymbol_example",
               "tokenName": "tokenName_example",
@@ -154,7 +148,7 @@ Status: 200
               "tokenAddress": "tokenAddress_example",
               "tokenId": "tokenId_example",
               "amount": "amount_example",
-              "direction": "direction_example",
+              "direction": "incoming",
               "tokenType": "tokenType_example",
               "balanceBefore": "balanceBefore_example",
               "balanceAfter": "balanceAfter_example"
@@ -173,7 +167,7 @@ Status: 200
               "amount0": "amount0_example",
               "token1Address": "token1Address_example",
               "amount1": "amount1_example",
-              "direction": "direction_example"
+              "direction": "incoming"
             }
           ],
           "hasMore": true
@@ -181,7 +175,7 @@ Status: 200
         "nftTrades": {
           "items": [
             {
-              "marketplace": "marketplace_example",
+              "marketplace": "opensea",
               "marketplaceAddress": "marketplaceAddress_example",
               "seller": "seller_example",
               "buyer": "buyer_example",
@@ -190,7 +184,7 @@ Status: 200
               "amount": "amount_example",
               "priceTokenAddress": "priceTokenAddress_example",
               "priceAmount": "priceAmount_example",
-              "direction": "direction_example"
+              "direction": "incoming"
             }
           ],
           "hasMore": true
@@ -198,7 +192,7 @@ Status: 200
         "approvals": {
           "items": [
             {
-              "approvalType": "approvalType_example",
+              "approvalType": "erc20",
               "tokenAddress": "tokenAddress_example",
               "owner": "owner_example",
               "spender": "spender_example",
@@ -305,7 +299,7 @@ Status: 200
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis.com/v1/wallets/YOUR_BTC_ADDRESS/history?chains=bitcoin&limit=100&cursor=YOUR_CURSOR" \
+curl -X GET "https://api.moralis.com/v1/wallets/YOUR_BTC_ADDRESS/history?chains=bitcoin&limit=100" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

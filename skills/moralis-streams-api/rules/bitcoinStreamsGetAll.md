@@ -41,17 +41,17 @@ Ok
       "id": "id_example",
       "allAddresses": true,
       "demo": true,
-      "description": "description_example",
+      "description": "Monitor Bitcoin activity",
       "includeInputs": true,
       "includeOutputs": true,
       "isErrorSince": "isErrorSince_example",
       "network": [
-        "network_example"
+        "mainnet"
       ],
-      "status": "[object Object]",
+      "status": "active",
       "statusMessage": "statusMessage_example",
-      "tag": "tag_example",
-      "webhookUrl": "webhookUrl_example",
+      "tag": "bitcoin-monitor",
+      "webhookUrl": "https://your-server.com/webhook",
       "amountOfAddresses": 0,
       "updatedAt": "updatedAt_example"
     }

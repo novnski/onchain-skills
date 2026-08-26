@@ -7,14 +7,7 @@ compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for
 metadata:
   author: MoralisWeb3
   homepage: https://docs.moralis.com
-  repository: https://github.com/MoralisWeb3/onchain-skills
-  openclaw:
-    requires:
-      env:
-        - MORALIS_API_KEY
-      bins:
-        - curl
-    primaryEnv: MORALIS_API_KEY
+  repository: https://github.com/novnski/onchain-skills
 allowed-tools: Bash Read Grep Glob
 ---
 
@@ -40,7 +33,7 @@ For EVERY endpoint:
 
 ## Setup
 
-### API Key (optional)
+### API Key
 
 **Never ask the user to paste their API key into the chat.** Instead:
 

@@ -40,10 +40,10 @@ Ok
     {
       "id": "id_example",
       "allAddresses": true,
-      "description": "description_example",
+      "description": "Monitor Solana activity",
       "isErrorSince": "isErrorSince_example",
       "network": [
-        "network_example"
+        "mainnet"
       ],
       "programIds": [
         "programIds_example"
@@ -51,10 +51,10 @@ Ok
       "mintAddresses": [
         "mintAddresses_example"
       ],
-      "status": "[object Object]",
+      "status": "active",
       "statusMessage": "statusMessage_example",
-      "tag": "tag_example",
-      "webhookUrl": "webhookUrl_example",
+      "tag": "solana-monitor",
+      "webhookUrl": "https://your-server.com/webhook",
       "amountOfAddresses": 0,
       "updatedAt": "updatedAt_example"
     }

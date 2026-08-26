@@ -7,14 +7,7 @@ compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for
 metadata:
   author: MoralisWeb3
   homepage: https://docs.moralis.com
-  repository: https://github.com/MoralisWeb3/onchain-skills
-  openclaw:
-    requires:
-      env:
-        - MORALIS_API_KEY
-      bins:
-        - curl
-    primaryEnv: MORALIS_API_KEY
+  repository: https://github.com/novnski/onchain-skills
 allowed-tools: Bash Read Grep Glob
 ---
 
@@ -124,7 +117,7 @@ Use Bitcoin streams for address-based or xpub-based monitoring.
 - `includeInputs` and `includeOutputs` control payload detail
 - `network` must be `["mainnet"]`
 
-Default to `["mainnet"]` unless the user explicitly needs something else and the endpoint rule confirms it.
+Use `["mainnet"]`.
 
 See [references/BitcoinStreams.md](references/BitcoinStreams.md).
 

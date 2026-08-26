@@ -530,5 +530,5 @@ Only receive transfers above a certain threshold:
 | Get stream | `GET` | `/streams/evm/:id` |
 | Add address | `POST` | `/streams/evm/:id/address` |
 | Replace addresses | `PATCH` | `/streams/evm/:id/address` |
-| Delete address | `DELETE` | `/streams/evm/:id/address/:address` |
+| Delete address | `DELETE` | `/streams/evm/:id/address` with an `address` body |
 | Update status | `POST` | `/streams/evm/:id/status` |

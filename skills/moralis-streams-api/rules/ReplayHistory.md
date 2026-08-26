@@ -18,10 +18,8 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| streamId | string | Yes | Stringified UUIDv4.
-See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
-| id | string | Yes | Stringified UUIDv4.
-See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
+| streamId | string | Yes | Stringified UUIDv4.<br>See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
+| id | string | Yes | The history delivery ID to replay | \`YOUR_HISTORY_ID\` |
 
 ## Response Example
 
@@ -139,7 +137,7 @@ Ok
     ],
     "retries": 0,
     "confirmed": true,
-    "tag": "tag_example",
+    "tag": "evm-monitor",
     "streamId": "streamId_example"
   },
   "tinyPayload": {
@@ -150,16 +148,16 @@ Ok
     "retries": 0
   },
   "errorMessage": "errorMessage_example",
-  "webhookUrl": "webhookUrl_example",
+  "webhookUrl": "https://your-server.com/webhook",
   "streamId": "streamId_example",
-  "tag": "tag_example"
+  "tag": "evm-monitor"
 }
 ```
 
 ## Example (curl)
 
 ```bash
-curl -X POST "https://api.moralis-streams.com/history/replay/YOUR_STREAM_ID/YOUR_STREAM_ID" \
+curl -X POST "https://api.moralis-streams.com/history/replay/YOUR_STREAM_ID/YOUR_HISTORY_ID" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

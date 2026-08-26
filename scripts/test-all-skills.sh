@@ -1,10 +1,12 @@
 #!/bin/bash
 
-echo "Testing Moralis API Skills v3.0.0..."
+echo "Testing Moralis API skill installation..."
 echo ""
 
 # Check API key (look in project root or .claude directory)
-if [ -f ".env" ]; then
+if [ -n "$MORALIS_API_KEY" ] || [ -n "$API_KEY" ]; then
+  echo "✓ API key found in environment"
+elif [ -f ".env" ]; then
   echo "✓ API key found at project root (.env)"
 elif [ -f ".claude/.env" ]; then
   echo "✓ API key found at .claude/.env"

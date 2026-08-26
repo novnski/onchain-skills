@@ -346,7 +346,8 @@
                             "audio",
                             "video"
                           ],
-                          "required": false
+                          "required": false,
+                          "example": "image"
                         },
                         {
                           "name": "status",
@@ -359,7 +360,8 @@
                             "host_unavailable",
                             "temporarily_unavailable"
                           ],
-                          "required": false
+                          "required": false,
+                          "example": "success"
                         },
                         {
                           "name": "original_media_url",
@@ -1009,7 +1011,8 @@
                         "audio",
                         "video"
                       ],
-                      "required": false
+                      "required": false,
+                      "example": "image"
                     },
                     {
                       "name": "status",
@@ -1022,7 +1025,8 @@
                         "host_unavailable",
                         "temporarily_unavailable"
                       ],
-                      "required": false
+                      "required": false,
+                      "example": "success"
                     },
                     {
                       "name": "original_media_url",
@@ -2557,7 +2561,8 @@
                             "audio",
                             "video"
                           ],
-                          "required": false
+                          "required": false,
+                          "example": "image"
                         },
                         {
                           "name": "status",
@@ -2570,7 +2575,8 @@
                             "host_unavailable",
                             "temporarily_unavailable"
                           ],
-                          "required": false
+                          "required": false,
+                          "example": "success"
                         },
                         {
                           "name": "original_media_url",
@@ -3403,7 +3409,8 @@
                             "audio",
                             "video"
                           ],
-                          "required": false
+                          "required": false,
+                          "example": "image"
                         },
                         {
                           "name": "status",
@@ -3416,7 +3423,8 @@
                             "host_unavailable",
                             "temporarily_unavailable"
                           ],
-                          "required": false
+                          "required": false,
+                          "example": "success"
                         },
                         {
                           "name": "original_media_url",
@@ -4361,6 +4369,7 @@
           {
             "name": "traits",
             "type": "object",
+            "fields": [],
             "required": true,
             "example": {
               "Earring": "Silver Hoop"
@@ -4581,7 +4590,8 @@
                             "audio",
                             "video"
                           ],
-                          "required": false
+                          "required": false,
+                          "example": "image"
                         },
                         {
                           "name": "status",
@@ -4594,7 +4604,8 @@
                             "host_unavailable",
                             "temporarily_unavailable"
                           ],
-                          "required": false
+                          "required": false,
+                          "example": "success"
                         },
                         {
                           "name": "original_media_url",
@@ -6601,14 +6612,14 @@
           {
             "name": "addresses",
             "type": "array",
-            "required": true,
-            "example": [
-              "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
-            ],
             "field": {
               "type": "string",
               "example": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
-            }
+            },
+            "required": true,
+            "example": [
+              "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
+            ]
           }
         ]
       },
@@ -7191,7 +7202,8 @@
                       "audio",
                       "video"
                     ],
-                    "required": false
+                    "required": false,
+                    "example": "image"
                   },
                   {
                     "name": "status",
@@ -7204,7 +7216,8 @@
                       "host_unavailable",
                       "temporarily_unavailable"
                     ],
-                    "required": false
+                    "required": false,
+                    "example": "success"
                   },
                   {
                     "name": "original_media_url",
@@ -8380,7 +8393,8 @@
                             "audio",
                             "video"
                           ],
-                          "required": false
+                          "required": false,
+                          "example": "image"
                         },
                         {
                           "name": "status",
@@ -8393,7 +8407,8 @@
                             "host_unavailable",
                             "temporarily_unavailable"
                           ],
-                          "required": false
+                          "required": false,
+                          "example": "success"
                         },
                         {
                           "name": "original_media_url",
@@ -13792,7 +13807,8 @@
                         "borrow",
                         "contract interaction"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "send"
                     },
                     {
                       "name": "contract_interactions",
@@ -15252,7 +15268,7 @@
           "name": "include",
           "description": "If the result should contain the internal transactions.",
           "required": false,
-          "example": "",
+          "example": "internal_transactions",
           "type": "string",
           "enum": [
             "internal_transactions"
@@ -15688,7 +15704,7 @@
           "name": "include",
           "description": "If the result should contain the internal transactions.",
           "required": false,
-          "example": "",
+          "example": "internal_transactions",
           "type": "string",
           "enum": [
             "internal_transactions"
@@ -16196,7 +16212,7 @@
           "name": "include",
           "description": "If the result should contain the internal transactions.",
           "required": false,
-          "example": "",
+          "example": "internal_transactions",
           "type": "string",
           "enum": [
             "internal_transactions"
@@ -16467,9 +16483,9 @@
                     },
                     {
                       "name": "block_number",
-                      "type": "string",
+                      "type": "number",
                       "description": "The block number",
-                      "example": "12526958",
+                      "example": 12526958,
                       "required": true
                     },
                     {
@@ -16633,7 +16649,7 @@
           "name": "include",
           "description": "If the result should contain the internal transactions.",
           "required": false,
-          "example": "",
+          "example": "internal_transactions",
           "type": "string",
           "enum": [
             "internal_transactions"
@@ -17089,7 +17105,7 @@
           "name": "include",
           "description": "If the result should contain the internal transactions.",
           "required": false,
-          "example": "",
+          "example": "internal_transactions",
           "type": "string",
           "enum": [
             "internal_transactions"
@@ -17486,9 +17502,9 @@
                           },
                           {
                             "name": "block_number",
-                            "type": "string",
+                            "type": "number",
                             "description": "The block number",
-                            "example": "12526958",
+                            "example": 12526958,
                             "required": true
                           },
                           {
@@ -26412,7 +26428,8 @@
                   "1w",
                   "1M"
                 ],
-                "required": true
+                "required": true,
+                "example": "1s"
               },
               {
                 "name": "currency",
@@ -26422,7 +26439,8 @@
                   "usd",
                   "native"
                 ],
-                "required": true
+                "required": true,
+                "example": "usd"
               },
               {
                 "name": "result",
@@ -30183,7 +30201,8 @@
                   "Bitcoin",
                   "Solana"
                 ],
-                "required": true
+                "required": true,
+                "example": "EVM"
               },
               {
                 "name": "txs",
@@ -30407,7 +30426,8 @@
                         "Bitcoin",
                         "Solana"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "EVM"
                     },
                     {
                       "name": "evmSpecific",
@@ -30920,7 +30940,8 @@
                   "Bitcoin",
                   "Solana"
                 ],
-                "required": true
+                "required": true,
+                "example": "EVM"
               },
               {
                 "name": "evmSpecific",
@@ -31018,7 +31039,7 @@
           "name": "chainAlias",
           "description": "The alias of the chain.",
           "required": true,
-          "example": "bitcoin",
+          "example": "ethereum",
           "type": "string",
           "enum": [
             "0x1",
@@ -31077,7 +31098,6 @@
           "name": "cursor",
           "description": "The cursor to the next page",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         },
         {
@@ -31283,7 +31303,7 @@
           "name": "chains",
           "description": "Chains to query",
           "required": false,
-          "example": "bitcoin",
+          "example": "ethereum",
           "type": "array",
           "field": {
             "type": "string",
@@ -31345,7 +31365,6 @@
           "name": "cursor",
           "description": "Pagination cursor for next page",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         }
       ],
@@ -31477,7 +31496,8 @@
                             "principal",
                             "other"
                           ],
-                          "required": true
+                          "required": true,
+                          "example": "lending"
                         },
                         {
                           "name": "address",
@@ -31502,7 +31522,8 @@
                                   "lp",
                                   "prediction_market"
                                 ],
-                                "required": true
+                                "required": true,
+                                "example": "supplied"
                               },
                               {
                                 "name": "name",
@@ -31594,7 +31615,8 @@
                                 "principal",
                                 "other"
                               ],
-                              "required": true
+                              "required": true,
+                              "example": "lending"
                             },
                             {
                               "name": "isDebt",
@@ -31676,7 +31698,7 @@
           "name": "chains",
           "description": "Chains to query",
           "required": false,
-          "example": "bitcoin",
+          "example": "ethereum",
           "type": "array",
           "field": {
             "type": "string",
@@ -31738,7 +31760,6 @@
           "name": "cursor",
           "description": "Pagination cursor for next page",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         }
       ],
@@ -31882,7 +31903,8 @@
                             "principal",
                             "other"
                           ],
-                          "required": true
+                          "required": true,
+                          "example": "lending"
                         },
                         {
                           "name": "address",
@@ -31907,7 +31929,8 @@
                                   "lp",
                                   "prediction_market"
                                 ],
-                                "required": true
+                                "required": true,
+                                "example": "supplied"
                               },
                               {
                                 "name": "name",
@@ -31999,7 +32022,8 @@
                                 "principal",
                                 "other"
                               ],
-                              "required": true
+                              "required": true,
+                              "example": "lending"
                             },
                             {
                               "name": "isDebt",
@@ -32121,7 +32145,6 @@
           "name": "cursor",
           "description": "The cursor to the next page",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         },
         {
@@ -32221,7 +32244,7 @@
           "name": "chains",
           "description": "Chains to query",
           "required": false,
-          "example": "bitcoin",
+          "example": "ethereum",
           "type": "array",
           "field": {
             "type": "string",
@@ -32446,7 +32469,7 @@
           "name": "chainAlias",
           "description": "The alias of the chain.",
           "required": true,
-          "example": "bitcoin",
+          "example": "ethereum",
           "type": "string",
           "enum": [
             "0x1",
@@ -32505,7 +32528,6 @@
           "name": "cursor",
           "description": "The cursor to the next page",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         },
         {
@@ -32816,7 +32838,7 @@
           "name": "chainAlias",
           "description": "The alias of the chain.",
           "required": true,
-          "example": "bitcoin",
+          "example": "ethereum",
           "type": "string",
           "enum": [
             "0x1",
@@ -32875,7 +32897,6 @@
           "name": "cursor",
           "description": "The cursor to the next page",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         },
         {
@@ -33798,7 +33819,6 @@
           "name": "cursor",
           "description": "The cursor to the next page",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         },
         {
@@ -34025,7 +34045,6 @@
           "name": "cursor",
           "description": "The cursor to the next page",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         },
         {
@@ -34039,9 +34058,6 @@
           "name": "tokenAddresses",
           "description": "The token addresses to be filtered in",
           "required": false,
-          "example": [
-            "0xdac17f958d2ee523a2206206994597c13d831ec7"
-          ],
           "type": "array",
           "field": {
             "type": "string"
@@ -34051,49 +34067,42 @@
           "name": "excludeSpam",
           "description": "Should exclude spam contract",
           "required": false,
-          "example": true,
           "type": "boolean"
         },
         {
           "name": "excludeUnverifiedContracts",
           "description": "Should exclude unverified contract",
           "required": false,
-          "example": true,
           "type": "boolean"
         },
         {
           "name": "excludeNative",
           "description": "Should exclude native contract",
           "required": false,
-          "example": true,
           "type": "boolean"
         },
         {
           "name": "maxTokenInactivity",
           "description": "Should filter out contract exceeding max token inactivity",
           "required": false,
-          "example": 1,
           "type": "number"
         },
         {
           "name": "liquidityThreshold",
           "description": "Should filter out contract under liquidity threshold",
           "required": false,
-          "example": 0,
           "type": "number"
         },
         {
           "name": "includeSparklines",
           "description": "When true, include a 7-day hourly price sparkline for each token.",
           "required": false,
-          "example": true,
           "type": "boolean"
         },
         {
           "name": "includePnl",
           "description": "When true, include per-token PnL summary for each token. Ignored for Bitcoin (no PnL coverage).",
           "required": false,
-          "example": true,
           "type": "boolean"
         }
       ],
@@ -34461,7 +34470,6 @@
           "name": "cursor",
           "description": "The cursor to the next page",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         },
         {
@@ -34620,7 +34628,8 @@
                             "outgoing",
                             "self"
                           ],
-                          "required": true
+                          "required": true,
+                          "example": "incoming"
                         },
                         {
                           "name": "category",
@@ -34634,7 +34643,8 @@
                             "contractCall",
                             null
                           ],
-                          "required": true
+                          "required": true,
+                          "example": "swap"
                         },
                         {
                           "name": "summary",
@@ -34855,7 +34865,8 @@
                                       "outgoing",
                                       "self"
                                     ],
-                                    "required": true
+                                    "required": true,
+                                    "example": "incoming"
                                   },
                                   {
                                     "name": "isInternal",
@@ -34925,7 +34936,8 @@
                                       "outgoing",
                                       "self"
                                     ],
-                                    "required": true
+                                    "required": true,
+                                    "example": "incoming"
                                   },
                                   {
                                     "name": "tokenAddress",
@@ -35031,7 +35043,8 @@
                                       "outgoing",
                                       "self"
                                     ],
-                                    "required": true
+                                    "required": true,
+                                    "example": "incoming"
                                   },
                                   {
                                     "name": "tokenType",
@@ -35133,7 +35146,8 @@
                                       "outgoing",
                                       "self"
                                     ],
-                                    "required": true
+                                    "required": true,
+                                    "example": "incoming"
                                   }
                                 ]
                               },
@@ -35171,7 +35185,8 @@
                                       "zeroex",
                                       "unknown"
                                     ],
-                                    "required": true
+                                    "required": true,
+                                    "example": "opensea"
                                   },
                                   {
                                     "name": "marketplaceAddress",
@@ -35226,7 +35241,8 @@
                                       "outgoing",
                                       "self"
                                     ],
-                                    "required": true
+                                    "required": true,
+                                    "example": "incoming"
                                   }
                                 ]
                               },
@@ -35260,7 +35276,8 @@
                                       "erc721ApprovalForAll",
                                       "erc1155ApprovalForAll"
                                     ],
-                                    "required": true
+                                    "required": true,
+                                    "example": "erc20"
                                   },
                                   {
                                     "name": "tokenAddress",
@@ -35754,7 +35771,7 @@
           "name": "chains",
           "description": "Chains to query",
           "required": false,
-          "example": "bitcoin",
+          "example": "ethereum",
           "type": "array",
           "field": {
             "type": "string",
@@ -36764,7 +36781,6 @@
           "name": "cursor",
           "description": "Encoded v2 cursor (JWT).",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         },
         {
@@ -37370,7 +37386,6 @@
           "name": "cursor",
           "description": "Encoded v2 cursor (JWT).",
           "required": false,
-          "example": "YOUR_CURSOR",
           "type": "string"
         },
         {
@@ -37632,19 +37647,22 @@
                       "name": "webhookUrl",
                       "type": "string",
                       "description": "Webhook URL where moralis will send the POST request.",
-                      "required": true
+                      "required": true,
+                      "example": "https://your-server.com/webhook"
                     },
                     {
                       "name": "description",
                       "type": "string",
                       "description": "A description for this stream",
-                      "required": true
+                      "required": true,
+                      "example": "Monitor EVM activity"
                     },
                     {
                       "name": "tag",
                       "type": "string",
                       "description": "A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present",
-                      "required": false
+                      "required": false,
+                      "example": "evm-monitor"
                     },
                     {
                       "name": "topic0",
@@ -37710,7 +37728,8 @@
                               "nfttransfer",
                               "internalTx"
                             ],
-                            "required": true
+                            "required": true,
+                            "example": "tx"
                           }
                         ]
                       },
@@ -37732,7 +37751,10 @@
                         "type": "string"
                       },
                       "description": "The ids of the chains for this stream in hex Ex: [\"0x1\",\"0x38\"]",
-                      "required": true
+                      "required": true,
+                      "example": [
+                        "0x1"
+                      ]
                     },
                     {
                       "name": "filterPossibleSpamAddresses",
@@ -37762,7 +37784,8 @@
                               "erc20approval",
                               "nfttransfer"
                             ],
-                            "required": true
+                            "required": true,
+                            "example": "tx"
                           },
                           {
                             "name": "contractAddress",
@@ -37918,7 +37941,7 @@
                       "name": "status",
                       "type": "string",
                       "description": "The status of the stream.",
-                      "example": "[object Object]",
+                      "example": "active",
                       "enum": [
                         "active",
                         "paused",
@@ -37985,21 +38008,21 @@
             "type": "string",
             "description": "Webhook URL where moralis will send the POST request.",
             "required": true,
-            "example": "string"
+            "example": "https://your-server.com/webhook"
           },
           {
             "name": "description",
             "type": "string",
             "description": "A description for this stream",
             "required": true,
-            "example": "string"
+            "example": "Monitor EVM activity"
           },
           {
             "name": "tag",
             "type": "string",
             "description": "A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present",
             "required": false,
-            "example": "string"
+            "example": "evm-monitor"
           },
           {
             "name": "topic0",
@@ -38009,14 +38032,16 @@
             },
             "description": "An Array of topic0's in string-signature format ex: ['FunctionName(address,uint256)']",
             "required": false,
-            "example": []
+            "example": [
+              "Transfer(address,address,uint256)"
+            ]
           },
           {
             "name": "allAddresses",
             "type": "boolean",
             "description": "Include events for all addresses (only applied when abi and topic0 is provided)",
             "required": false,
-            "example": false
+            "example": true
           },
           {
             "name": "includeNativeTxs",
@@ -38030,7 +38055,7 @@
             "type": "boolean",
             "description": "Include or not logs of contract interactions defaults to false",
             "required": false,
-            "example": false
+            "example": true
           },
           {
             "name": "includeInternalTxs",
@@ -38082,12 +38107,36 @@
           {
             "name": "abi",
             "required": false,
-            "example": "string"
+            "example": [
+              {
+                "name": "Transfer",
+                "type": "event",
+                "anonymous": false,
+                "inputs": [
+                  {
+                    "type": "address",
+                    "name": "from",
+                    "indexed": true
+                  },
+                  {
+                    "type": "address",
+                    "name": "to",
+                    "indexed": true
+                  },
+                  {
+                    "type": "uint256",
+                    "name": "value",
+                    "indexed": false
+                  }
+                ]
+              }
+            ],
+            "type": "array"
           },
           {
             "name": "advancedOptions",
             "required": false,
-            "example": "string"
+            "type": "json"
           },
           {
             "name": "chainIds",
@@ -38097,19 +38146,21 @@
             },
             "description": "The ids of the chains for this stream in hex Ex: [\"0x1\",\"0x38\"]",
             "required": true,
-            "example": []
+            "example": [
+              "0x1"
+            ]
           },
           {
             "name": "filterPossibleSpamAddresses",
             "type": "boolean",
-            "description": "Indicator if it is a demo stream",
+            "description": "Filter possible spam addresses",
             "required": false,
             "example": false
           },
           {
             "name": "demo",
             "type": "boolean",
-            "description": "Filter possible spam addresses",
+            "description": "Indicator if this is a demo stream",
             "required": false,
             "example": false
           },
@@ -38289,19 +38340,22 @@
                 "name": "webhookUrl",
                 "type": "string",
                 "description": "Webhook URL where moralis will send the POST request.",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "description",
                 "type": "string",
                 "description": "A description for this stream",
-                "required": true
+                "required": true,
+                "example": "Monitor EVM activity"
               },
               {
                 "name": "tag",
                 "type": "string",
                 "description": "A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present",
-                "required": false
+                "required": false,
+                "example": "evm-monitor"
               },
               {
                 "name": "topic0",
@@ -38367,7 +38421,8 @@
                         "nfttransfer",
                         "internalTx"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     }
                   ]
                 },
@@ -38389,7 +38444,10 @@
                   "type": "string"
                 },
                 "description": "The ids of the chains for this stream in hex Ex: [\"0x1\",\"0x38\"]",
-                "required": true
+                "required": true,
+                "example": [
+                  "0x1"
+                ]
               },
               {
                 "name": "filterPossibleSpamAddresses",
@@ -38419,7 +38477,8 @@
                         "erc20approval",
                         "nfttransfer"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     },
                     {
                       "name": "contractAddress",
@@ -38575,7 +38634,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The status of the stream.",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -38634,19 +38693,22 @@
                 "name": "webhookUrl",
                 "type": "string",
                 "description": "Webhook URL where moralis will send the POST request.",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "description",
                 "type": "string",
                 "description": "A description for this stream",
-                "required": true
+                "required": true,
+                "example": "Monitor EVM activity"
               },
               {
                 "name": "tag",
                 "type": "string",
                 "description": "A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present",
-                "required": false
+                "required": false,
+                "example": "evm-monitor"
               },
               {
                 "name": "topic0",
@@ -38712,7 +38774,8 @@
                         "nfttransfer",
                         "internalTx"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     }
                   ]
                 },
@@ -38734,7 +38797,10 @@
                   "type": "string"
                 },
                 "description": "The ids of the chains for this stream in hex Ex: [\"0x1\",\"0x38\"]",
-                "required": true
+                "required": true,
+                "example": [
+                  "0x1"
+                ]
               },
               {
                 "name": "filterPossibleSpamAddresses",
@@ -38764,7 +38830,8 @@
                         "erc20approval",
                         "nfttransfer"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     },
                     {
                       "name": "contractAddress",
@@ -38920,7 +38987,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The status of the stream.",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -38978,21 +39045,21 @@
             "type": "string",
             "description": "Webhook URL where moralis will send the POST request.",
             "required": false,
-            "example": "string"
+            "example": "https://your-server.com/webhook"
           },
           {
             "name": "description",
             "type": "string",
             "description": "A description for this stream",
             "required": false,
-            "example": "string"
+            "example": "Monitor EVM activity"
           },
           {
             "name": "tag",
             "type": "string",
             "description": "A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present",
             "required": false,
-            "example": "string"
+            "example": "evm-monitor"
           },
           {
             "name": "topic0",
@@ -39002,14 +39069,16 @@
             },
             "description": "An Array of topic0's in string-signature format ex: ['FunctionName(address,uint256)']",
             "required": false,
-            "example": []
+            "example": [
+              "Transfer(address,address,uint256)"
+            ]
           },
           {
             "name": "allAddresses",
             "type": "boolean",
             "description": "Include events for all addresses (only applied when abi and topic0 is provided)",
             "required": false,
-            "example": false
+            "example": true
           },
           {
             "name": "includeNativeTxs",
@@ -39023,7 +39092,7 @@
             "type": "boolean",
             "description": "Include or not logs of contract interactions defaults to false",
             "required": false,
-            "example": false
+            "example": true
           },
           {
             "name": "includeInternalTxs",
@@ -39075,12 +39144,36 @@
           {
             "name": "abi",
             "required": false,
-            "example": "string"
+            "example": [
+              {
+                "name": "Transfer",
+                "type": "event",
+                "anonymous": false,
+                "inputs": [
+                  {
+                    "type": "address",
+                    "name": "from",
+                    "indexed": true
+                  },
+                  {
+                    "type": "address",
+                    "name": "to",
+                    "indexed": true
+                  },
+                  {
+                    "type": "uint256",
+                    "name": "value",
+                    "indexed": false
+                  }
+                ]
+              }
+            ],
+            "type": "array"
           },
           {
             "name": "advancedOptions",
             "required": false,
-            "example": "string"
+            "type": "json"
           },
           {
             "name": "chainIds",
@@ -39090,19 +39183,21 @@
             },
             "description": "The ids of the chains for this stream in hex Ex: [\"0x1\",\"0x38\"]",
             "required": false,
-            "example": []
+            "example": [
+              "0x1"
+            ]
           },
           {
             "name": "filterPossibleSpamAddresses",
             "type": "boolean",
-            "description": "Indicator if it is a demo stream",
+            "description": "Filter possible spam addresses",
             "required": false,
             "example": false
           },
           {
             "name": "demo",
             "type": "boolean",
-            "description": "Filter possible spam addresses",
+            "description": "Indicator if this is a demo stream",
             "required": false,
             "example": false
           },
@@ -39282,19 +39377,22 @@
                 "name": "webhookUrl",
                 "type": "string",
                 "description": "Webhook URL where moralis will send the POST request.",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "description",
                 "type": "string",
                 "description": "A description for this stream",
-                "required": true
+                "required": true,
+                "example": "Monitor EVM activity"
               },
               {
                 "name": "tag",
                 "type": "string",
                 "description": "A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present",
-                "required": false
+                "required": false,
+                "example": "evm-monitor"
               },
               {
                 "name": "topic0",
@@ -39360,7 +39458,8 @@
                         "nfttransfer",
                         "internalTx"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     }
                   ]
                 },
@@ -39382,7 +39481,10 @@
                   "type": "string"
                 },
                 "description": "The ids of the chains for this stream in hex Ex: [\"0x1\",\"0x38\"]",
-                "required": true
+                "required": true,
+                "example": [
+                  "0x1"
+                ]
               },
               {
                 "name": "filterPossibleSpamAddresses",
@@ -39412,7 +39514,8 @@
                         "erc20approval",
                         "nfttransfer"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     },
                     {
                       "name": "contractAddress",
@@ -39568,7 +39671,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The status of the stream.",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -39627,19 +39730,22 @@
                 "name": "webhookUrl",
                 "type": "string",
                 "description": "Webhook URL where moralis will send the POST request.",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "description",
                 "type": "string",
                 "description": "A description for this stream",
-                "required": true
+                "required": true,
+                "example": "Monitor EVM activity"
               },
               {
                 "name": "tag",
                 "type": "string",
                 "description": "A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present",
-                "required": false
+                "required": false,
+                "example": "evm-monitor"
               },
               {
                 "name": "topic0",
@@ -39705,7 +39811,8 @@
                         "nfttransfer",
                         "internalTx"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     }
                   ]
                 },
@@ -39727,7 +39834,10 @@
                   "type": "string"
                 },
                 "description": "The ids of the chains for this stream in hex Ex: [\"0x1\",\"0x38\"]",
-                "required": true
+                "required": true,
+                "example": [
+                  "0x1"
+                ]
               },
               {
                 "name": "filterPossibleSpamAddresses",
@@ -39757,7 +39867,8 @@
                         "erc20approval",
                         "nfttransfer"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     },
                     {
                       "name": "contractAddress",
@@ -39913,7 +40024,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The status of the stream.",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -39972,19 +40083,22 @@
                 "name": "webhookUrl",
                 "type": "string",
                 "description": "Webhook URL where moralis will send the POST request.",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "description",
                 "type": "string",
                 "description": "A description for this stream",
-                "required": true
+                "required": true,
+                "example": "Monitor EVM activity"
               },
               {
                 "name": "tag",
                 "type": "string",
                 "description": "A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present",
-                "required": false
+                "required": false,
+                "example": "evm-monitor"
               },
               {
                 "name": "topic0",
@@ -40050,7 +40164,8 @@
                         "nfttransfer",
                         "internalTx"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     }
                   ]
                 },
@@ -40072,7 +40187,10 @@
                   "type": "string"
                 },
                 "description": "The ids of the chains for this stream in hex Ex: [\"0x1\",\"0x38\"]",
-                "required": true
+                "required": true,
+                "example": [
+                  "0x1"
+                ]
               },
               {
                 "name": "filterPossibleSpamAddresses",
@@ -40102,7 +40220,8 @@
                         "erc20approval",
                         "nfttransfer"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     },
                     {
                       "name": "contractAddress",
@@ -40258,7 +40377,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The status of the stream.",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -40315,7 +40434,7 @@
             "name": "status",
             "type": "string",
             "description": "The stream status: active (processing blocks) or paused (not processing blocks)",
-            "example": "[object Object]",
+            "example": "active",
             "enum": [
               "active",
               "paused"
@@ -40335,19 +40454,22 @@
                 "name": "webhookUrl",
                 "type": "string",
                 "description": "Webhook URL where moralis will send the POST request.",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "description",
                 "type": "string",
                 "description": "A description for this stream",
-                "required": true
+                "required": true,
+                "example": "Monitor EVM activity"
               },
               {
                 "name": "tag",
                 "type": "string",
                 "description": "A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present",
-                "required": false
+                "required": false,
+                "example": "evm-monitor"
               },
               {
                 "name": "topic0",
@@ -40413,7 +40535,8 @@
                         "nfttransfer",
                         "internalTx"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     }
                   ]
                 },
@@ -40435,7 +40558,10 @@
                   "type": "string"
                 },
                 "description": "The ids of the chains for this stream in hex Ex: [\"0x1\",\"0x38\"]",
-                "required": true
+                "required": true,
+                "example": [
+                  "0x1"
+                ]
               },
               {
                 "name": "filterPossibleSpamAddresses",
@@ -40465,7 +40591,8 @@
                         "erc20approval",
                         "nfttransfer"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "tx"
                     },
                     {
                       "name": "contractAddress",
@@ -40621,7 +40748,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The status of the stream.",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -40747,10 +40874,10 @@
         "fields": [
           {
             "name": "address",
-            "type": "string",
-            "description": "The address or a list of addresses to be added to the Stream.",
+            "type": "string | string[]",
+            "description": "A single address string or an array of addresses",
             "required": true,
-            "example": "string"
+            "example": "YOUR_EVM_ADDRESS"
           }
         ]
       },
@@ -40801,10 +40928,10 @@
         "fields": [
           {
             "name": "address",
-            "type": "string",
-            "description": "The address or a list of addresses to be replace from the Stream.",
+            "type": "string | string[]",
+            "description": "A single address string or an array of addresses",
             "required": true,
-            "example": "string"
+            "example": "YOUR_EVM_ADDRESS"
           }
         ]
       },
@@ -40855,10 +40982,10 @@
         "fields": [
           {
             "name": "address",
-            "type": "string",
-            "description": "The address or a list of addresses to be removed from the Stream.",
+            "type": "string | string[]",
+            "description": "A single address string or an array of addresses",
             "required": true,
-            "example": "string"
+            "example": "YOUR_EVM_ADDRESS"
           }
         ]
       },
@@ -40917,7 +41044,7 @@
             "type": "string",
             "description": "A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present",
             "required": false,
-            "example": "string"
+            "example": "evm-block-audit"
           },
           {
             "name": "topic0",
@@ -40973,12 +41100,12 @@
           {
             "name": "abi",
             "required": false,
-            "example": "string"
+            "type": "json"
           },
           {
             "name": "advancedOptions",
             "required": false,
-            "example": "string"
+            "type": "json"
           },
           {
             "name": "addresses",
@@ -40987,7 +41114,9 @@
               "type": "string"
             },
             "required": false,
-            "example": []
+            "example": [
+              "YOUR_EVM_ADDRESS"
+            ]
           }
         ]
       },
@@ -41409,7 +41538,8 @@
               {
                 "name": "tag",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "evm-monitor"
               },
               {
                 "name": "streamId",
@@ -42252,14 +42382,14 @@
             ],
             "description": "The region from where all the webhooks will be posted for this project",
             "required": false,
-            "example": "string"
+            "example": "us-east-1"
           },
           {
             "name": "secretKey",
             "type": "string",
             "description": "The secret key to validate the webhooks",
             "required": false,
-            "example": "string"
+            "example": "YOUR_WEBHOOK_SECRET"
           }
         ]
       },
@@ -42280,13 +42410,15 @@
                   "ap-southeast-1"
                 ],
                 "description": "The region from where all the webhooks will be posted for this project",
-                "required": false
+                "required": false,
+                "example": "us-east-1"
               },
               {
                 "name": "secretKey",
                 "type": "string",
                 "description": "The secret key to validate the webhooks",
-                "required": false
+                "required": false,
+                "example": "YOUR_WEBHOOK_SECRET"
               }
             ]
           }
@@ -42318,13 +42450,15 @@
                   "ap-southeast-1"
                 ],
                 "description": "The region from where all the webhooks will be posted for this project",
-                "required": false
+                "required": false,
+                "example": "us-east-1"
               },
               {
                 "name": "secretKey",
                 "type": "string",
                 "description": "The secret key to validate the webhooks",
-                "required": false
+                "required": false,
+                "example": "YOUR_WEBHOOK_SECRET"
               }
             ]
           }
@@ -42832,7 +42966,8 @@
                         {
                           "name": "tag",
                           "type": "string",
-                          "required": true
+                          "required": true,
+                          "example": "evm-monitor"
                         },
                         {
                           "name": "streamId",
@@ -42882,7 +43017,8 @@
                     {
                       "name": "webhookUrl",
                       "type": "string",
-                      "required": true
+                      "required": true,
+                      "example": "https://your-server.com/webhook"
                     },
                     {
                       "name": "streamId",
@@ -42892,7 +43028,8 @@
                     {
                       "name": "tag",
                       "type": "string",
-                      "required": false
+                      "required": false,
+                      "example": "evm-monitor"
                     }
                   ]
                 },
@@ -42929,9 +43066,9 @@
         },
         {
           "name": "id",
-          "description": "Stringified UUIDv4.\nSee [RFC 4112](https://tools.ietf.org/html/rfc4122)",
+          "description": "The history delivery ID to replay",
           "required": true,
-          "example": "YOUR_STREAM_ID",
+          "example": "YOUR_HISTORY_ID",
           "type": "string"
         }
       ],
@@ -43369,7 +43506,8 @@
                   {
                     "name": "tag",
                     "type": "string",
-                    "required": true
+                    "required": true,
+                    "example": "evm-monitor"
                   },
                   {
                     "name": "streamId",
@@ -43419,7 +43557,8 @@
               {
                 "name": "webhookUrl",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "streamId",
@@ -43429,7 +43568,8 @@
               {
                 "name": "tag",
                 "type": "string",
-                "required": false
+                "required": false,
+                "example": "evm-monitor"
               }
             ]
           }
@@ -43533,12 +43673,14 @@
                     {
                       "name": "webhookUrl",
                       "type": "string",
-                      "required": true
+                      "required": true,
+                      "example": "https://your-server.com/webhook"
                     },
                     {
                       "name": "tag",
                       "type": "string",
-                      "required": false
+                      "required": false,
+                      "example": "evm-monitor"
                     },
                     {
                       "name": "retries",
@@ -43552,7 +43694,8 @@
                         "failed",
                         "success"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "failed"
                     },
                     {
                       "name": "blockNumber",
@@ -43562,7 +43705,7 @@
                     {
                       "name": "errorMessage",
                       "type": "string",
-                      "required": true
+                      "required": false
                     },
                     {
                       "name": "type",
@@ -43572,7 +43715,8 @@
                         "aptos",
                         "bitcoin"
                       ],
-                      "required": true
+                      "required": true,
+                      "example": "evm"
                     },
                     {
                       "name": "createdAt",
@@ -43625,26 +43769,30 @@
           {
             "name": "chainId",
             "type": "string",
+            "description": "Hex chain ID for the stream, such as 0x1 for Ethereum",
             "required": true,
-            "example": "string"
+            "example": "0x1"
           },
           {
             "name": "streamId",
             "type": "string",
+            "description": "The stream ID to backfill",
             "required": true,
-            "example": "string"
+            "example": "YOUR_STREAM_ID"
           },
           {
             "name": "fromTimestamp",
             "type": "number",
+            "description": "Start of the historical window as a Unix timestamp in seconds",
             "required": true,
-            "example": 0
+            "example": 1700000000
           },
           {
             "name": "toTimestamp",
             "type": "number",
+            "description": "End of the historical window as a Unix timestamp in seconds",
             "required": true,
-            "example": 0
+            "example": 1700000060
           },
           {
             "name": "addresses",
@@ -43653,7 +43801,9 @@
               "type": "string"
             },
             "required": false,
-            "example": []
+            "example": [
+              "YOUR_EVM_ADDRESS"
+            ]
           }
         ]
       },
@@ -43759,7 +43909,14 @@
                 {
                   "name": "status",
                   "type": "string",
-                  "required": true
+                  "required": true,
+                  "example": "active",
+                  "enum": [
+                    "active",
+                    "paused",
+                    "error",
+                    "terminated"
+                  ]
                 },
                 {
                   "name": "createdAt",
@@ -43832,7 +43989,8 @@
                     {
                       "name": "description",
                       "type": "string",
-                      "required": true
+                      "required": true,
+                      "example": "Monitor Solana activity"
                     },
                     {
                       "name": "isErrorSince",
@@ -43848,7 +44006,10 @@
                           "mainnet"
                         ]
                       },
-                      "required": true
+                      "required": true,
+                      "example": [
+                        "mainnet"
+                      ]
                     },
                     {
                       "name": "programIds",
@@ -43870,7 +44031,7 @@
                       "name": "status",
                       "type": "string",
                       "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
-                      "example": "[object Object]",
+                      "example": "active",
                       "enum": [
                         "active",
                         "paused",
@@ -43887,12 +44048,14 @@
                     {
                       "name": "tag",
                       "type": "string",
-                      "required": true
+                      "required": true,
+                      "example": "solana-monitor"
                     },
                     {
                       "name": "webhookUrl",
                       "type": "string",
-                      "required": true
+                      "required": true,
+                      "example": "https://your-server.com/webhook"
                     },
                     {
                       "name": "amountOfAddresses",
@@ -44013,7 +44176,8 @@
               {
                 "name": "description",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "Monitor Solana activity"
               },
               {
                 "name": "isErrorSince",
@@ -44029,7 +44193,10 @@
                     "mainnet"
                   ]
                 },
-                "required": true
+                "required": true,
+                "example": [
+                  "mainnet"
+                ]
               },
               {
                 "name": "programIds",
@@ -44051,7 +44218,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -44068,12 +44235,14 @@
               {
                 "name": "tag",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "solana-monitor"
               },
               {
                 "name": "webhookUrl",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "amountOfAddresses",
@@ -44125,7 +44294,8 @@
               {
                 "name": "description",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "Monitor Solana activity"
               },
               {
                 "name": "isErrorSince",
@@ -44141,7 +44311,10 @@
                     "mainnet"
                   ]
                 },
-                "required": true
+                "required": true,
+                "example": [
+                  "mainnet"
+                ]
               },
               {
                 "name": "programIds",
@@ -44163,7 +44336,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -44180,12 +44353,14 @@
               {
                 "name": "tag",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "solana-monitor"
               },
               {
                 "name": "webhookUrl",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "amountOfAddresses",
@@ -44309,7 +44484,8 @@
               {
                 "name": "description",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "Monitor Solana activity"
               },
               {
                 "name": "isErrorSince",
@@ -44325,7 +44501,10 @@
                     "mainnet"
                   ]
                 },
-                "required": true
+                "required": true,
+                "example": [
+                  "mainnet"
+                ]
               },
               {
                 "name": "programIds",
@@ -44347,7 +44526,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -44364,12 +44543,14 @@
               {
                 "name": "tag",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "solana-monitor"
               },
               {
                 "name": "webhookUrl",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "amountOfAddresses",
@@ -44431,8 +44612,10 @@
         "fields": [
           {
             "name": "address",
+            "type": "string | string[]",
+            "description": "A single Solana address string or an array of addresses",
             "required": true,
-            "example": "string"
+            "example": "YOUR_SOLANA_ADDRESS"
           }
         ]
       },
@@ -44479,8 +44662,10 @@
         "fields": [
           {
             "name": "address",
+            "type": "string | string[]",
+            "description": "A single Solana address string or an array of addresses",
             "required": true,
-            "example": "string"
+            "example": "YOUR_SOLANA_ADDRESS"
           }
         ]
       },
@@ -44593,7 +44778,7 @@
             "name": "status",
             "type": "string",
             "description": "The stream status: active (processing blocks) or paused (not processing blocks)",
-            "example": "[object Object]",
+            "example": "active",
             "enum": [
               "active",
               "paused"
@@ -44613,7 +44798,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -44661,7 +44846,7 @@
             "type": "string",
             "description": "A user-provided tag that will be send along the webhook",
             "required": false,
-            "example": "string"
+            "example": "solana-block-audit"
           },
           {
             "name": "allAddresses",
@@ -44678,7 +44863,9 @@
             },
             "description": "Solana addresses to filter by",
             "required": false,
-            "example": []
+            "example": [
+              "YOUR_SOLANA_ADDRESS"
+            ]
           },
           {
             "name": "programIds",
@@ -44688,7 +44875,9 @@
             },
             "description": "Solana program IDs to filter by",
             "required": false,
-            "example": []
+            "example": [
+              "YOUR_SOLANA_PROGRAM_ID"
+            ]
           },
           {
             "name": "mintAddresses",
@@ -44698,7 +44887,9 @@
             },
             "description": "Solana token mint addresses to filter by",
             "required": false,
-            "example": []
+            "example": [
+              "YOUR_SOLANA_MINT"
+            ]
           }
         ]
       },
@@ -44753,11 +44944,20 @@
               },
               {
                 "name": "network",
-                "type": "string",
+                "type": "array",
                 "enum": [
                   "mainnet"
                 ],
-                "required": true
+                "required": true,
+                "example": [
+                  "mainnet"
+                ],
+                "field": {
+                  "type": "string",
+                  "enum": [
+                    "mainnet"
+                  ]
+                }
               },
               {
                 "name": "retries",
@@ -44772,7 +44972,8 @@
               {
                 "name": "tag",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "solana-monitor"
               },
               {
                 "name": "transactions",
@@ -44971,7 +45172,8 @@
                     {
                       "name": "description",
                       "type": "string",
-                      "required": true
+                      "required": true,
+                      "example": "Monitor Bitcoin activity"
                     },
                     {
                       "name": "includeInputs",
@@ -44997,13 +45199,16 @@
                           "mainnet"
                         ]
                       },
-                      "required": true
+                      "required": true,
+                      "example": [
+                        "mainnet"
+                      ]
                     },
                     {
                       "name": "status",
                       "type": "string",
                       "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
-                      "example": "[object Object]",
+                      "example": "active",
                       "enum": [
                         "active",
                         "paused",
@@ -45020,12 +45225,14 @@
                     {
                       "name": "tag",
                       "type": "string",
-                      "required": true
+                      "required": true,
+                      "example": "bitcoin-monitor"
                     },
                     {
                       "name": "webhookUrl",
                       "type": "string",
-                      "required": true
+                      "required": true,
+                      "example": "https://your-server.com/webhook"
                     },
                     {
                       "name": "amountOfAddresses",
@@ -45148,7 +45355,8 @@
               {
                 "name": "description",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "Monitor Bitcoin activity"
               },
               {
                 "name": "includeInputs",
@@ -45174,13 +45382,16 @@
                     "mainnet"
                   ]
                 },
-                "required": true
+                "required": true,
+                "example": [
+                  "mainnet"
+                ]
               },
               {
                 "name": "status",
                 "type": "string",
                 "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -45197,12 +45408,14 @@
               {
                 "name": "tag",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "bitcoin-monitor"
               },
               {
                 "name": "webhookUrl",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "amountOfAddresses",
@@ -45259,7 +45472,8 @@
               {
                 "name": "description",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "Monitor Bitcoin activity"
               },
               {
                 "name": "includeInputs",
@@ -45285,13 +45499,16 @@
                     "mainnet"
                   ]
                 },
-                "required": true
+                "required": true,
+                "example": [
+                  "mainnet"
+                ]
               },
               {
                 "name": "status",
                 "type": "string",
                 "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -45308,12 +45525,14 @@
               {
                 "name": "tag",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "bitcoin-monitor"
               },
               {
                 "name": "webhookUrl",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "amountOfAddresses",
@@ -45439,7 +45658,8 @@
               {
                 "name": "description",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "Monitor Bitcoin activity"
               },
               {
                 "name": "includeInputs",
@@ -45465,13 +45685,16 @@
                     "mainnet"
                   ]
                 },
-                "required": true
+                "required": true,
+                "example": [
+                  "mainnet"
+                ]
               },
               {
                 "name": "status",
                 "type": "string",
                 "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -45488,12 +45711,14 @@
               {
                 "name": "tag",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "bitcoin-monitor"
               },
               {
                 "name": "webhookUrl",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "https://your-server.com/webhook"
               },
               {
                 "name": "amountOfAddresses",
@@ -45555,8 +45780,10 @@
         "fields": [
           {
             "name": "address",
+            "type": "string | string[]",
+            "description": "A single Bitcoin address string or an array of addresses",
             "required": true,
-            "example": "string"
+            "example": "YOUR_BTC_ADDRESS"
           }
         ]
       },
@@ -45603,8 +45830,10 @@
         "fields": [
           {
             "name": "address",
+            "type": "string | string[]",
+            "description": "A single Bitcoin address string or an array of addresses",
             "required": true,
-            "example": "string"
+            "example": "YOUR_BTC_ADDRESS"
           }
         ]
       },
@@ -45897,7 +46126,7 @@
             "name": "status",
             "type": "string",
             "description": "The stream status: active (processing blocks) or paused (not processing blocks)",
-            "example": "[object Object]",
+            "example": "active",
             "enum": [
               "active",
               "paused"
@@ -45917,7 +46146,7 @@
                 "name": "status",
                 "type": "string",
                 "description": "The stream status:\n[active] The Stream is healthy and processing blocks\n[paused] The Stream is paused and is not processing blocks\n[error] The Stream has encountered an error and is not processing blocks",
-                "example": "[object Object]",
+                "example": "active",
                 "enum": [
                   "active",
                   "paused",
@@ -45965,7 +46194,7 @@
             "type": "string",
             "description": "A user-provided tag that will be send along the webhook",
             "required": false,
-            "example": "string"
+            "example": "bitcoin-block-audit"
           },
           {
             "name": "allAddresses",
@@ -45979,14 +46208,14 @@
             "type": "boolean",
             "description": "Include or not input details in webhook defaults to true",
             "required": false,
-            "example": false
+            "example": true
           },
           {
             "name": "includeOutputs",
             "type": "boolean",
             "description": "Include or not output details in webhook defaults to true",
             "required": false,
-            "example": false
+            "example": true
           },
           {
             "name": "addresses",
@@ -45996,7 +46225,9 @@
             },
             "description": "Bitcoin addresses to filter by",
             "required": false,
-            "example": []
+            "example": [
+              "YOUR_BTC_ADDRESS"
+            ]
           }
         ]
       },
@@ -46066,11 +46297,20 @@
               },
               {
                 "name": "network",
-                "type": "string",
+                "type": "array",
                 "enum": [
                   "mainnet"
                 ],
-                "required": true
+                "required": true,
+                "example": [
+                  "mainnet"
+                ],
+                "field": {
+                  "type": "string",
+                  "enum": [
+                    "mainnet"
+                  ]
+                }
               },
               {
                 "name": "retries",
@@ -46085,7 +46325,8 @@
               {
                 "name": "tag",
                 "type": "string",
-                "required": true
+                "required": true,
+                "example": "bitcoin-monitor"
               },
               {
                 "name": "transactions",

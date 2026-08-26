@@ -35,7 +35,7 @@ Ok
     "jobs": 0,
     "jobsCompleted": 0,
     "totalBlocks": 0,
-    "status": "status_example",
+    "status": "active",
     "createdAt": "createdAt_example",
     "updatedAt": "updatedAt_example"
   }

@@ -31,7 +31,7 @@ The Streams API uses different HTTP methods than typical REST APIs:
 | Get streams | `GET` | `/streams/evm` | List all streams |
 | Get stream | `GET` | `/streams/evm/{id}` | Get specific stream |
 | Add address | `POST` | `/streams/evm/{id}/address` | Add addresses to stream |
-| Delete address | `DELETE` | `/streams/evm/{id}/address/{address}` | Remove address |
+| Delete address | `DELETE` | `/streams/evm/{id}/address` with an `address` request body | Remove address |
 | Pause/Resume | `POST` | `/streams/evm/{id}/status` | Update stream status |
 
 ### Common Mistake: Using POST to Create Streams
@@ -177,38 +177,31 @@ streams.forEach(stream => ...);
 ### GetStream Response
 
 ```typescript
-// Returns wrapped object with stream key
+// Returns the stream object directly
 {
-  stream: {
-    id: "a1b2c3d4-...",
-    webhookUrl: "https://...",
-    description: "...",
-    // ... other stream fields
-  }
+  id: "YOUR_STREAM_ID",
+  webhookUrl: "https://...",
+  description: "..."
 }
 
 // ❌ WRONG - Assuming result wrapper
 const { result: stream } = await fetch(`/streams/evm/${id}`);
 
-// ✅ CORRECT - Access stream property
-const { stream } = await fetch(`/streams/evm/${id}`);
+// ✅ CORRECT - Use the direct response object
+const stream = await fetch(`/streams/evm/${id}`);
 ```
 
 ### GetStats Response
 
 ```typescript
-// Returns flat object with stats
-{
-  totalStreams: 5,
-  activeStreams: 3,
-  pausedStreams: 2
-}
+// Returns project totals and a per-stream breakdown
+const stats = await fetch('/stats');
 
 // ❌ WRONG - Assuming result wrapper
-const { result: stats } = await fetch('/streams/evm/stats');
+const { result: stats } = await fetch('/stats');
 
 // ✅ CORRECT - Direct access to stats
-const stats = await fetch('/streams/evm/stats');
+const stats = await fetch('/stats');
 ```
 
 ### Universal Safe Access Pattern
@@ -220,10 +213,6 @@ async function safeFetch<T = any>(endpoint: string): Promise<T> {
 
   if (response.result && Array.isArray(response.result)) {
     return response.result;
-  } else if (response.stream) {
-    return response.stream;
-  } else if (response.totalStreams) {
-    return response;
   }
 
   return response as unknown as T;
@@ -357,7 +346,9 @@ const config = {
 };
 ```
 
-**Impact:** Stream is created but won't send any webhooks.
+**Impact:** The create request is rejected because `webhookUrl` is required.
+
+When `topic0` is provided, include a matching event `abi`. A valid EVM stream must also enable at least one of `includeContractLogs`, `includeNativeTxs`, or `includeInternalTxs`.
 
 ### Webhook URL Not Publicly Accessible
 

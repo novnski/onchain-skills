@@ -18,8 +18,8 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chains | array | No | Chains to query | \`ethereum\` |
-| cursor | string | No | The cursor to the next page | \`YOUR_CURSOR\` |
+| chains | array (0x1, ethereum, 0x15b38, chiliz, 0x19, cro, 0x2105, base, 0x38, binance, 0x440, metis, 0x46f, lisk, 0x504, moon beam, 0x505, moon river, 0x531, sei, 0x64, gnosis, 0x7e4, ronin, 0x89, polygon, 0x8f, monad, 0x92, sonic, 0xa, optimism, 0xa4b1, arbitrum, 0xa86a, avalanche, 0xe708, linea, solana-mainnet, sol, all, mainnets, testnets) | No | Chains to query | \`ethereum\` |
+| cursor | string | No | The cursor to the next page | - |
 | limit | number | No | The limit per page | \`100\` |
 
 ## Cursor/Pagination
@@ -53,7 +53,7 @@ Status: 200
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis.com/v1/defi/protocols?chains=ethereum&cursor=YOUR_CURSOR&limit=100" \
+curl -X GET "https://api.moralis.com/v1/defi/protocols?chains=ethereum&limit=100" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

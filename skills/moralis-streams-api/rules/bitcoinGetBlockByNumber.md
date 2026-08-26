@@ -23,11 +23,11 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| tag | string | No | A user-provided tag that will be send along the webhook | \`string\` |
+| tag | string | No | A user-provided tag that will be send along the webhook | \`bitcoin-block-audit\` |
 | allAddresses | boolean | No | Include events for all addresses | \`false\` |
-| includeInputs | boolean | No | Include or not input details in webhook defaults to true | \`false\` |
-| includeOutputs | boolean | No | Include or not output details in webhook defaults to true | \`false\` |
-| addresses | array | No | Bitcoin addresses to filter by | \`[]\` |
+| includeInputs | boolean | No | Include or not input details in webhook defaults to true | \`true\` |
+| includeOutputs | boolean | No | Include or not output details in webhook defaults to true | \`true\` |
+| addresses | array | No | Bitcoin addresses to filter by | \`["YOUR_BTC_ADDRESS"]\` |
 
 ## Response Example
 
@@ -49,10 +49,12 @@ Ok
     "height": "height_example"
   },
   "chainId": "chainId_example",
-  "network": "network_example",
+  "network": [
+    "mainnet"
+  ],
   "retries": 0,
   "streamId": "streamId_example",
-  "tag": "tag_example",
+  "tag": "bitcoin-monitor",
   "transactions": [
     {
       "xpubs": [
@@ -117,10 +119,12 @@ curl -X POST "https://api.moralis-streams.com/streams/bitcoin/mainnet/block/1234
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "tag": "string",
+  "tag": "bitcoin-block-audit",
   "allAddresses": false,
-  "includeInputs": false,
-  "includeOutputs": false,
-  "addresses": []
+  "includeInputs": true,
+  "includeOutputs": true,
+  "addresses": [
+    "YOUR_BTC_ADDRESS"
+  ]
 }'
 ```

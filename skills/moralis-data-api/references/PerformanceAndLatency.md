@@ -71,7 +71,6 @@ Current documented Data API request throughput:
 
 | Plan | Throughput |
 |------|------------|
-| Free | 40 reqs/s |
 | Starter | 40 reqs/s |
 | Pro | 80 reqs/s |
 | Business | 200 reqs/s |

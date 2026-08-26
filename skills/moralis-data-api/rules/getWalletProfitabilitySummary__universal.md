@@ -24,7 +24,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chains | array | No | Chains to query | \`ethereum\` |
+| chains | array (0x1, ethereum, 0x171, pulse, 0x2105, base, 0x38, binance, 0x89, polygon, 0xa, optimism, 0xa86a, avalanche, all, mainnets) | No | Chains to query | \`ethereum\` |
 | period | string | No | - | - |
 | fromTimestamp | string | No | - | - |
 | toTimestamp | string | No | - | - |

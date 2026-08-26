@@ -24,17 +24,17 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chains | array | No | Chains to query | \`bitcoin\` |
-| cursor | string | No | The cursor to the next page | \`YOUR_CURSOR\` |
+| chains | array (0x1, ethereum, 0x13882, polygon amoy, 0x14a34, base sepolia, 0x15b38, chiliz, 0x171, pulse, 0x19, cro, 0x2105, base, 0x221, flow testnet, 0x2eb, flow, 0x38, binance, 0x46f, lisk, 0x504, moon beam, 0x505, moon river, 0x530, sei-testnet, 0x531, sei, 0x61, binance smart chain testnet, 0x64, gnosis, 0x7e4, ronin, 0x7e5, ronin testnet, 0x89, polygon, 0x8f, monad, 0xa, optimism, 0xa4b1, arbitrum, 0xa86a, avalanche, 0xaa36a7, sepolia, 0xe708, linea, bitcoin-mainnet, bitcoin, all, mainnets, testnets) | No | Chains to query | \`bitcoin\` |
+| cursor | string | No | The cursor to the next page | - |
 | limit | number | No | The limit per page | \`100\` |
-| tokenAddresses | array | No | The token addresses to be filtered in | \`["YOUR_TOKEN_ADDRESS"]\` |
-| excludeSpam | boolean | No | Should exclude spam contract | \`true\` |
-| excludeUnverifiedContracts | boolean | No | Should exclude unverified contract | \`true\` |
-| excludeNative | boolean | No | Should exclude native contract | \`true\` |
-| maxTokenInactivity | number | No | Should filter out contract exceeding max token inactivity | \`1\` |
-| liquidityThreshold | number | No | Should filter out contract under liquidity threshold | \`0\` |
-| includeSparklines | boolean | No | When true, include a 7-day hourly price sparkline for each token. | \`true\` |
-| includePnl | boolean | No | When true, include per-token PnL summary for each token. Ignored for Bitcoin (no PnL coverage). | \`true\` |
+| tokenAddresses | array | No | The token addresses to be filtered in | - |
+| excludeSpam | boolean | No | Should exclude spam contract | - |
+| excludeUnverifiedContracts | boolean | No | Should exclude unverified contract | - |
+| excludeNative | boolean | No | Should exclude native contract | - |
+| maxTokenInactivity | number | No | Should filter out contract exceeding max token inactivity | - |
+| liquidityThreshold | number | No | Should filter out contract under liquidity threshold | - |
+| includeSparklines | boolean | No | When true, include a 7-day hourly price sparkline for each token. | - |
+| includePnl | boolean | No | When true, include per-token PnL summary for each token. Ignored for Bitcoin (no PnL coverage). | - |
 
 ## Cursor/Pagination
 
@@ -100,7 +100,7 @@ Status: 200
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis.com/v1/wallets/YOUR_BTC_ADDRESS/tokens?chains=bitcoin&cursor=YOUR_CURSOR&limit=100&tokenAddresses=YOUR_TOKEN_ADDRESS&excludeSpam=true&excludeUnverifiedContracts=true&excludeNative=true&maxTokenInactivity=1&liquidityThreshold=0&includeSparklines=true&includePnl=true" \
+curl -X GET "https://api.moralis.com/v1/wallets/YOUR_BTC_ADDRESS/tokens?chains=bitcoin&limit=100" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

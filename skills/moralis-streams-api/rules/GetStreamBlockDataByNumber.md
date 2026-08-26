@@ -25,7 +25,7 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| tag | string | No | A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present | \`string\` |
+| tag | string | No | A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present | \`evm-block-audit\` |
 | topic0 | array | No | An Array of topic0's in string-signature format ex: ['FunctionName(address,uint256)'] | \`[]\` |
 | allAddresses | boolean | No | Include events for all addresses (only applied when abi and topic0 is provided) | \`false\` |
 | includeNativeTxs | boolean | No | Include or not native transactions defaults to false | \`false\` |
@@ -33,9 +33,9 @@ POST
 | includeInternalTxs | boolean | No | Include or not include internal transactions defaults to false | \`false\` |
 | includeAllTxLogs | boolean | No | Include all logs if atleast one value in tx or log matches stream config | \`false\` |
 | filterPossibleSpamAddresses | boolean | No | - | \`false\` |
-| abi | - | No | - | \`string\` |
-| advancedOptions | - | No | - | \`string\` |
-| addresses | array | No | - | \`[]\` |
+| abi | json | No | - | - |
+| advancedOptions | json | No | - | - |
+| addresses | array | No | - | \`["YOUR_EVM_ADDRESS"]\` |
 
 ## Response Example
 
@@ -150,7 +150,7 @@ Ok
   ],
   "retries": 0,
   "confirmed": true,
-  "tag": "tag_example",
+  "tag": "evm-monitor",
   "streamId": "streamId_example",
   "erc20Transfers": [
     {
@@ -301,7 +301,7 @@ curl -X POST "https://api.moralis-streams.com/streams/evm/0x1/block/123456" \
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "tag": "string",
+  "tag": "evm-block-audit",
   "topic0": [],
   "allAddresses": false,
   "includeNativeTxs": false,
@@ -309,8 +309,8 @@ curl -X POST "https://api.moralis-streams.com/streams/evm/0x1/block/123456" \
   "includeInternalTxs": false,
   "includeAllTxLogs": false,
   "filterPossibleSpamAddresses": false,
-  "abi": "string",
-  "advancedOptions": "string",
-  "addresses": []
+  "addresses": [
+    "YOUR_EVM_ADDRESS"
+  ]
 }'
 ```

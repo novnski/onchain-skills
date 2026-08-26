@@ -23,11 +23,11 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| tag | string | No | A user-provided tag that will be send along the webhook | \`string\` |
+| tag | string | No | A user-provided tag that will be send along the webhook | \`solana-block-audit\` |
 | allAddresses | boolean | No | Include events for all addresses | \`false\` |
-| addresses | array | No | Solana addresses to filter by | \`[]\` |
-| programIds | array | No | Solana program IDs to filter by | \`[]\` |
-| mintAddresses | array | No | Solana token mint addresses to filter by | \`[]\` |
+| addresses | array | No | Solana addresses to filter by | \`["YOUR_SOLANA_ADDRESS"]\` |
+| programIds | array | No | Solana program IDs to filter by | \`["YOUR_SOLANA_PROGRAM_ID"]\` |
+| mintAddresses | array | No | Solana token mint addresses to filter by | \`["YOUR_SOLANA_MINT"]\` |
 
 ## Response Example
 
@@ -46,10 +46,12 @@ Ok
     "slot": "slot_example"
   },
   "chainId": "chainId_example",
-  "network": "network_example",
+  "network": [
+    "mainnet"
+  ],
   "retries": 0,
   "streamId": "streamId_example",
-  "tag": "tag_example",
+  "tag": "solana-monitor",
   "transactions": [
     {
       "postTokenBalances": [],
@@ -86,10 +88,16 @@ curl -X POST "https://api.moralis-streams.com/streams/solana/mainnet/block/12345
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "tag": "string",
+  "tag": "solana-block-audit",
   "allAddresses": false,
-  "addresses": [],
-  "programIds": [],
-  "mintAddresses": []
+  "addresses": [
+    "YOUR_SOLANA_ADDRESS"
+  ],
+  "programIds": [
+    "YOUR_SOLANA_PROGRAM_ID"
+  ],
+  "mintAddresses": [
+    "YOUR_SOLANA_MINT"
+  ]
 }'
 ```

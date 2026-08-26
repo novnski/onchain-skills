@@ -45,7 +45,7 @@ Manually paused by the user. No blocks are evaluated, no webhooks sent. Resume b
 
 **Behavior in error state:**
 - Webhook delivery is **paused**
-- Blocks are still evaluated and events are queued
+- Events during the error-state downtime are not queued for later delivery
 - The stream can recover if the webhook endpoint becomes healthy again
 
 ### `terminated`

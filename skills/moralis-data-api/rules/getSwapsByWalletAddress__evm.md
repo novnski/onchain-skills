@@ -28,19 +28,10 @@ GET
 | tokenAddress | string | No | The token address to get transaction for (optional) | - |
 | cursor | string | No | The cursor returned in the previous response (used for getting the next page). | - |
 | limit | number | No | The desired page size of the result. | - |
-| fromBlock | number | No | The minimum block number from which to get the token transactions
-* Provide the param 'from_block' or 'from_date'
-* If 'from_date' and 'from_block' are provided, 'from_block' will be used.
- | - |
+| fromBlock | number | No | The minimum block number from which to get the token transactions<br>* Provide the param 'from_block' or 'from_date'<br>* If 'from_date' and 'from_block' are provided, 'from_block' will be used.<br> | - |
 | toBlock | string | No | The block number to get the token transactions from | - |
-| fromDate | string | No | The start date from which to get the token transactions (format in seconds or datestring accepted by momentjs)
-* Provide the param 'from_block' or 'from_date'
-* If 'from_date' and 'from_block' are provided, 'from_block' will be used.
- | - |
-| toDate | string | No | The end date from which to get the token transactions (format in seconds or datestring accepted by momentjs)
-* Provide the param 'to_block' or 'to_date'
-* If 'to_date' and 'to_block' are provided, 'to_block' will be used.
- | - |
+| fromDate | string | No | The start date from which to get the token transactions (format in seconds or datestring accepted by momentjs)<br>* Provide the param 'from_block' or 'from_date'<br>* If 'from_date' and 'from_block' are provided, 'from_block' will be used.<br> | - |
+| toDate | string | No | The end date from which to get the token transactions (format in seconds or datestring accepted by momentjs)<br>* Provide the param 'to_block' or 'to_date'<br>* If 'to_date' and 'to_block' are provided, 'to_block' will be used.<br> | - |
 | order | string (ASC, DESC) | No | The order of the result, in ascending (ASC) or descending (DESC) | \`DESC\` |
 | transactionTypes | string | No | Array of transaction types. Allowed values are 'buy', 'sell'. | - |
 

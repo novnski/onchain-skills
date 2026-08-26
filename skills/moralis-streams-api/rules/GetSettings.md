@@ -22,8 +22,8 @@ Ok
 
 ```json
 {
-  "region": "region_example",
-  "secretKey": "secretKey_example"
+  "region": "us-east-1",
+  "secretKey": "YOUR_WEBHOOK_SECRET"
 }
 ```
 

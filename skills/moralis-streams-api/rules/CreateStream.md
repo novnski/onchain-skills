@@ -18,21 +18,21 @@ PUT
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| webhookUrl | string | Yes | Webhook URL where moralis will send the POST request. | \`string\` |
-| description | string | Yes | A description for this stream | \`string\` |
-| tag | string | No | A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present | \`string\` |
-| topic0 | array | No | An Array of topic0's in string-signature format ex: ['FunctionName(address,uint256)'] | \`[]\` |
-| allAddresses | boolean | No | Include events for all addresses (only applied when abi and topic0 is provided) | \`false\` |
+| webhookUrl | string | Yes | Webhook URL where moralis will send the POST request. | \`https://your-server.com/webhook\` |
+| description | string | Yes | A description for this stream | \`Monitor EVM activity\` |
+| tag | string | No | A user-provided tag that will be send along the webhook, the user can use this tag to identify the specific stream if multiple streams are present | \`evm-monitor\` |
+| topic0 | array | No | An Array of topic0's in string-signature format ex: ['FunctionName(address,uint256)'] | \`["Transfer(address,address,uint256)"]\` |
+| allAddresses | boolean | No | Include events for all addresses (only applied when abi and topic0 is provided) | \`true\` |
 | includeNativeTxs | boolean | No | Include or not native transactions defaults to false | \`false\` |
-| includeContractLogs | boolean | No | Include or not logs of contract interactions defaults to false | \`false\` |
+| includeContractLogs | boolean | No | Include or not logs of contract interactions defaults to false | \`true\` |
 | includeInternalTxs | boolean | No | Include or not include internal transactions defaults to false | \`false\` |
 | includeAllTxLogs | boolean | No | Include all logs if atleast one value in tx or log matches stream config | \`false\` |
 | getNativeBalances | array | No | Include native balances for each address in the webhook | \`[]\` |
-| abi | - | No | - | \`string\` |
-| advancedOptions | - | No | - | \`string\` |
-| chainIds | array | Yes | The ids of the chains for this stream in hex Ex: ["0x1","0x38"] | \`[]\` |
-| filterPossibleSpamAddresses | boolean | No | Indicator if it is a demo stream | \`false\` |
-| demo | boolean | No | Filter possible spam addresses | \`false\` |
+| abi | array | No | - | \`[{"name":"Transfer","type":"event","anonymous":false,"inputs":[{"type":"address","name":"from","indexed":true},{"type":"address","name":"to","indexed":true},{"type":"uint256","name":"value","indexed":false}]}]\` |
+| advancedOptions | json | No | - | - |
+| chainIds | array | Yes | The ids of the chains for this stream in hex Ex: ["0x1","0x38"] | \`["0x1"]\` |
+| filterPossibleSpamAddresses | boolean | No | Filter possible spam addresses | \`false\` |
+| demo | boolean | No | Indicator if this is a demo stream | \`false\` |
 | triggers | array | No | triggers | \`[]\` |
 
 ## Response Example
@@ -43,9 +43,9 @@ Ok
 
 ```json
 {
-  "webhookUrl": "webhookUrl_example",
-  "description": "description_example",
-  "tag": "tag_example",
+  "webhookUrl": "https://your-server.com/webhook",
+  "description": "Monitor EVM activity",
+  "tag": "evm-monitor",
   "topic0": [
     "topic0_example"
   ],
@@ -59,19 +59,19 @@ Ok
       "selectors": [
         "selectors_example"
       ],
-      "type": "type_example"
+      "type": "tx"
     }
   ],
   "abi": null,
   "advancedOptions": null,
   "chainIds": [
-    "chainIds_example"
+    "0x1"
   ],
   "filterPossibleSpamAddresses": true,
   "demo": true,
   "triggers": [
     {
-      "type": "type_example",
+      "type": "tx",
       "contractAddress": "contractAddress_example",
       "inputs": [
         "inputs_example"
@@ -111,7 +111,7 @@ Ok
     }
   ],
   "id": "id_example",
-  "status": "[object Object]",
+  "status": "active",
   "statusMessage": "statusMessage_example",
   "updatedAt": "updatedAt_example",
   "amountOfAddresses": 0
@@ -126,19 +126,45 @@ curl -X PUT "https://api.moralis-streams.com/streams/evm" \
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "webhookUrl": "string",
-  "description": "string",
-  "tag": "string",
-  "topic0": [],
-  "allAddresses": false,
+  "webhookUrl": "https://your-server.com/webhook",
+  "description": "Monitor EVM activity",
+  "tag": "evm-monitor",
+  "topic0": [
+    "Transfer(address,address,uint256)"
+  ],
+  "allAddresses": true,
   "includeNativeTxs": false,
-  "includeContractLogs": false,
+  "includeContractLogs": true,
   "includeInternalTxs": false,
   "includeAllTxLogs": false,
   "getNativeBalances": [],
-  "abi": "string",
-  "advancedOptions": "string",
-  "chainIds": [],
+  "abi": [
+    {
+      "name": "Transfer",
+      "type": "event",
+      "anonymous": false,
+      "inputs": [
+        {
+          "type": "address",
+          "name": "from",
+          "indexed": true
+        },
+        {
+          "type": "address",
+          "name": "to",
+          "indexed": true
+        },
+        {
+          "type": "uint256",
+          "name": "value",
+          "indexed": false
+        }
+      ]
+    }
+  ],
+  "chainIds": [
+    "0x1"
+  ],
   "filterPossibleSpamAddresses": false,
   "demo": false,
   "triggers": []

@@ -81,7 +81,7 @@ Status: 200
       "value": "value_example"
     }
   ],
-  "chainFamily": "chainFamily_example",
+  "chainFamily": "EVM",
   "evmSpecific": {
     "status": 0,
     "nonce": 0,

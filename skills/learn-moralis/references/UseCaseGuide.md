@@ -70,7 +70,7 @@ Add @moralis-streams-api to push updates when:
 
 ### Supported Chains for P&L
 
-Only Ethereum (0x1), Polygon (0x89), and Base (0x2105) support profitability APIs.
+Universal PnL supports Ethereum, Base, BNB Chain, Polygon, Optimism, Avalanche, and Pulse.
 
 ### Implementation Pattern
 
@@ -180,7 +180,7 @@ User's Bot <-- Webhook <-- Moralis Streams <-- Blockchain
   "topic0": ["Transfer(address,address,uint256)"],
   "advancedOptions": [{
     "topic0": "Transfer(address,address,uint256)",
-    "filter": { "to": "0xYOUR_WALLET" }
+    "filter": { "to": "YOUR_EVM_ADDRESS" }
   }]
 }
 ```

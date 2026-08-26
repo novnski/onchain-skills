@@ -16,14 +16,13 @@ DELETE
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | Stringified UUIDv4.
-See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
+| id | string | Yes | Stringified UUIDv4.<br>See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
 
 ## Body
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| address | - | Yes | - | \`string\` |
+| address | string \| string[] | Yes | A single Bitcoin address string or an array of addresses | \`YOUR_BTC_ADDRESS\` |
 
 ## Response Example
 
@@ -46,6 +45,6 @@ curl -X DELETE "https://api.moralis-streams.com/streams/bitcoin/YOUR_STREAM_ID/a
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "address": "string"
+  "address": "YOUR_BTC_ADDRESS"
 }'
 ```

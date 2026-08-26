@@ -112,6 +112,11 @@ function escapeMd(str) {
   return String(str).replace(/`/g, "\\`");
 }
 
+function formatTableCell(value) {
+  if (value === undefined || value === null || value === "") return "-";
+  return escapeMd(value).replace(/\|/g, "\\|").replace(/\r?\n/g, "<br>");
+}
+
 const EVM_ADDRESS_RE = /^0x[a-fA-F0-9]{40}$/;
 const HEX_HASH_RE = /^0x[a-fA-F0-9]{64,}$/;
 const HEX_BLOB_RE = /^0x[a-fA-F0-9]{16,}$/;
@@ -400,13 +405,13 @@ function buildPathParamsSection(pathParams = [], source = "") {
       (param.type || "string") +
       (paramEnum ? " (" + paramEnum.join(", ") + ")" : "");
     const required = param.required ? "Yes" : "No";
-    const desc = param.description || "-";
+    const desc = formatTableCell(param.description);
     const example = formatExampleForTable(param.example, param.name);
     section +=
       "| " +
       name +
       " | " +
-      type +
+      formatTableCell(type) +
       " | " +
       required +
       " | " +
@@ -433,17 +438,18 @@ function buildQueryParamsSection(queryParams = []) {
 
   for (const param of queryParams) {
     const name = param.name;
+    const paramEnum = param.enum || param.field?.enum;
     const type =
       (param.type || "string") +
-      (param.enum ? " (" + param.enum.join(", ") + ")" : "");
+      (paramEnum ? " (" + paramEnum.join(", ") + ")" : "");
     const required = param.required ? "Yes" : "No";
-    const desc = param.description || "-";
+    const desc = formatTableCell(param.description);
     const example = formatExampleForTable(param.example, param.name);
     section +=
       "| " +
       name +
       " | " +
-      type +
+      formatTableCell(type) +
       " | " +
       required +
       " | " +
@@ -475,16 +481,18 @@ function buildBodySection(endpoint) {
     for (const field of bodySchema) {
       const type =
         (field.type || "-") +
-        (field.enum ? " (" + field.enum.join(", ") + ")" : "");
+        (field.enum || field.field?.enum
+          ? " (" + (field.enum || field.field.enum).join(", ") + ")"
+          : "");
       section +=
         "| " +
         field.name +
         " | " +
-        type +
+        formatTableCell(type) +
         " | " +
         (field.required ? "Yes" : "No") +
         " | " +
-        (field.description || "-") +
+        formatTableCell(field.description) +
         " |\n";
     }
   } else if (
@@ -498,17 +506,19 @@ function buildBodySection(endpoint) {
     for (const field of bodyParam.fields) {
       const type =
         (field.type || "-") +
-        (field.enum ? " (" + field.enum.join(", ") + ")" : "");
+        (field.enum || field.field?.enum
+          ? " (" + (field.enum || field.field.enum).join(", ") + ")"
+          : "");
       const example = formatExampleForTable(field.example, field.name);
       section +=
         "| " +
         field.name +
         " | " +
-        type +
+        formatTableCell(type) +
         " | " +
         (field.required ? "Yes" : "No") +
         " | " +
-        (field.description || "-") +
+        formatTableCell(field.description) +
         " | " +
         example +
         " |\n";

@@ -260,14 +260,15 @@ const formatBodyParameters = (requestBody) => {
 
         const inlineFields = properties
             ? Object.entries(properties).map(([name, property]) => {
+                  const translatedProperty = translateSchemaNode(property);
                   const propertyExample =
                       property.example !== undefined
                           ? property.example
                           : schemaExample?.[name];
                   const field = {
                       name,
-                      type: property.type === "integer" ? "number" : property.type,
-                      description: property.description,
+                      ...translatedProperty,
+                      description: property.description || translatedProperty.description,
                       required: requiredFields.includes(name),
                       example:
                           propertyExample !== undefined
@@ -275,29 +276,8 @@ const formatBodyParameters = (requestBody) => {
                               : property.type === "array" && property.items?.example !== undefined
                                 ? [property.items.example]
                                 : undefined,
-                      enum: property.enum,
+                      enum: property.enum || translatedProperty.enum,
                   };
-
-                  if (property.$ref) {
-                      return {
-                          ...field,
-                          ...translateSchemaReference(property.$ref),
-                      };
-                  }
-                  if (property.type === "array") {
-                      field.field = property.items?.$ref
-                          ? translateSchemaReference(property.items.$ref)
-                          : property.items;
-                  }
-                  if (property.type === "object" && property.properties) {
-                      field.fields = Object.entries(property.properties).map(
-                          ([nestedName, nestedProperty]) => ({
-                              name: nestedName,
-                              ...nestedProperty,
-                              required: (property.required || []).includes(nestedName),
-                          }),
-                      );
-                  }
                   return field;
               })
             : undefined;
@@ -430,8 +410,15 @@ const applySwaggerFixes = (configs) => {
         };
 
         const evmOnlyUniversalOperations = new Set([
+            "getCandleSticks",
+            "getDefiPositions",
+            "getDefiProtocolPositions",
             "getDefiProtocols",
+            "getDefiSummary",
+            "getSwapsByPairAddress",
+            "getSwapsByTokenAddress",
             "getTopTradersByToken",
+            "getWalletInsight",
             "getWalletProfitability",
             "getWalletProfitabilitySummary",
         ]);
@@ -465,8 +452,12 @@ const applySwaggerFixes = (configs) => {
                     param.example = "bitcoin";
                 } else if (param.name === "limit" && param.example === undefined) {
                     param.example = 100;
-                } else if (param.name === "cursor" && param.example === undefined) {
-                    param.example = "YOUR_CURSOR";
+                }
+            }
+
+            if (operationId === "getTokenBalances") {
+                for (const param of endpoint.queryParams || []) {
+                    if (!["chains", "limit"].includes(param.name)) delete param.example;
                 }
             }
         }
@@ -566,14 +557,138 @@ const applySwaggerFixes = (configs) => {
         if (!endpoint || !endpoint.bodyParam) continue;
         const statusField = (endpoint.bodyParam.fields || []).find((f) => f.name === "status");
         if (statusField) {
-            if (typeof statusField.example === "object") {
-                statusField.example = "active";
-            }
+            statusField.type = "string";
+            statusField.example = "active";
             if (Array.isArray(statusField.enum)) {
                 statusField.enum = ["active", "paused"];
             }
             statusField.description = "The stream status: active (processing blocks) or paused (not processing blocks)";
         }
+    }
+
+    const transferTopic = "Transfer(address,address,uint256)";
+    const transferAbi = [
+        {
+            name: "Transfer",
+            type: "event",
+            anonymous: false,
+            inputs: [
+                { type: "address", name: "from", indexed: true },
+                { type: "address", name: "to", indexed: true },
+                { type: "uint256", name: "value", indexed: false },
+            ],
+        },
+    ];
+
+    for (const opId of ["CreateStream", "UpdateStream"]) {
+        const endpoint = streams[opId];
+        if (!endpoint?.bodyParam?.fields) continue;
+        for (const field of endpoint.bodyParam.fields) {
+            if (field.name === "webhookUrl") {
+                field.example = "https://your-server.com/webhook";
+            } else if (field.name === "description") {
+                field.example = "Monitor EVM activity";
+            } else if (field.name === "tag") {
+                field.example = "evm-monitor";
+            } else if (field.name === "chainIds") {
+                field.example = ["0x1"];
+            } else if (field.name === "topic0") {
+                field.example = [transferTopic];
+            } else if (field.name === "abi") {
+                field.type = "array";
+                field.example = transferAbi;
+            } else if (field.name === "advancedOptions") {
+                field.type = "json";
+                delete field.example;
+            } else if (field.name === "allAddresses" || field.name === "includeContractLogs") {
+                field.example = true;
+            } else if (field.name === "filterPossibleSpamAddresses") {
+                field.description = "Filter possible spam addresses";
+            } else if (field.name === "demo") {
+                field.description = "Indicator if this is a demo stream";
+            }
+        }
+    }
+
+    for (const opId of ["AddAddressToStream", "DeleteAddressFromStream", "ReplaceAddressFromStream"]) {
+        const addressField = streams[opId]?.bodyParam?.fields?.find((field) => field.name === "address");
+        if (addressField) {
+            addressField.type = "string | string[]";
+            addressField.description = "A single address string or an array of addresses";
+            addressField.example = "YOUR_EVM_ADDRESS";
+        }
+    }
+
+    for (const opId of ["solanaStreamsAddAddresses", "solanaStreamsDeleteAddresses"]) {
+        const addressField = streams[opId]?.bodyParam?.fields?.find((field) => field.name === "address");
+        if (addressField) {
+            addressField.type = "string | string[]";
+            addressField.description = "A single Solana address string or an array of addresses";
+            addressField.example = "YOUR_SOLANA_ADDRESS";
+        }
+    }
+
+    for (const opId of ["bitcoinStreamsAddAddresses", "bitcoinStreamsDeleteAddresses"]) {
+        const addressField = streams[opId]?.bodyParam?.fields?.find((field) => field.name === "address");
+        if (addressField) {
+            addressField.type = "string | string[]";
+            addressField.description = "A single Bitcoin address string or an array of addresses";
+            addressField.example = "YOUR_BTC_ADDRESS";
+        }
+    }
+
+    const setBodyField = (operationId, fieldName, patch) => {
+        const field = streams[operationId]?.bodyParam?.fields?.find((item) => item.name === fieldName);
+        if (field) Object.assign(field, patch);
+    };
+
+    setBodyField("SetSettings", "region", { example: "us-east-1" });
+    setBodyField("SetSettings", "secretKey", { example: "YOUR_WEBHOOK_SECRET" });
+
+    for (const operationId of ["GetStreamBlockDataByNumber"]) {
+        setBodyField(operationId, "tag", { example: "evm-block-audit" });
+        setBodyField(operationId, "addresses", { example: ["YOUR_EVM_ADDRESS"] });
+        for (const fieldName of ["abi", "advancedOptions"]) {
+            const field = streams[operationId]?.bodyParam?.fields?.find((item) => item.name === fieldName);
+            if (field) {
+                field.type = "json";
+                delete field.example;
+            }
+        }
+    }
+
+    setBodyField("solanaGetBlockByNumber", "tag", { example: "solana-block-audit" });
+    setBodyField("solanaGetBlockByNumber", "addresses", { example: ["YOUR_SOLANA_ADDRESS"] });
+    setBodyField("solanaGetBlockByNumber", "programIds", { example: ["YOUR_SOLANA_PROGRAM_ID"] });
+    setBodyField("solanaGetBlockByNumber", "mintAddresses", { example: ["YOUR_SOLANA_MINT"] });
+
+    setBodyField("bitcoinGetBlockByNumber", "tag", { example: "bitcoin-block-audit" });
+    setBodyField("bitcoinGetBlockByNumber", "addresses", { example: ["YOUR_BTC_ADDRESS"] });
+    setBodyField("bitcoinGetBlockByNumber", "includeInputs", { example: true });
+    setBodyField("bitcoinGetBlockByNumber", "includeOutputs", { example: true });
+
+    setBodyField("CreateJob", "chainId", {
+        example: "0x1",
+        description: "Hex chain ID for the stream, such as 0x1 for Ethereum",
+    });
+    setBodyField("CreateJob", "streamId", {
+        example: "YOUR_STREAM_ID",
+        description: "The stream ID to backfill",
+    });
+    setBodyField("CreateJob", "fromTimestamp", {
+        example: 1700000000,
+        description: "Start of the historical window as a Unix timestamp in seconds",
+    });
+    setBodyField("CreateJob", "toTimestamp", {
+        example: 1700000060,
+        description: "End of the historical window as a Unix timestamp in seconds",
+    });
+    setBodyField("CreateJob", "addresses", { example: ["YOUR_EVM_ADDRESS"] });
+
+    const replayHistoryId = streams.ReplayHistory?.pathParams?.find((param) => param.name === "id");
+    if (replayHistoryId) {
+        replayHistoryId.example = "YOUR_HISTORY_ID";
+        replayHistoryId.description = "The history delivery ID to replay";
     }
 
     // Fix: ReplaceAddressFromStream - swagger description says "removed" instead of "replace"
@@ -703,6 +818,20 @@ const applySwaggerFixes = (configs) => {
 
     for (const apiGroup of Object.values(configs)) {
         for (const endpoint of Object.values(apiGroup || {})) {
+            for (const param of [
+                ...(endpoint.pathParams || []),
+                ...(endpoint.queryParams || []),
+            ]) {
+                const allowedValues = param.enum || param.field?.enum;
+                if (
+                    (param.example === "" ||
+                        (param.required && param.example === undefined)) &&
+                    Array.isArray(allowedValues) &&
+                    allowedValues.length > 0
+                ) {
+                    param.example = allowedValues[0];
+                }
+            }
             for (const param of endpoint.queryParams || []) {
                 if (param.required && param.example === undefined) {
                     param.example = requiredQueryExample(param);
@@ -742,6 +871,22 @@ const applySwaggerFixes = (configs) => {
         }
         visitFields(schema?.field, visitor, [...path, "[]"], seen);
     };
+
+    for (const apiGroup of Object.values(configs)) {
+        for (const endpoint of Object.values(apiGroup || {})) {
+            visitFields(successBody(endpoint), (field) => {
+                const allowed = Array.isArray(field.enum)
+                    ? field.enum.filter((value) => value !== null)
+                    : [];
+                if (
+                    allowed.length > 0 &&
+                    (field.example === undefined || !allowed.includes(field.example))
+                ) {
+                    field.example = allowed[0];
+                }
+            });
+        }
+    }
 
     const traitField = configs.evm?.getNFTByContractTraits?.bodyParam?.fields?.find(
         (field) => field.name === "traits",
@@ -794,6 +939,17 @@ const applySwaggerFixes = (configs) => {
     const verboseTransactions = successBody(configs.evm?.getWalletTransactionsVerbose);
     const verboseTransactionItem = findField(verboseTransactions, "result")?.field;
     setFieldRequired(verboseTransactionItem, "decoded_call", false);
+
+    const transactionResponse = successBody(configs.evm?.getTransaction);
+    setFieldType(findField(transactionResponse, "internal_transactions")?.field, "block_number", "number");
+
+    const blockResponse = successBody(configs.evm?.getBlock);
+    const blockTransaction = findField(blockResponse, "transactions")?.field;
+    setFieldType(
+        findField(blockTransaction, "internal_transactions")?.field,
+        "block_number",
+        "number",
+    );
 
     const tokenTransfers = successBody(configs.evm?.getTokenTransfers);
     const tokenTransferItem = findField(tokenTransfers, "result")?.field;
@@ -923,10 +1079,46 @@ const applySwaggerFixes = (configs) => {
         required: false,
     });
     addField(streamLogItem, { name: "updatedAt", type: "string", required: false });
+    setFieldRequired(streamLogItem, "errorMessage", false);
 
     const historicalJobItem = successBody(configs.streams?.GetJobs)?.field;
     setFieldType(historicalJobItem, "fromTimestamp", "string");
     setFieldType(historicalJobItem, "toTimestamp", "string");
+
+    for (const [operationId, endpoint] of Object.entries(configs.streams || {})) {
+        visitFields(successBody(endpoint), (field) => {
+            if (field.name === "status") {
+                field.type = "string";
+                field.example = "active";
+                field.enum = ["active", "paused", "error", "terminated"];
+                delete field.fields;
+            } else if (field.name === "network") {
+                field.type = "array";
+                field.example = ["mainnet"];
+                field.field = { type: "string", enum: ["mainnet"] };
+            } else if (field.name === "chainIds") {
+                field.example = ["0x1"];
+            } else if (field.name === "webhookUrl") {
+                field.example = "https://your-server.com/webhook";
+            } else if (field.name === "description") {
+                field.example = operationId.startsWith("solana")
+                    ? "Monitor Solana activity"
+                    : operationId.startsWith("bitcoin")
+                      ? "Monitor Bitcoin activity"
+                      : "Monitor EVM activity";
+            } else if (field.name === "tag") {
+                field.example = operationId.startsWith("solana")
+                    ? "solana-monitor"
+                    : operationId.startsWith("bitcoin")
+                      ? "bitcoin-monitor"
+                      : "evm-monitor";
+            } else if (field.name === "region") {
+                field.example = "us-east-1";
+            } else if (field.name === "secretKey") {
+                field.example = "YOUR_WEBHOOK_SECRET";
+            }
+        });
+    }
 };
 
 /**

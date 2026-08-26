@@ -7,9 +7,7 @@ compatibility: Knowledge-only skill. Read/Grep/Glob access bundled reference fil
 metadata:
   author: MoralisWeb3
   homepage: https://docs.moralis.com
-  repository: https://github.com/MoralisWeb3/onchain-skills
-  openclaw:
-    requires: {}
+  repository: https://github.com/novnski/onchain-skills
 allowed-tools: Read Grep Glob
 ---
 
@@ -121,16 +119,16 @@ After answering a general question, route users to the appropriate skill:
 | Ethereum | 0x1 | All APIs including floor prices |
 | Base | 0x2105 | All APIs including floor prices |
 | Polygon | 0x89 | Full listed Data API coverage |
-| BSC | 0x38 | No profitability |
+| BSC | 0x38 | Universal PnL supported |
 | Arbitrum | 0xa4b1 | No profitability |
-| Optimism | 0xa | No profitability |
-| Avalanche | 0xa86a | No profitability |
+| Optimism | 0xa | Universal PnL supported |
+| Avalanche | 0xa86a | Universal PnL supported |
 | Sei | 0x531 | Nearly full (no profitability), includes floor prices |
 | Monad | 0x8f | Nearly full (no profitability), includes floor prices |
 
 ### Also Supported
 
-Linea, Cronos, Gnosis, Chiliz, Moonbeam, Moonriver, Flow, Ronin, Lisk, Pulse.
+Linea, Cronos, Gnosis, Chiliz, Moonbeam, Moonriver, Flow, Ronin, Lisk, and Pulse. Universal PnL also supports Pulse.
 
 Fantom support has been removed. Moonbeam, Moonriver, and Lisk are deprecated and scheduled for removal on September 25, 2026; direct new integrations to Base or Ethereum as documented in the changelog.
 
@@ -144,10 +142,6 @@ Bitcoin is supported in two ways:
 
 - **@moralis-data-api** for current and historical Bitcoin data: address or xpub balances, wallet history, blocks, transactions, prices, sparklines, and xpub-derived addresses.
 - **@moralis-streams-api** for real-time Bitcoin address and xpub monitoring.
-
-### Coming Soon
-
-Blast, zkSync, Mantle, opBNB, Polygon zkEVM, Zetachain
 
 ---
 

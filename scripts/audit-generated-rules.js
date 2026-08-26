@@ -89,12 +89,22 @@ function tableRows(markdown, heading) {
     .split("\n")
     .filter((line) => line.startsWith("|") && !/^\|[- ]+\|/.test(line))
     .slice(1)
-    .map((line) =>
-      line
-        .slice(1, -1)
-        .split("|")
-        .map((cell) => cell.trim().replace(/^`|`$/g, "")),
-    );
+    .map((line) => {
+      const cells = [];
+      let current = "";
+      const content = line.slice(1, -1);
+      for (let index = 0; index < content.length; index += 1) {
+        const char = content[index];
+        if (char === "|" && content[index - 1] !== "\\") {
+          cells.push(current.trim().replace(/^`|`$/g, ""));
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+      cells.push(current.trim().replace(/^`|`$/g, ""));
+      return cells;
+    });
 }
 
 function names(rows) {
@@ -145,6 +155,12 @@ function validateGeneratedExample(value, schema, location, issues) {
     return;
   }
   const actualType = typeof value;
+  const allowedEnumValues = Array.isArray(schema.enum)
+    ? schema.enum.filter((item) => item !== null)
+    : [];
+  if (allowedEnumValues.length > 0 && !allowedEnumValues.includes(value)) {
+    issues.push(`${location} must be one of ${allowedEnumValues.join(", ")}`);
+  }
   if (schema.type === "number" && actualType !== "number") issues.push(`${location} should be number`);
   if (schema.type === "string" && actualType !== "string") issues.push(`${location} should be string`);
   if (schema.type === "boolean" && actualType !== "boolean") issues.push(`${location} should be boolean`);
@@ -173,6 +189,15 @@ function auditRule(file, spec) {
   const pathRows = tableRows(markdown, "Path Params");
   const queryRows = tableRows(markdown, "Query Params");
   const bodyRows = tableRows(markdown, "Body");
+  for (const [label, rows] of [
+    ["path", pathRows],
+    ["query", queryRows],
+    ["body", bodyRows],
+  ]) {
+    for (const row of rows) {
+      if (row.length !== 5) fail(file, `${label} table row has ${row.length} cells instead of 5`);
+    }
+  }
 
   if (!sameNames(names(pathRows), (endpoint.pathParams || []).map((item) => item.name))) {
     fail(file, "path parameter names do not match Swagger");
@@ -191,6 +216,20 @@ function auditRule(file, spec) {
     const expectedRequired = field.required ? "Yes" : "No";
     if (row[2] !== expectedRequired) {
       fail(file, `body field ${field.name} required=${row[2]} != ${expectedRequired}`);
+    }
+  }
+
+  for (const param of [
+    ...(endpoint.pathParams || []),
+    ...(endpoint.queryParams || []),
+    ...(endpoint.bodyParam?.fields || []),
+  ]) {
+    const allowed = param.enum || param.field?.enum;
+    const values = Array.isArray(param.example) ? param.example : [param.example];
+    if (Array.isArray(allowed) && param.example !== undefined) {
+      for (const value of values) {
+        if (!allowed.includes(value)) fail(file, `${param.name} example is outside its enum`);
+      }
     }
   }
 
@@ -269,6 +308,46 @@ function auditDirectory(rulesDir, expected) {
   return actual.length;
 }
 
+function resolveRawSchema(schema, swagger, seen = new Set()) {
+  if (!schema || typeof schema !== "object") return {};
+  if (schema.$ref) {
+    const name = schema.$ref.split("/").pop();
+    if (seen.has(name)) return {};
+    const next = new Set(seen);
+    next.add(name);
+    return resolveRawSchema(swagger.components?.schemas?.[name], swagger, next);
+  }
+  if (schema.anyOf?.length) {
+    const resolved = schema.anyOf.map((item) => resolveRawSchema(item, swagger, seen));
+    const types = [...new Set(resolved.map((item) => {
+      if (item.type === "array" && item.items?.type) return `${normalizedType(item.items)}[]`;
+      return normalizedType(item);
+    }).filter(Boolean))];
+    return types.length > 1 ? { type: types.join(" | ") } : resolved[0];
+  }
+  if (schema.oneOf?.length) return resolveRawSchema(schema.oneOf.find((item) => item.type) || schema.oneOf[0], swagger, seen);
+  if (schema.allOf?.length) {
+    return schema.allOf.reduce(
+      (merged, item) => {
+        const resolved = resolveRawSchema(item, swagger, seen);
+        return {
+          ...merged,
+          ...resolved,
+          properties: { ...(merged.properties || {}), ...(resolved.properties || {}) },
+          required: [...new Set([...(merged.required || []), ...(resolved.required || [])])],
+        };
+      },
+      {},
+    );
+  }
+  return schema;
+}
+
+function normalizedType(schema) {
+  const type = schema?.type;
+  return type === "integer" ? "number" : type;
+}
+
 function rawOperations(swagger) {
   const operations = new Map();
   for (const [route, item] of Object.entries(swagger.paths || {})) {
@@ -281,6 +360,7 @@ function rawOperations(swagger) {
       operations.set(operation.operationId, {
         method: method.toUpperCase(),
         path: route.replace(/{/g, ":").replace(/}/g, ""),
+        operation,
       });
     }
   }
@@ -304,6 +384,57 @@ async function auditLiveSchemas() {
       if (endpoint.method !== raw.method) failures.push(`${source}.${operationId}: method mismatch`);
       if (endpoint.path !== raw.path) failures.push(`${source}.${operationId}: path mismatch`);
       if (endpoint.apiHost !== host) failures.push(`${source}.${operationId}: host mismatch`);
+
+      for (const location of ["path", "query"]) {
+        const rawParams = (raw.operation.parameters || [])
+          .filter((param) => param.in === location)
+          .map((param) => ({
+            name: param.name,
+            required: Boolean(param.required),
+            type: normalizedType(resolveRawSchema(param.schema, swagger)),
+          }));
+        const configParams = location === "path" ? endpoint.pathParams || [] : endpoint.queryParams || [];
+        if (!sameNames(rawParams.map((param) => param.name), configParams.map((param) => param.name))) {
+          failures.push(`${source}.${operationId}: ${location} parameter names mismatch`);
+        }
+        for (const param of rawParams) {
+          const configured = configParams.find((item) => item.name === param.name);
+          if (!configured) continue;
+          if (Boolean(configured.required) !== param.required) {
+            failures.push(`${source}.${operationId}.${param.name}: requiredness mismatch`);
+          }
+          if (param.type && configured.type && configured.type !== param.type) {
+            failures.push(`${source}.${operationId}.${param.name}: type mismatch`);
+          }
+        }
+      }
+
+      const rawBodySchema = resolveRawSchema(
+        raw.operation.requestBody?.content?.["application/json"]?.schema,
+        swagger,
+      );
+      const rawBodyFields = Object.entries(rawBodySchema.properties || {}).map(([name, schema]) => {
+        const resolved = resolveRawSchema(schema, swagger);
+        return {
+          name,
+          required: (rawBodySchema.required || []).includes(name),
+          type: normalizedType(resolved),
+        };
+      });
+      const configBodyFields = endpoint.bodyParam?.fields || [];
+      if (!sameNames(rawBodyFields.map((field) => field.name), configBodyFields.map((field) => field.name))) {
+        failures.push(`${source}.${operationId}: body field names mismatch`);
+      }
+      for (const field of rawBodyFields) {
+        const configured = configBodyFields.find((item) => item.name === field.name);
+        if (!configured) continue;
+        if (Boolean(configured.required) !== field.required) {
+          failures.push(`${source}.${operationId}.${field.name}: body requiredness mismatch`);
+        }
+        if (field.type && configured.type && ![field.type, "json"].includes(configured.type)) {
+          failures.push(`${source}.${operationId}.${field.name}: body type mismatch`);
+        }
+      }
     }
     console.log(`Live ${source}: ${live.size} operations aligned`);
   }
@@ -322,7 +453,10 @@ async function main() {
   }
 
   console.log(`Audited ${dataCount} Data API rules and ${streamsCount} Streams rules.`);
-  console.log("Every rule matches its Swagger-derived method, host, path, parameters, body, response shape, and curl contract.");
+  console.log("Every rule matches the generated method, host, path, complete parameter/body tables, enum-safe examples, response shape, and curl contract.");
+  if (process.argv.includes("--live")) {
+    console.log("Live mode also verified raw Swagger operation inventories and top-level input names, types, and requiredness.");
+  }
 }
 
 if (require.main === module) {

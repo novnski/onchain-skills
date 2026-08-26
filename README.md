@@ -11,37 +11,27 @@ Works with any agent that supports the [Agent Skills](https://skills.sh/) standa
 **Via [skills.sh](https://skills.sh/):**
 
 ```bash
-npx skills add MoralisWeb3/onchain-skills
+npx skills add novnski/onchain-skills
 ```
 
-**Via [ClawHub](https://clawhub.ai/):**
+### Update installed skills
+
+From the project where the skills were installed:
 
 ```bash
-clawhub install moralis-data-api
-clawhub install moralis-streams-api
-clawhub install learn-moralis
+npx skills update -p -y
 ```
 
-**Via your OpenClaw agent:** If you have an [OpenClaw](https://openclaw.ai/) agent running, just ask it to search for and install the Moralis API skills from ClawHub — it knows how to find and set them up for you.
+The installer tracks the GitHub source in `skills-lock.json` and refreshes all three project skills with this command.
 
 ### Set your API key
 
 Get your key from [admin.moralis.com](https://admin.moralis.com/register), then configure it for your agent:
 
-**For most agents** (Claude Code, Cursor, Windsurf, Cline, etc.) — add to a `.env` file in your project root:
+Add the key to a `.env` file in your project root:
 
 ```bash
 echo "MORALIS_API_KEY=your_key_here" >> .env
-```
-
-**For OpenClaw** — add to the `env` section in `~/.openclaw/openclaw.json`:
-
-```json
-{
-  "env": {
-    "MORALIS_API_KEY": "your_key_here"
-  }
-}
 ```
 
 Without the key, the skills can't call the Moralis API on your behalf.
@@ -67,7 +57,7 @@ Unified skill for blockchain data queries across EVM, Solana, and Universal / Bi
 - **NFT** (22) — metadata, transfers, traits, rarity, floor prices, trades
 - **DeFi** (3) — protocol positions, liquidity, exposure
 - **Entity** (2) — labeled addresses (exchanges, funds, whales)
-- **Price** (4) — OHLCV, token prices, pair prices
+- **Price** (3) — OHLCV and token prices
 - **Blockchain** (5) — blocks, transactions, date-to-block
 - **Discovery** (2) — trending tokens and top traders
 - **Other** (9) — address resolution, entity search, token search, and utilities

@@ -63,7 +63,6 @@ Use this reference for docs-only feature behavior that is broader than a single 
 - **High-cost DeFi endpoints**: wallet protocols, wallet positions, and detailed positions cost 5000 CUs and require a Starter plan or higher.
 - **Pro token analytics endpoints**: token score, historical token score, batch token analytics, and token analytics timeseries require Pro or higher.
 - **Pro discovery endpoints**: token search, token categories, and trending tokens require Pro or higher.
-- **Pro volume and market metrics endpoints**: chain metrics, category metrics, and their timeseries variants require Pro or higher.
 
 ## Operational Resources
 
