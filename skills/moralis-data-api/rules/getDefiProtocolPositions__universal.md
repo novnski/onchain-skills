@@ -51,7 +51,52 @@ Status: 200
       "0x89"
     ],
     "failedChains": [
-      "0x89"
+      {
+        "chainId": "0x89",
+        "code": "INTERNAL_SERVER_ERROR",
+        "error": {}
+      }
+    ]
+  },
+  "result": {
+    "protocolId": "protocolId_example",
+    "protocolName": "protocolName_example",
+    "protocolUrl": {},
+    "protocolLogo": {},
+    "chainId": "0x1",
+    "totalUsd": {},
+    "totalUnclaimedUsd": {},
+    "positions": [
+      {
+        "label": "label_example",
+        "address": {},
+        "tokens": [
+          {
+            "tokenType": "tokenType_example",
+            "name": {},
+            "symbol": {},
+            "address": "address_example",
+            "decimals": {},
+            "logo": {},
+            "balance": {},
+            "balanceFormatted": {},
+            "usdPrice": {},
+            "usdValue": {}
+          }
+        ],
+        "balanceUsd": {},
+        "unclaimedUsd": {},
+        "details": {
+          "type": "type_example",
+          "isDebt": true,
+          "lending": {
+            "healthFactor": {}
+          },
+          "liquidity": {
+            "poolAddress": {}
+          }
+        }
+      }
     ]
   },
   "cursor": "eyJhbGciOi...VCaaw"

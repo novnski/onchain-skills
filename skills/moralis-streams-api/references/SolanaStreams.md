@@ -33,8 +33,9 @@ Typical fields:
 
 ```json
 ["mainnet"]
-["devnet"]
 ```
+
+Solana Streams supports mainnet only.
 
 ## Solana-Specific Model
 

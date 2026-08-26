@@ -1,6 +1,6 @@
 # Get token balances from multiple chains for a specific wallet address.
 
-Get token balances from multiple chains for a specific wallet address.
+Get token balances from multiple chains for a specific wallet address. For Bitcoin wallets, filter parameters (excludeNative, excludeSpam, etc.) are ignored — only the native BTC balance is returned.
 
 ## Method
 
@@ -33,6 +33,8 @@ GET
 | excludeNative | boolean | No | Should exclude native contract | \`true\` |
 | maxTokenInactivity | number | No | Should filter out contract exceeding max token inactivity | \`1\` |
 | liquidityThreshold | number | No | Should filter out contract under liquidity threshold | \`0\` |
+| includeSparklines | boolean | No | When true, include a 7-day hourly price sparkline for each token. | \`true\` |
+| includePnl | boolean | No | When true, include per-token PnL summary for each token. Ignored for Bitcoin (no PnL coverage). | \`true\` |
 
 ## Cursor/Pagination
 
@@ -47,6 +49,22 @@ Status: 200
 
 ```json
 {
+  "meta": {
+    "syncedAt": {
+      "0x1": 1710000000,
+      "solana-mainnet": "latest"
+    },
+    "unsupportedChains": [
+      "0x89"
+    ],
+    "failedChains": [
+      {
+        "chainId": "0x89",
+        "code": "INTERNAL_SERVER_ERROR",
+        "error": {}
+      }
+    ]
+  },
   "address": "YOUR_ADDRESS",
   "addressType": "evm",
   "cursor": "eyJhbGciOi...VCaaw",
@@ -71,7 +89,9 @@ Status: 200
       "usdValue24hrUsdChange": 0,
       "nativeToken": false,
       "derivedAddress": "YOUR_ADDRESS",
-      "derivedPath": "m/44'/0'/0'/0/0"
+      "derivedPath": "m/44'/0'/0'/0/0",
+      "sparkline": {},
+      "pnl": {}
     }
   ]
 }
@@ -80,7 +100,7 @@ Status: 200
 ## Example (curl)
 
 ```bash
-curl -X GET "https://api.moralis.com/v1/wallets/YOUR_BTC_ADDRESS/tokens?chains=bitcoin&cursor=YOUR_CURSOR&limit=100&tokenAddresses=YOUR_TOKEN_ADDRESS&excludeSpam=true&excludeUnverifiedContracts=true&excludeNative=true&maxTokenInactivity=1&liquidityThreshold=0" \
+curl -X GET "https://api.moralis.com/v1/wallets/YOUR_BTC_ADDRESS/tokens?chains=bitcoin&cursor=YOUR_CURSOR&limit=100&tokenAddresses=YOUR_TOKEN_ADDRESS&excludeSpam=true&excludeUnverifiedContracts=true&excludeNative=true&maxTokenInactivity=1&liquidityThreshold=0&includeSparklines=true&includePnl=true" \
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY"
 ```

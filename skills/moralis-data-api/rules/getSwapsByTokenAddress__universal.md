@@ -18,7 +18,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chainAlias | string | Yes | The alias of the chain. | \`bitcoin\` |
+| chainAlias | string (0x1, ethereum, 0x15b38, chiliz, 0x171, pulse, 0x19, cro, 0x2105, base, 0x2eb, flow, 0x38, binance, 0x46f, lisk, 0x504, moon beam, 0x531, sei, 0x64, gnosis, 0x89, polygon, 0x8f, monad, 0xa, optimism, 0xa4b1, arbitrum, 0xa86a, avalanche, 0xe708, linea) | Yes | The alias of the chain. | \`bitcoin\` |
 | tokenAddress | string | Yes | The address | \`YOUR_TOKEN_ADDRESS\` |
 
 ## Query Params
@@ -37,7 +37,7 @@ GET
 * Provide the param 'fromBlock' or 'fromDate'
 * If 'fromDate' and 'fromBlock' are provided, 'fromBlock' will be used. | - |
 | toBlock | number | No | The block number to get the swaps until | - |
-| order | string | No | The order of the results, in ascending (ASC) or descending (DESC). | \`DESC\` |
+| order | string (ASC, DESC) | No | The order of the results, in ascending (ASC) or descending (DESC). | \`DESC\` |
 | transactionTypes | string | No | Transaction types to fetch. Possible values: 'buy','sell' or both separated by comma | \`buy,sell\` |
 
 ## Cursor/Pagination
@@ -100,9 +100,7 @@ Status: 200
     }
   ],
   "meta": {
-    "syncedAt": {
-      "0x1": 19800000
-    }
+    "syncedAt": 19800000
   }
 }
 ```

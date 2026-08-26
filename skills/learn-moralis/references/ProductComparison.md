@@ -188,9 +188,11 @@ After authentication, use Data APIs to fetch the authenticated user's wallet dat
 - Identity/compliance use cases
 
 ### Discovery API
-- Trending tokens, top gainers/losers
-- Market cap rankings, price movers
-- Token search and filtering
+- Trending tokens
+- Token search by name, symbol, contract, or pair
+- Token analytics for known addresses
+
+The removed market-data and legacy discovery APIs no longer provide global market-cap rankings, top gainers/losers, or flexible filtered-token screens.
 
 ---
 

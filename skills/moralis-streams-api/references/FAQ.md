@@ -53,7 +53,6 @@ Confirmation depth varies by chain:
 | Base | `0x2105` | 100 |
 | Optimism | `0xa` | 500 |
 | Avalanche | `0xa86a` | 100 |
-| Fantom | `0xfa` | 100 |
 
 For a complete per-chain table, see [DeliveryGuarantees.md](DeliveryGuarantees.md).
 
@@ -71,10 +70,9 @@ Contact `hello@moralis.io` to increase your limit.
 
 | Plan | Stream Limit |
 |------|--------------|
-| Free Plan | 1 active stream |
 | Paid Plans | Up to 200 active streams |
 
-Each stream can support listening to millions of addresses in a single configuration. Contact `hello@moralis.io` if you need more streams.
+Check the current plan page for entry-plan stream allowances. Paid plans support up to 200 active streams; contact `hello@moralis.io` for higher custom limits.
 
 ## Are events lost when updating a stream or its filters?
 

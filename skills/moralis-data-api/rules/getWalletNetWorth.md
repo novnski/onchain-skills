@@ -49,7 +49,9 @@ Returns the net worth of a wallet in USD
       "networth_usd": "3879851.41"
     }
   ],
-  "unsupported_chain_ids": [],
+  "unsupported_chain_ids": [
+    "unsupported_chain_ids_example"
+  ],
   "unavailable_chains": [
     {
       "chain_id": "0x1"

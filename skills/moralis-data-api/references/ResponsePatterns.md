@@ -26,7 +26,6 @@ Returns a single object with no pagination.
 - `getTransactionVerbose`
 - `getNativeBalance`
 - `getTokenPrice`
-- `getPairPrice`
 - `getDateToBlock`
 - `getLatestBlockNumber`
 

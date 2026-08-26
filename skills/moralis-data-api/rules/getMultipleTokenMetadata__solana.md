@@ -18,13 +18,13 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| network | string (mainnet) | Yes | The network to query | - |
+| network | string (mainnet) | Yes | The supported Solana network. Mainnet only. | \`mainnet\` |
 
 ## Body
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| addresses | array | No | - | \`["YOUR_ADDRESS"]\` |
+| addresses | array | Yes | - | \`["YOUR_ADDRESS"]\` |
 
 ## Response Example
 
@@ -57,6 +57,9 @@ Status: default
     "links": {},
     "description": "description_example",
     "isVerifiedContract": true,
+    "categories": [
+      "categories_example"
+    ],
     "possibleSpam": true
   }
 ]

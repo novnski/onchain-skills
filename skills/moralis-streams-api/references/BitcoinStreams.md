@@ -52,14 +52,12 @@ Endpoints:
 
 The narrative Moralis Bitcoin Streams docs currently describe `["mainnet"]` as the stable network setting.
 
-The live swagger currently exposes both:
+Bitcoin Streams supports mainnet only:
 
 ```json
 ["mainnet"]
-["testnet"]
 ```
 
-Default to `["mainnet"]` unless the user explicitly needs testnet and the endpoint rule confirms it.
 
 ## Payload Caveats
 

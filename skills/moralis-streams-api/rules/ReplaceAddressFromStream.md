@@ -18,13 +18,14 @@ PATCH
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | The id of the stream to replace the address from | \`YOUR_STREAM_ID\` |
+| id | string | Yes | Stringified UUIDv4.
+See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
 
 ## Body
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| address | - | No | The address or a list of addresses to be replace from the Stream. | \`string\` |
+| address | string | Yes | The address or a list of addresses to be replace from the Stream. | \`string\` |
 
 ## Response Example
 
@@ -34,7 +35,8 @@ Ok
 
 ```json
 {
-  "streamId": "streamId_example"
+  "streamId": "streamId_example",
+  "address": "address_example"
 }
 ```
 

@@ -50,8 +50,8 @@ Without the key, the skills can't call the Moralis API on your behalf.
 
 | Skill | Description |
 |-------|-------------|
-| **moralis-data-api** | EVM + Solana + Universal / Bitcoin blockchain data (156 endpoints) |
-| **moralis-streams-api** | Real-time event monitoring with webhooks across EVM, Solana, and Bitcoin (45 endpoints) |
+| **moralis-data-api** | EVM + Solana + Universal / Bitcoin blockchain data (116 endpoints) |
+| **moralis-streams-api** | Real-time event monitoring with webhooks across EVM, Solana, and Bitcoin (47 endpoints) |
 | **learn-moralis** | Routing, FAQ, pricing, and capability guidance |
 
 ## moralis-data-api
@@ -60,19 +60,19 @@ Unified skill for blockchain data queries across EVM, Solana, and Universal / Bi
 
 **Default Chain:** For EVM addresses without a specified chain, defaults to Ethereum (`0x1`).
 
-**156 endpoints** (106 EVM + 35 Solana + 15 Universal / Bitcoin) across these categories:
+**116 endpoints** (79 EVM + 18 Solana + 19 Universal / Bitcoin) across these categories:
 
 - **Wallet** (18) — balances, tokens, NFTs, history, profitability, approvals, insights, net worth
-- **Token** (22) — prices, metadata, pairs, DEX swaps, analytics, security scores, snipers
-- **NFT** (24) — metadata, transfers, traits, rarity, floor prices, trades
+- **Token** (15) — prices, metadata, pairs, DEX swaps, analytics, security scores, holders
+- **NFT** (22) — metadata, transfers, traits, rarity, floor prices, trades
 - **DeFi** (3) — protocol positions, liquidity, exposure
 - **Entity** (2) — labeled addresses (exchanges, funds, whales)
 - **Price** (4) — OHLCV, token prices, pair prices
 - **Blockchain** (5) — blocks, transactions, date-to-block
-- **Discovery** (14) — trending tokens, market movers, top gainers/losers
-- **Other** (14) — address resolution, token search, bonding, candlesticks, graduated tokens
-- **Solana** (35) — native Solana endpoints + EVM endpoints with Solana support
-- **Universal / Bitcoin** (15) — Bitcoin xpubs, balances, history, blocks, transactions, prices, and cross-chain Universal endpoints
+- **Discovery** (2) — trending tokens and top traders
+- **Other** (9) — address resolution, entity search, token search, and utilities
+- **Solana** (18) — 16 native endpoints + 2 EVM endpoints with Solana support
+- **Universal / Bitcoin** (19) — Bitcoin data, multi-chain DeFi/PnL, prices, swaps, and xpub utilities
 
 ```
 /moralis-data-api Get the balance of YOUR_EVM_ADDRESS
@@ -90,13 +90,14 @@ Unified skill for blockchain data queries across EVM, Solana, and Universal / Bi
 
 ## moralis-streams-api
 
-Real-time blockchain event monitoring with webhooks. **45 endpoints** for EVM, Solana, Bitcoin, and shared utility operations.
+Real-time blockchain event monitoring with webhooks. **47 endpoints** for EVM, Solana, Bitcoin, historical jobs, and shared utility operations.
 
 **Families:**
 
 - **EVM Streams** — contract events, token/NFT transfers, native txs, internal txs
-- **Solana Streams** — program, mint, and address activity on `mainnet` / `devnet`
+- **Solana Streams** — program, mint, and address activity on `mainnet` only
 - **Bitcoin Streams** — address monitoring, xpub monitoring, block replay helpers
+- **Historical Jobs** — create and inspect historical stream jobs (confirm timestamp units and family scope before production use)
 
 ```
 /moralis-streams-api Create a stream to monitor all ERC20 transfers on Ethereum
@@ -120,9 +121,9 @@ Knowledge-only skill for answering general questions about Moralis. Routes users
 
 ## Supported Chains
 
-**EVM (40+):** eth, polygon, bsc, arbitrum, optimism, avalanche, fantom, base, sei, monad, and more
+**EVM:** Ethereum, Polygon, BSC, Arbitrum, Optimism, Avalanche, Base, Sei, Monad, and more. Moonbeam, Moonriver, and Lisk are scheduled for removal on September 25, 2026.
 
-**Solana:** mainnet, devnet
+**Solana Data API and Streams:** mainnet only.
 
 **Bitcoin:** mainnet via Universal Data API and Streams
 

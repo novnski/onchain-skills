@@ -38,7 +38,17 @@ Returns the active chains for the wallet address.
   "active_chains": [
     {
       "chain": "eth",
-      "chain_id": "0x1"
+      "chain_id": "0x1",
+      "first_transaction": {
+        "block_number": "123456789",
+        "block_timestamp": "2022-08-23T20:58:31.000Z",
+        "transaction_hash": "YOUR_TX_HASH"
+      },
+      "last_transaction": {
+        "block_number": "123456789",
+        "block_timestamp": "2022-08-23T20:58:31.000Z",
+        "transaction_hash": "YOUR_TX_HASH"
+      }
     }
   ]
 }

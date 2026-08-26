@@ -24,7 +24,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, fantom, 0xfa, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, chiliz testnet, 0x15b32, gnosis, 0x64, gnosis testnet, 0x27d8, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, moonbase, 0x507, linea sepolia, 0xe705, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, lisk-sepolia, 0x106a, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
+| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, gnosis, 0x64, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
 | from_block | number | No | The minimum block number from which to get the transactions
 * Provide the param 'from_block' or 'from_date'
 * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
@@ -62,8 +62,8 @@ Returns a collection of native transactions.
 ```json
 {
   "cursor": "cursor_example",
-  "page": "2",
-  "page_size": "100",
+  "page": 2,
+  "page_size": 100,
   "result": [
     {
       "hash": "YOUR_HASH",
@@ -83,8 +83,8 @@ Returns a collection of native transactions.
       "input": "0x",
       "receipt_cumulative_gas_used": "4923073",
       "receipt_gas_used": "21000",
-      "receipt_contract_address": null,
-      "receipt_root": null,
+      "receipt_contract_address": "null",
+      "receipt_root": "null",
       "receipt_status": "1",
       "transaction_fee": "0.00034",
       "block_timestamp": "2021-05-07T11:08:35.000Z",
@@ -100,7 +100,7 @@ Returns a collection of native transactions.
           "topic0": "YOUR_TOPIC_HASH",
           "topic1": "YOUR_TOPIC_HASH",
           "topic2": "YOUR_TOPIC_HASH",
-          "topic3": null,
+          "topic3": "null",
           "block_timestamp": "2021-05-07T11:08:35.000Z",
           "block_number": "12386788",
           "block_hash": "YOUR_HASH",

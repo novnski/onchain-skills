@@ -29,7 +29,6 @@ Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
 | ---------------------- | ------ | --- | ----- | ---- | ------ | ---------- | --- | ------ | ----------- | ---------- | ---------- | ------------ |
 | **Ethereum** (0x1)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Sepolia** (0xaa36a7) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Holesky** (0x4268)   | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Polygon** (0x89)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ✅  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Amoy** (0x13882)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **BSC** (0x38)         | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
@@ -51,29 +50,22 @@ Legend: ✅ Supported | ❌ Not Supported | 🔄 Coming Soon
 | Chain                      | Wallet | NFT | Token | DeFi | Entity | Blockchain | PnL | Prices | Internal Tx | NFT Trades | NFT Prices | Floor Prices |
 | -------------------------- | ------ | --- | ----- | ---- | ------ | ---------- | --- | ------ | ----------- | ---------- | ---------- | ------------ |
 | **Avalanche** (0xa86a)     | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
-| **Fantom** (0xfa)          | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
-| **Fantom Testnet** (0xfa2) | ❌     | ❌  | ❌    | ❌   | ❌     | ❌         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Cronos** (0x19)          | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ❌          | ❌         | ❌         | ❌           |
 | **Gnosis** (0x64)          | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ❌          | ❌         | ❌         | ❌           |
-| **Gnosis Chiado** (0x27d8) | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Linea** (0xe708)         | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
-| **Linea Sepolia** (0xe705) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 
 ### Additional Chains
 
 | Chain                        | Wallet | NFT | Token | DeFi | Entity | Blockchain | PnL | Prices | Internal Tx | NFT Trades | NFT Prices | Floor Prices |
 | ---------------------------- | ------ | --- | ----- | ---- | ------ | ---------- | --- | ------ | ----------- | ---------- | ---------- | ------------ |
 | **Chiliz** (0x15b38)         | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
-| **Chiliz Testnet** (0x15b32) | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Moonbeam** (0x504)         | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Moonriver** (0x505)        | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Moonbase** (0x507)         | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
+| **Moonbeam** (0x504, deprecated Sep 25) | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Moonriver** (0x505, deprecated Sep 25) | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
 | **Flow** (0x2eb)             | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Flow Testnet** (0x221)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
 | **Ronin** (0x7e4)            | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Ronin Saigon** (0x7e5)     | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
-| **Lisk** (0x46f)             | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ✅          | ❌         | ❌         | ❌           |
-| **Lisk Sepolia** (0x106a)    | ✅     | ✅  | ✅    | ❌   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
+| **Lisk** (0x46f, deprecated Sep 25) | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
 | **Pulse** (0x171)            | ✅     | ❌  | ✅    | ❌   | ✅     | ✅         | ❌  | ✅     | ✅          | ❌         | ❌         | ❌           |
 | **Sei** (0x531)              | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ✅     | ✅          | ✅         | ✅         | ✅           |
 | **Sei Testnet** (0x530)      | ✅     | ✅  | ✅    | ✅   | ✅     | ✅         | ❌  | ❌     | ❌          | ❌         | ❌         | ❌           |
@@ -103,7 +95,6 @@ Solana uses a separate base URL (`https://solana-gateway.moralis.io`) and dedica
 | Network | Wallet | NFT | Token | Token Price | SPL |
 | ------- | ------ | --- | ----- | ----------- | --- |
 | **Mainnet** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Devnet** | ✅ | ✅ | ✅ | ❌ | ✅ |
 
 **Supported Solana APIs:**
 - **Wallet**: Native balance (`balance__solana`), portfolio (`getPortfolio__solana`)
@@ -111,12 +102,12 @@ Solana uses a separate base URL (`https://solana-gateway.moralis.io`) and dedica
 - **NFT**: Metadata (`getNFTMetadata__solana`), owned NFTs (`getNFTs__solana`)
 - **DeFi**: Wallet positions, protocol positions, and protocol summary through Universal v1 DeFi endpoints
 - **SPL**: SPL token balances (`getSPL__solana`)
-- **Analytics**: Token scores, trending tokens, volume stats, candlesticks, pair stats
+- **Analytics**: Token analytics, trending tokens, candlesticks, and pair stats. Solana Token Score, holder, sniper, and exchange-discovery routes were removed on July 31, 2026.
 
 **Limitations:**
 - No profitability/PnL analysis
 - No floor price data
-- Price data only available on Mainnet
+- Solana Data API support is Mainnet only
 
 ### Universal / Bitcoin
 
@@ -127,6 +118,8 @@ Universal v1 endpoints use `https://api.moralis.com` and are represented by rule
 - **Blockchain**: Bitcoin block and transaction lookup (`getBlockByNumberOrHash__universal`, `getTransactionByHash__universal`)
 - **Price**: Current BTC price, historical time series, and sparkline data (`getTokenPrice__universal`, `getTokenPriceTimeSeries__universal`, `getTokenPriceSparkline__universal`)
 - **Xpub utility**: Derived Bitcoin addresses and transfer counts (`getAddressesByXpub__universal`)
+
+**Universal EVM features:** multi-chain wallet PnL, PnL summary, top traders, DeFi positions, and the current DeFi protocol list.
 
 Use `chainAlias=bitcoin` or `chains=bitcoin` for Bitcoin examples unless the endpoint rule documents a different cross-chain request shape.
 

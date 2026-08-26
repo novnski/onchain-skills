@@ -35,6 +35,7 @@ function main() {
 
   const steps = [
     ["Generate endpoint rules", "node", ["scripts/generate-endpoint-rules.js"]],
+    ["Audit generated rules", "node", ["scripts/audit-generated-rules.js"]],
     ["Check collision mapping", "node", ["scripts/check-collisions.js"]],
     [
       "Check all collision files",

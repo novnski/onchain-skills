@@ -24,7 +24,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, fantom, 0xfa, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, chiliz testnet, 0x15b32, gnosis, 0x64, gnosis testnet, 0x27d8, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, moonbase, 0x507, linea sepolia, 0xe705, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, lisk-sepolia, 0x106a, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
+| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, gnosis, 0x64, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
 | from_block | number | No | The minimum block number from which to get the transactions
 * Provide the param 'from_block' or 'from_date'
 * If 'from_date' and 'from_block' are provided, 'from_block' will be used.
@@ -62,8 +62,9 @@ Returns wallet history of a wallet address
 
 ```json
 {
-  "page": "2",
-  "page_size": "100",
+  "synced_at": 837451,
+  "page": 2,
+  "page_size": 100,
   "cursor": "cursor_example",
   "result": [
     {
@@ -93,7 +94,7 @@ Returns wallet history of a wallet address
       "internal_transactions": [
         {
           "transaction_hash": "YOUR_TX_HASH",
-          "block_number": 12526958,
+          "block_number": "12526958",
           "block_hash": "YOUR_HASH",
           "type": "CALL",
           "from": "YOUR_ADDRESS",
@@ -107,8 +108,31 @@ Returns wallet history of a wallet address
         }
       ],
       "category": "category_example",
-      "contract_interactions": [],
-      "possible_spam": "false",
+      "contract_interactions": {
+        "approvals": [
+          {
+            "value": "value_example",
+            "value_formatted": "value_formatted_example",
+            "token": {
+              "address": "address_example",
+              "address_label": "address_label_example",
+              "token_name": "token_name_example",
+              "token_logo": "token_logo_example",
+              "token_symbol": "token_symbol_example"
+            },
+            "spender": {
+              "address": "address_example",
+              "address_label": "address_label_example",
+              "name": "name_example",
+              "symbol": "symbol_example",
+              "logo": "logo_example",
+              "entity": "entity_example",
+              "entity_logo": "entity_logo_example"
+            }
+          }
+        ]
+      },
+      "possible_spam": false,
       "method_label": "transfer",
       "summary": "transfer",
       "nft_transfers": [
@@ -131,11 +155,29 @@ Returns wallet history of a wallet address
           "transaction_type": "transaction_type_example",
           "log_index": 0,
           "operator": "YOUR_ADDRESS",
-          "possible_spam": "false",
-          "verified_collection": "false",
-          "direction": "outgoing",
+          "possible_spam": false,
+          "verified_collection": false,
+          "direction": "send",
           "collection_logo": "https://example.com/RESOURCE_URL",
-          "collection_banner_image": "https://example.com/RESOURCE_URL"
+          "collection_banner_image": "https://example.com/RESOURCE_URL",
+          "normalized_metadata": {
+            "name": "Moralis Mug",
+            "description": "Moralis Coffee nug 3D Asset that can be used in 3D worldspaces. This NFT is presented as a flat PNG, a Unity3D Prefab and a standard fbx.",
+            "image": "https://arw2wxg84h6b.moralishost.com:2053/server/files/tNJatzsHirx4V2VAep6sc923OYGxvkpBeJttR7Ks/de504bbadadcbe30c86278342fcf2560_moralismug.png",
+            "external_link": "https://giphy.com/gifs/loop-recursion-ting-aaODAv1iuQdgI",
+            "external_url": "https://giphy.com/gifs/loop-recursion-ting-aaODAv1iuQdgI",
+            "animation_url": "https://giphy.com/gifs/food-design-donuts-o9ngTPVYW4qo8",
+            "attributes": [
+              {
+                "trait_type": "Eye Color",
+                "value": "value_example",
+                "display_type": "string",
+                "max_value": 100,
+                "trait_count": 7,
+                "order": 1
+              }
+            ]
+          }
         }
       ],
       "erc20_transfers": [
@@ -154,11 +196,12 @@ Returns wallet history of a wallet address
           "from_address_entity_logo": "https://opensea.io/favicon.ico",
           "from_address": "YOUR_ADDRESS",
           "from_address_label": "Binance 1",
-          "value": 650000000000000000,
+          "value": "650000000000000000",
           "value_formatted": "1.033",
           "log_index": 2,
-          "possible_spam": "false",
-          "verified_contract": "false"
+          "possible_spam": false,
+          "verified_contract": false,
+          "direction": "send"
         }
       ],
       "native_transfers": [
@@ -173,8 +216,8 @@ Returns wallet history of a wallet address
           "to_address_label": "Binance 2",
           "value": "1000000000000000",
           "value_formatted": "0.1",
-          "direction": "outgoing",
-          "internal_transaction": "false",
+          "direction": "send",
+          "internal_transaction": false,
           "token_symbol": "ETH",
           "token_logo": "https://example.com/RESOURCE_URL"
         }
@@ -189,7 +232,7 @@ Returns wallet history of a wallet address
           "topic0": "YOUR_TOPIC_HASH",
           "topic1": "YOUR_TOPIC_HASH",
           "topic2": "YOUR_TOPIC_HASH",
-          "topic3": null,
+          "topic3": "null",
           "block_timestamp": "2021-05-07T11:08:35.000Z",
           "block_number": "12386788",
           "block_hash": "YOUR_HASH",
@@ -208,7 +251,8 @@ Returns wallet history of a wallet address
         }
       ]
     }
-  ]
+  ],
+  "limit": 0
 }
 ```
 

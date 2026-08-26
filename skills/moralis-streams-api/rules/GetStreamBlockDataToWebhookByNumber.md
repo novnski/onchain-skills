@@ -22,6 +22,16 @@ POST
 | blockNumber | number | Yes | - | \`123456\` |
 | streamId | string | Yes | - | \`YOUR_STREAM_ID\` |
 
+## Response Example
+
+Status: 200
+
+Ok
+
+```json
+0
+```
+
 ## Example (curl)
 
 ```bash

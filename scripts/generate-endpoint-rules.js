@@ -524,38 +524,62 @@ function buildBodySection(endpoint) {
  * Build example JSON from response schema fields
  * Handles both 'fields' array and 'properties' object with $ref
  */
-function buildExampleFromSchema(body) {
+function overlaySchemaExample(base, provided, fieldName = "") {
+  if (provided === undefined) return base;
+  if (Array.isArray(base)) {
+    if (!Array.isArray(provided) || provided.length === 0) return base;
+    if (base.length === 0) return sanitizeExampleValue(provided, fieldName);
+    return [overlaySchemaExample(base[0], provided[0], fieldName)];
+  }
+  if (base && typeof base === "object") {
+    if (!provided || typeof provided !== "object" || Array.isArray(provided)) return base;
+    const result = { ...base };
+    for (const [key, value] of Object.entries(provided)) {
+      result[key] = Object.prototype.hasOwnProperty.call(base, key)
+        ? overlaySchemaExample(base[key], value, key)
+        : sanitizeExampleValue(value, key);
+    }
+    return result;
+  }
+  return sanitizeExampleValue(provided, fieldName);
+}
+
+function buildExampleFromSchema(body, fieldName = "") {
   if (!body) return null;
+
+  if (body.type === "string") {
+    return body.example !== undefined
+      ? sanitizeExampleValue(body.example, fieldName)
+      : fieldName + "_example";
+  }
+  if (body.type === "number") {
+    return body.example !== undefined ? body.example : 0;
+  }
+  if (body.type === "boolean") {
+    return body.example !== undefined ? body.example : true;
+  }
 
   // Handle array type at the top level (response body is an array)
   if (body.type === "array") {
     const arraySchema = body.items || body.field;
+    let generated = [];
     if (arraySchema) {
-      if (arraySchema.properties) {
-        return [
-          buildExampleFromSchema({
-            type: "object",
-            properties: arraySchema.properties,
-          }),
-        ];
-      } else if (arraySchema.fields) {
-        return [
-          buildExampleFromSchema({
-            type: "object",
-            fields: arraySchema.fields,
-          }),
-        ];
-      } else if (arraySchema.example !== undefined) {
-        return [arraySchema.example];
-      }
+      const item = buildExampleFromSchema(arraySchema, fieldName);
+      if (item !== null && item !== undefined) generated = [item];
     }
-    return [];
+    return overlaySchemaExample(generated, body.example, fieldName);
   }
 
   const example = {};
   const items = body.fields || body.properties;
 
-  if (!items) return null;
+  if (!items) {
+    return body.example !== undefined
+      ? sanitizeExampleValue(body.example, fieldName)
+      : body.type === "object"
+        ? {}
+        : null;
+  }
 
   // Handle both array (fields) and object (properties)
   const entries = Array.isArray(items) ? items : Object.entries(items);
@@ -572,75 +596,10 @@ function buildExampleFromSchema(body) {
       name = field.name;
     }
 
-    // Skip $ref fields without examples (we can't resolve them)
-    if (field.$ref) {
-      if (field.example !== undefined) {
-        example[name] = sanitizeExampleValue(field.example, name);
-      }
-      continue;
-    }
-
-    // Use the example value if provided
-    if (field.example !== undefined) {
-      example[name] = sanitizeExampleValue(field.example, name);
-    } else if (field.type === "object" && field.properties) {
-      // Recursively build nested objects from properties
-      example[name] = buildExampleFromSchema({
-        type: "object",
-        properties: field.properties,
-      });
-    } else if (
-      field.type === "object" &&
-      field.fields &&
-      Array.isArray(field.fields)
-    ) {
-      // Recursively build nested objects from fields array
-      example[name] = buildExampleFromSchema({
-        type: "object",
-        fields: field.fields,
-      });
-    } else if (field.type === "object") {
-      // Object type without nested schema - use empty object
-      example[name] = {};
-    } else if (field.type === "array") {
-      // Build array example from items or field schema (some schemas use 'field' instead of 'items')
-      const arraySchema = field.items || field.field;
-      if (arraySchema) {
-        if (arraySchema.properties) {
-          example[name] = [
-            buildExampleFromSchema({
-              type: "object",
-              properties: arraySchema.properties,
-            }),
-          ];
-        } else if (arraySchema.fields) {
-          example[name] = [
-            buildExampleFromSchema({
-              type: "object",
-              fields: arraySchema.fields,
-            }),
-          ];
-        } else if (arraySchema.example !== undefined) {
-          example[name] = [sanitizeExampleValue(arraySchema.example, name)];
-        } else if (arraySchema.type) {
-          // Simple type array
-          example[name] = [];
-        } else {
-          example[name] = [];
-        }
-      } else {
-        example[name] = [];
-      }
-    } else if (field.type === "string") {
-      example[name] = name + "_example";
-    } else if (field.type === "number") {
-      example[name] = 0;
-    } else if (field.type === "boolean") {
-      example[name] = true;
-    }
+    example[name] = buildExampleFromSchema(field, name);
   }
 
-  return example;
+  return overlaySchemaExample(example, body.example, fieldName);
 }
 
 /**
@@ -663,12 +622,17 @@ function buildResponseExampleSection(endpoint) {
   // Build example from body schema
   const example = buildExampleFromSchema(successResponse.body);
 
-  if (!example) {
+  if (example === null || example === undefined) {
     return null;
   }
 
   // Allow empty arrays as valid examples, but filter empty objects
-  if (!Array.isArray(example) && Object.keys(example).length === 0) {
+  if (
+    example &&
+    typeof example === "object" &&
+    !Array.isArray(example) &&
+    Object.keys(example).length === 0
+  ) {
     return null;
   }
 
@@ -808,7 +772,7 @@ function generateDataApiCatalog(apiConfigs) {
     token: {
       title: "Token",
       description:
-        "Token prices, metadata, pairs, DEX swaps, analytics, security scores, and sniper detection.",
+        "Token prices, metadata, pairs, DEX swaps, analytics, security scores, and holders.",
     },
     nft: {
       title: "NFT",
@@ -836,7 +800,7 @@ function generateDataApiCatalog(apiConfigs) {
     discovery: {
       title: "Discovery",
       description:
-        "Trending tokens, blue chips, market movers, and token discovery.",
+        "Trending tokens and top-trader discovery.",
     },
     security: {
       title: "Security",
@@ -845,7 +809,7 @@ function generateDataApiCatalog(apiConfigs) {
     other: {
       title: "Other",
       description:
-        "Utility endpoints including API version, endpoint weights, and address resolution.",
+        "Address resolution, entity search, and supporting utilities.",
     },
   };
 
@@ -1069,6 +1033,12 @@ function generateStreamsApiCatalog(apiConfigs) {
       description: "List delivery history, logs, and replay failed webhook deliveries.",
     },
     {
+      key: "historicalJobs",
+      title: "Historical Jobs",
+      description:
+        "Create and inspect historical stream jobs. Confirm timestamp units and supported stream families before production use.",
+    },
+    {
       key: "other",
       title: "Other",
       description: "Miscellaneous Streams endpoints.",
@@ -1122,6 +1092,8 @@ function generateStreamsApiCatalog(apiConfigs) {
       categoryKey = "stats";
     } else if (endpointPath.startsWith("/history")) {
       categoryKey = "history";
+    } else if (endpointPath.startsWith("/historical-jobs")) {
+      categoryKey = "historicalJobs";
     }
 
     streamsByCategory[categoryKey].push({ opId, endpoint });
@@ -1204,7 +1176,7 @@ function updateSkillMdFile(skillPath, newCatalog) {
 /**
  * Process a single source (evm, solana, streams)
  */
-function processSource(sourceName, sourceData, rulesDir) {
+function processSource(sourceName, sourceData, rulesDir, expectedFiles) {
   const operationIds = Object.keys(sourceData);
   const ignored = [];
 
@@ -1215,6 +1187,7 @@ function processSource(sourceName, sourceData, rulesDir) {
     }
     const endpoint = sourceData[operationId];
     const filename = getFilename(operationId, sourceName);
+    expectedFiles.add(filename);
     const filepath = path.join(rulesDir, filename);
 
     const markdown = generateEndpointMarkdown(
@@ -1294,7 +1267,12 @@ function generateSolanaVariant(operationId, evmEndpoint) {
  * Process EVM endpoints that support Solana chain
  * Creates __solana variants for endpoints that have "solana" in chain enum
  */
-function processEvmEndpointsWithSolanaSupport(evmData, solanaData, rulesDir) {
+function processEvmEndpointsWithSolanaSupport(
+  evmData,
+  solanaData,
+  rulesDir,
+  expectedFiles,
+) {
   const evmOps = Object.keys(evmData);
   const solanaOps = new Set(Object.keys(solanaData || {}));
 
@@ -1331,6 +1309,7 @@ function processEvmEndpointsWithSolanaSupport(evmData, solanaData, rulesDir) {
 
   for (const { operationId, endpoint } of solanaVariants) {
     const filename = operationId + "__solana.md";
+    expectedFiles.add(filename);
     const filepath = path.join(rulesDir, filename);
 
     const solanaEndpoint = generateSolanaVariant(operationId, endpoint);
@@ -1345,6 +1324,26 @@ function processEvmEndpointsWithSolanaSupport(evmData, solanaData, rulesDir) {
 }
 
 /**
+ * Remove generated rule files that no longer exist in the refreshed schemas.
+ * Rule directories contain generated markdown only; manually maintained files
+ * live under references/ and are never touched here.
+ */
+function removeStaleRuleFiles(rulesDir, expectedFiles) {
+  const staleFiles = fs
+    .readdirSync(rulesDir)
+    .filter((filename) => filename.endsWith(".md"))
+    .filter((filename) => !expectedFiles.has(filename));
+
+  for (const filename of staleFiles) {
+    fs.unlinkSync(path.join(rulesDir, filename));
+  }
+
+  if (staleFiles.length > 0) {
+    console.log("  Removed stale rules: " + staleFiles.join(", "));
+  }
+}
+
+/**
  * Main entry point
  */
 function main() {
@@ -1352,6 +1351,7 @@ function main() {
 
   // Load API configs
   const apiConfigs = JSON.parse(fs.readFileSync(API_CONFIGS_PATH, "utf8"));
+  const expectedFilesBySkill = {};
 
   // ========================================================================
   // TWO-PASS PATTERN FOR ORDER-INDEPENDENT COLLISION DETECTION
@@ -1374,10 +1374,12 @@ function main() {
   for (const [skillName, config] of Object.entries(SKILL_MAPPINGS)) {
     console.log("\n" + skillName + ":");
     ensureDir(config.rulesDir);
+    const expectedFiles = new Set();
+    expectedFilesBySkill[skillName] = expectedFiles;
 
     for (const source of config.sources) {
       if (apiConfigs[source]) {
-        processSource(source, apiConfigs[source], config.rulesDir);
+        processSource(source, apiConfigs[source], config.rulesDir, expectedFiles);
       } else {
         console.warn(
           '  Warning: source "' + source + '" not found in api-configs.json',
@@ -1393,6 +1395,14 @@ function main() {
       apiConfigs.evm,
       apiConfigs.solana,
       dataApiConfig.rulesDir,
+      expectedFilesBySkill["moralis-data-api"],
+    );
+  }
+
+  for (const [skillName, config] of Object.entries(SKILL_MAPPINGS)) {
+    removeStaleRuleFiles(
+      config.rulesDir,
+      expectedFilesBySkill[skillName] || new Set(),
     );
   }
 
@@ -1429,4 +1439,8 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { main };
+module.exports = {
+  main,
+  IGNORED_ENDPOINTS,
+  supportsSolanaChain,
+};

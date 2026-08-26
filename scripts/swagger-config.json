@@ -1,21 +1,21 @@
 {
   "evm": {
-    "swaggerPath": "https://docs.moralis.com/openapi-files/data-api/api.json",
+    "swaggerPath": "https://deep-index.moralis.io/api-docs-2.2/v2.2/swagger.json",
     "outputPath": "../swagger/api-configs.json",
     "apiCategory": "EVM"
   },
   "solana": {
-    "swaggerPath": "https://docs.moralis.com/openapi-files/data-api/solana-api.json",
+    "swaggerPath": "https://solana-gateway.moralis.io/api-json",
     "outputPath": "../swagger/api-configs.json",
     "apiCategory": "Solana"
   },
   "universal": {
-    "swaggerPath": "https://docs.moralis.com/openapi-files/data-api/api-v1.json",
+    "swaggerPath": "https://api.moralis.com/api-json",
     "outputPath": "../swagger/api-configs.json",
     "apiCategory": "Universal"
   },
   "streams": {
-    "swaggerPath": "https://docs.moralis.com/openapi-files/streams-api/streams.json",
+    "swaggerPath": "https://api.moralis-streams.com/api-docs/swagger.json",
     "outputPath": "../swagger/api-configs.json",
     "apiCategory": "Streams"
   }

@@ -222,7 +222,6 @@ User's Bot <-- Webhook <-- Moralis Streams <-- Blockchain
 | Security score | `getTokenScore` | @moralis-data-api |
 | DEX pairs | `getTokenPairs` | @moralis-data-api |
 | Recent swaps | `getSwapsByTokenAddress` | @moralis-data-api |
-| Snipers | `getSnipersByPairAddress` | @moralis-data-api |
 
 ### Implementation Pattern
 
@@ -241,7 +240,6 @@ User's Bot <-- Webhook <-- Moralis Streams <-- Blockchain
    - getSwapsByTokenAddress
 5. Security:
    - getTokenScore
-   - getSnipersByPairAddress
 ```
 
 ---
@@ -334,7 +332,7 @@ Use @moralis-streams-api to track whale wallets:
 
 ---
 
-## Token Launch Monitoring
+## Token Discovery and Launch Monitoring
 
 **Goal:** Track new token launches and early trading.
 
@@ -342,35 +340,26 @@ Use @moralis-streams-api to track whale wallets:
 
 | Data | Endpoint | Skill |
 |------|----------|-------|
-| New tokens | `getNewTokensByExchange` | @moralis-data-api |
-| Bonding tokens | `getBondingTokensByExchange` | @moralis-data-api |
-| Graduated tokens | `getGraduatedTokensByExchange` | @moralis-data-api |
+| Search known names/symbols | `searchTokens` | @moralis-data-api |
+| Current activity trends | `getTrendingTokensV2` | @moralis-data-api |
+| Token market metrics | `getTokenAnalytics` | @moralis-data-api |
 | Token security | `getTokenScore` | @moralis-data-api |
-| Sniper detection | `getSnipersByPairAddress` | @moralis-data-api |
-| Trending tokens | `getTrendingTokens` | @moralis-data-api |
-
-### Supported Exchanges
-
-- Pump.fun (Solana)
-- Moonshot (Solana)
-- Uniswap v2/v3
-- PancakeSwap
-- And more
 
 ### Implementation Pattern
 
 ```
 1. Discovery:
-   - getNewTokensByExchange
-   - getTrendingTokens
+   - getTrendingTokensV2
+   - searchTokens when the user supplies a query
 2. Security check:
    - getTokenScore
-   - getSnipersByPairAddress
 3. Monitor:
    - Stream for new liquidity events
-4. Track graduation:
-   - getGraduatedTokensByExchange
+4. Analyze known tokens:
+   - getTokenAnalytics
 ```
+
+The legacy exchange launch/bonding/graduation and pair-sniper endpoints were removed. There is no one-for-one replacement for that launch screener.
 
 ---
 

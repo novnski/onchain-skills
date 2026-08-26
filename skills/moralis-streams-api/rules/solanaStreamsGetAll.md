@@ -24,6 +24,8 @@ GET
 - **limit**: Number of results per page
 - **cursor**: Cursor for next page
 
+The response includes a **cursor** field for pagination. Use this cursor in the next request to get the next page of results.
+
 ## Response Example
 
 Status: 200
@@ -32,6 +34,7 @@ Ok
 
 ```json
 {
+  "cursor": "cursor_example",
   "total": 0,
   "result": [
     {
@@ -39,10 +42,16 @@ Ok
       "allAddresses": true,
       "description": "description_example",
       "isErrorSince": "isErrorSince_example",
-      "network": [],
-      "programIds": [],
-      "mintAddresses": [],
-      "status": {},
+      "network": [
+        "network_example"
+      ],
+      "programIds": [
+        "programIds_example"
+      ],
+      "mintAddresses": [
+        "mintAddresses_example"
+      ],
+      "status": "[object Object]",
       "statusMessage": "statusMessage_example",
       "tag": "tag_example",
       "webhookUrl": "webhookUrl_example",

@@ -29,10 +29,22 @@ These endpoints support both EVM and Solana chains unless an endpoint rule narro
 | `getTokenAnalytics` | 80 |
 | `getMultipleTokenAnalytics` | 150 |
 | `getTimeSeriesTokenAnalytics` | 200 |
-| `getFilteredTokens` | 250 |
-| `getTopGainersTokens` | 250 |
-| `getTopLosersTokens` | 250 |
-| `getTrendingTokens` | 150 |
+| `getTrendingTokensV2` | 150 |
+
+### PnL API
+
+| Method | CU Cost |
+| --- | --- |
+| `getWalletProfitability__universal` | 50 per requested chain |
+| `getWalletProfitabilitySummary__universal` | 30 per requested chain |
+| `getTopTradersByToken__universal` | 50 |
+
+### Token Prices
+
+| Method | CU Cost |
+| --- | --- |
+| `getTokenPriceTimeSeries__universal` | 50 |
+| `getTokenPriceSparkline__universal` | 50 |
 
 ### Entity API
 
@@ -42,15 +54,6 @@ These endpoints support both EVM and Solana chains unless an endpoint rule narro
 | `getEntity` | 50 |
 | `getEntitiesByCategory` | 50 |
 | `getEntityCategories` | 10 |
-
-### Volume and Market Data
-
-| Method | CU Cost |
-| --- | --- |
-| `getVolumeStatsByChain` | 150 |
-| `getVolumeStatsByCategory` | 150 |
-| `getTimeSeriesVolume` | 150 |
-| `getTimeSeriesVolumeByCategory` | 150 |
 
 ## EVM API Compute Units
 
@@ -95,19 +98,13 @@ These endpoints support both EVM and Solana chains unless an endpoint rule narro
 | `getTokenScore` | 100 |
 | `getHistoricalTokenScore` | 150 |
 | `getTokenHolders` | 50 |
-| `getHistoricalTokenHolders` | 50 |
-| `getTokenStats` | 50 |
 | `getTokenTransfers` | 50 |
 | `getTokenPairs` | 50 |
 | `getSwapsByTokenAddress` | 50 |
 | `getSwapsByPairAddress` | 50 |
 | `getPairStats` | 100 |
-| `getSnipersByPairAddress` | 50 |
 | `getTopProfitableWalletPerToken` | 50 |
 | `getTokenCategories` | 10 |
-| `getFilteredTokens` | 250 |
-| `getTopGainersTokens` | 250 |
-| `getTopLosersTokens` | 250 |
 
 ### NFT API
 
@@ -132,8 +129,6 @@ These endpoints support both EVM and Solana chains unless an endpoint rule narro
 | `getNFTTraitsByCollection` | 50 |
 | `getNFTTraitsByCollectionPaginate` | 10 |
 | `getNFTByContractTraits` | 50 |
-| `getTopNFTCollectionsByMarketCap` | 200 |
-| `getHottestNFTCollectionsByTradingVolume` | 200 |
 | `reSyncMetadata` | 50 |
 | `resyncNFTRarity` | 10 |
 
@@ -188,24 +183,14 @@ These endpoints support both EVM and Solana chains unless an endpoint rule narro
 | --- | --- |
 | `getTokenMetadata` | 10 |
 | `getMultipleTokenMetadata` | 100 |
-| `getTokenScore` | 100 |
-| `getHistoricalTokenScore` | 150 |
 | `getTokenPrice` | 10 |
 | `getMultipleTokenPrices` | 100 |
 | `getCandleSticks` | 150 |
-| `getTopHolders` | 50 |
-| `getHistoricalTokenHolders` | 50 |
-| `getTokenHolders` | 50 |
 | `getTokenPairs` | 50 |
 | `getSwapsByTokenAddress` | 50 |
 | `getSwapsByPairAddress` | 50 |
 | `getPairStats` | 100 |
 | `getAggregatedTokenPairStats` | 80 |
-| `getSnipersByPairAddress` | 50 |
-| `getNewTokensByExchange` | 50 |
-| `getGraduatedTokensByExchange` | 50 |
-| `getBondingTokensByExchange` | 50 |
-| `getTokenBondingStatus` | 20 |
 
 ### NFT API
 
@@ -242,15 +227,8 @@ Use this section for plan-gated Data API endpoints. The table below mirrors the 
 | Token Analytics (Batch) | POST | `/tokens/analytics` | 150 |
 | Token Analytics - Timeseries | POST | `/tokens/analytics/timeseries` | 200 |
 | Token Search | GET | `/tokens/search` | 150 |
-| Filtered Tokens | POST | `/discovery/tokens` | 250 |
-| Top Gainers | GET | `/discovery/tokens/top-gainers` | 250 |
-| Top Losers | GET | `/discovery/tokens/top-losers` | 250 |
 | Token Categories | GET | `/tokens/categories` | 10 |
 | Trending Tokens | GET | `/tokens/trending` | 150 |
-| Chain Metrics | GET | `/volume/chains` | 150 |
-| Chain Metrics - Timeseries | GET | `/volume/timeseries` | 150 |
-| Category Metrics | GET | `/volume/categories` | 150 |
-| Category Metrics - Timeseries | GET | `/volume/timeseries/{categoryId}` | 150 |
 
 ### Endpoint Pages With `premium` Metadata
 
@@ -260,14 +238,11 @@ Use this section for plan-gated Data API endpoints. The table below mirrors the 
 | `/data-api/evm/token/metadata/token-score-timeseries` | 150 | mainnet only |
 | `/data-api/solana/token/market-metrics/token-analytics-batch` | 150 | mainnet only |
 | `/data-api/solana/token/market-metrics/token-analytics-timeseries` | 200 | mainnet only |
-| `/data-api/solana/token/token-score-timeseries` | 150 | mainnet only |
-| `/data-api/universal/global/endpoints/trading-stats` | 150 | - |
-| `/data-api/universal/global/endpoints/trading-stats-category` | 150 | - |
-| `/data-api/universal/global/endpoints/trading-stats-category-timeseries` | 150 | - |
-| `/data-api/universal/global/endpoints/trading-stats-timeseries` | 150 | - |
 | `/data-api/universal/token/analytics/token-analytics-multi` | 150 | mainnet only |
 | `/data-api/universal/token/analytics/token-analytics-timeseries` | 200 | mainnet only |
 | `/data-api/universal/token/score/token-score` | 100 | mainnet only |
 | `/data-api/universal/token/score/token-score-timeseries` | 150 | mainnet only |
 | `/data-api/universal/token/search/token-search` | 150 | mainnet only |
 | `/data-api/universal/token/trending-tokens` | 150 | - |
+
+Removed endpoints can still appear in historical pricing copy. A CU row does not prove that a route remains available; check the generated rule catalog and live Swagger first.

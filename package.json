@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build.js",
-    "build:full": "node scripts/build.js --with-api-tests"
+    "build:full": "node scripts/build.js --with-api-tests",
+    "audit:rules": "node scripts/audit-generated-rules.js --live",
+    "smoke:rules": "node scripts/smoke-test-generated-rules.js"
   }
 }

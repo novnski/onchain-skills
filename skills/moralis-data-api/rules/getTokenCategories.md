@@ -19,16 +19,14 @@ Status: 200
 Returns a list of ERC20 token categories, such as stablecoin, meme, governance, and more. Use this endpoint to explore available token categories for filtering or analytics.
 
 ```json
-[
-  {
-    "categories": [
-      {
-        "name": "Stablecoin",
-        "id": "stablecoin"
-      }
-    ]
-  }
-]
+{
+  "categories": [
+    {
+      "name": "Stablecoin",
+      "id": "stablecoin"
+    }
+  ]
+}
 ```
 
 ## Example (curl)

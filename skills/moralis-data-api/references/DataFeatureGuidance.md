@@ -36,16 +36,25 @@ Use this reference for docs-only feature behavior that is broader than a single 
 
 ## Search and Discovery
 
-- **Token filtering** is for structured discovery using metrics, categories, timeframes, and sorting.
 - **Token search** is for name, symbol, token address, or pair address lookup.
-- **Token scores** summarize token quality signals across EVM and Solana mainnets with a 0-100 score. The score is a weighted average of six sub-scores: age/maturity, liquidity, FDV reasonableness, holder supply distribution, trading volume, and transaction activity. Scores are dynamic over rolling timeframes from 10 minutes to 1 month and can decay when activity stops.
+- **Trending tokens** ranks tokens by current trading activity, volume, liquidity, and related signals. It is not a global market-cap leaderboard.
+- **Token search sorting** can rank matching search results by market cap, liquidity, or volume, but `query` is required and the result is not a market-wide leaderboard.
+- **Token scores** summarize token quality signals for EVM mainnets with a 0-100 score. Solana Token Score support was removed on July 31, 2026.
 - **Historical token scores** return score history for trend analysis. Supported lookbacks are 1 day and 7 days at hourly resolution, and 30 days at daily resolution.
+
+## Multi-Chain PnL and DeFi
+
+- Prefer the Universal PnL endpoints for new integrations: per-token wallet PnL, wallet-level PnL summary, and top traders by token.
+- Universal PnL accepts multiple chains and supports time ranges plus liquidity, volume, and trade-count quality filters.
+- Use `getDefiProtocols__universal` to retrieve the current protocol list and chain coverage instead of relying on a hard-coded protocol inventory.
 
 ## Deprecations and Sunsets
 
 - **Cortex** is intentionally out of scope for this skill set; use Onchain Skills and the Data API references instead.
-- **Legacy Discovery, Volume, Sniper, ERC20, and market-data endpoints** documented in the May 5, 2026 changelog are deprecated and scheduled for removal on June 4, 2026. Prefer the newer Universal/token analytics/search endpoints when a replacement exists, and warn users before building new integrations on deprecated rules that still exist in the OpenAPI source.
-- **Fantom** mainnet is scheduled to be removed across Moralis APIs on May 29, 2026, and Fantom Opera testnet has already been removed. Mention this when a user asks for Fantom support even if older supported-chain tables still list it.
+- **Legacy Discovery, Volume, Sniper, ERC20, and market-data endpoints** were removed on June 4, 2026. Do not generate calls for them even if an older docs mirror or pricing page still lists them.
+- **Holder and Solana discovery endpoints** removed on July 31, 2026 include EVM historical holders, all Solana holder routes, Solana exchange/bonding discovery, pair snipers, and Solana Token Score.
+- **Fantom** support has been removed.
+- **Moonbeam, Moonriver, and Lisk** are deprecated across Moralis products and scheduled for removal on September 25, 2026. See [DeprecatedEndpoints.md](DeprecatedEndpoints.md) for migration guidance.
 
 ## Pricing and Premium Endpoints
 
@@ -53,7 +62,7 @@ Use this reference for docs-only feature behavior that is broader than a single 
 - **Dynamic costs**: some endpoints charge per chain or per wallet. Examples include wallet net worth at 250 CUs per chain, wallet insights at 100 CUs per chain, and batch native balances at 10 CUs per wallet.
 - **High-cost DeFi endpoints**: wallet protocols, wallet positions, and detailed positions cost 5000 CUs and require a Starter plan or higher.
 - **Pro token analytics endpoints**: token score, historical token score, batch token analytics, and token analytics timeseries require Pro or higher.
-- **Pro discovery endpoints**: token search, filtered tokens, top gainers, top losers, token categories, and trending tokens require Pro or higher.
+- **Pro discovery endpoints**: token search, token categories, and trending tokens require Pro or higher.
 - **Pro volume and market metrics endpoints**: chain metrics, category metrics, and their timeseries variants require Pro or higher.
 
 ## Operational Resources

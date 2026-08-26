@@ -24,7 +24,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, fantom, 0xfa, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, chiliz testnet, 0x15b32, gnosis, 0x64, gnosis testnet, 0x27d8, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, moonbase, 0x507, linea sepolia, 0xe705, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, lisk-sepolia, 0x106a, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
+| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, gnosis, 0x64, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
 | include | string (internal_transactions) | No | If the result should contain the internal transactions. | \`\` |
 
 ## Response Example
@@ -52,8 +52,8 @@ Transaction details by transaction hash
   "input": "0x",
   "receipt_cumulative_gas_used": "4923073",
   "receipt_gas_used": "21000",
-  "receipt_contract_address": null,
-  "receipt_root": null,
+  "receipt_contract_address": "null",
+  "receipt_root": "null",
   "receipt_status": "1",
   "block_timestamp": "2021-05-07T11:08:35.000Z",
   "block_number": "12386788",
@@ -68,7 +68,7 @@ Transaction details by transaction hash
       "topic0": "YOUR_TOPIC_HASH",
       "topic1": "YOUR_TOPIC_HASH",
       "topic2": "YOUR_TOPIC_HASH",
-      "topic3": null,
+      "topic3": "null",
       "block_timestamp": "2021-05-07T11:08:35.000Z",
       "block_number": "12386788",
       "block_hash": "YOUR_HASH"
@@ -77,7 +77,7 @@ Transaction details by transaction hash
   "internal_transactions": [
     {
       "transaction_hash": "YOUR_TX_HASH",
-      "block_number": 12526958,
+      "block_number": "12526958",
       "block_hash": "YOUR_HASH",
       "type": "CALL",
       "from": "YOUR_ADDRESS",

@@ -18,7 +18,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| network | string (mainnet) | Yes | The network to query | - |
+| network | string (mainnet) | Yes | The supported Solana network. Mainnet only. | \`mainnet\` |
 | pairAddress | string | Yes | The address of the pair to query | \`YOUR_PAIR_ADDRESS\` |
 
 ## Response Example
@@ -40,7 +40,61 @@ Status: 200
   "exchangeUrl": "exchangeUrl_example",
   "currentUsdPrice": "currentUsdPrice_example",
   "currentNativePrice": "currentNativePrice_example",
-  "totalLiquidityUsd": "totalLiquidityUsd_example"
+  "totalLiquidityUsd": "totalLiquidityUsd_example",
+  "pricePercentChange": {
+    "5min": 0,
+    "1h": 0,
+    "4h": 0,
+    "24h": 0
+  },
+  "liquidityPercentChange": {
+    "5min": 0,
+    "1h": 0,
+    "4h": 0,
+    "24h": 0
+  },
+  "buys": {
+    "5min": 0,
+    "1h": 0,
+    "4h": 0,
+    "24h": 0
+  },
+  "sells": {
+    "5min": 0,
+    "1h": 0,
+    "4h": 0,
+    "24h": 0
+  },
+  "totalVolume": {
+    "5min": 0,
+    "1h": 0,
+    "4h": 0,
+    "24h": 0
+  },
+  "buyVolume": {
+    "5min": 0,
+    "1h": 0,
+    "4h": 0,
+    "24h": 0
+  },
+  "sellVolume": {
+    "5min": 0,
+    "1h": 0,
+    "4h": 0,
+    "24h": 0
+  },
+  "buyers": {
+    "5min": 0,
+    "1h": 0,
+    "4h": 0,
+    "24h": 0
+  },
+  "sellers": {
+    "5min": 0,
+    "1h": 0,
+    "4h": 0,
+    "24h": 0
+  }
 }
 ```
 

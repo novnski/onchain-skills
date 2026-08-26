@@ -32,11 +32,12 @@ Returns the entity categories.
 
 ```json
 {
-  "page": "1",
-  "page_size": "100",
+  "page": 1,
+  "page_size": 100,
   "result": [
     {
-      "total_entities": 100
+      "name": "Uniswap",
+      "id": "uniswap"
     }
   ]
 }

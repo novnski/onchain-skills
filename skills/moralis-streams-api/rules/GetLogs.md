@@ -55,7 +55,11 @@ Ok
       "blockNumber": 0,
       "errorMessage": "errorMessage_example",
       "type": "type_example",
-      "createdAt": "createdAt_example"
+      "createdAt": "createdAt_example",
+      "transactionHashes": [
+        "transactionHashes_example"
+      ],
+      "updatedAt": "updatedAt_example"
     }
   ],
   "cursor": "cursor_example",

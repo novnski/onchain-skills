@@ -18,7 +18,7 @@ skills/
 │   │   ├── ProductComparison.md
 │   │   └── UseCaseGuide.md
 │   └── SKILL.md
-├── moralis-data-api/           # Unified EVM + Solana + Universal / Bitcoin data API (156 endpoints)
+├── moralis-data-api/           # Unified EVM + Solana + Universal / Bitcoin data API (116 endpoints)
 │   ├── rules/                  # Auto-generated endpoint docs (one per endpoint)
 │   ├── references/
 │   │   ├── ApiResponseCodes.md       # API response code patterns and handling guidance
@@ -26,7 +26,7 @@ skills/
 │   │   ├── DataTransformations.md    # Type conversions, field mappings, snake_case → camelCase
 │   │   ├── DataFeatureGuidance.md    # Enrichment, safety, pricing, and discovery feature behavior
 │   │   ├── DefiProtocols.md          # Supported DeFi protocols and chains
-│   │   ├── FilteredTokens.md         # Token discovery metrics, timeframes, and filter examples
+│   │   ├── DeprecatedEndpoints.md    # Removed routes and current alternatives
 │   │   ├── NftMarketplaces.md        # Supported NFT marketplaces for trade/floor price endpoints
 │   │   ├── Pagination.md             # Cursor-based pagination reference
 │   │   ├── PerformanceAndLatency.md  # Response time guidance, timeouts, caching
@@ -48,6 +48,7 @@ skills/
     │   ├── DeliveryGuarantees.md     # At-least-once delivery, dual webhooks, confirmation blocks
     │   ├── ErrorHandling.md          # Retry schedule, error/terminated states, rate limits, re-orgs
     │   ├── FAQ.md                    # Streams API frequently asked questions
+    │   ├── HistoricalJobs.md         # Historical job routes and documented caveats
     │   ├── FilterStreams.md          # Webhook data filtering to reduce noise
     │   ├── ListenToAllAddresses.md   # Monitor events across every contract on a chain
     │   ├── MonitorMultipleAddresses.md # Best practices for multiple addresses
@@ -76,7 +77,7 @@ Each skill includes pattern reference files containing complete reference materi
 - `references/DataTransformations.md` - Type conversions, field mappings (block numbers, timestamps, balances, snake_case → camelCase)
 - `references/DataFeatureGuidance.md` - Enrichment, safety, pricing, and discovery feature behavior
 - `references/DefiProtocols.md` - Supported DeFi protocols and chains for position endpoints
-- `references/FilteredTokens.md` - Token discovery metrics, timeframes, and filter examples
+- `references/DeprecatedEndpoints.md` - Removed endpoint families, replacements, and no-replacement cases
 - `references/NftMarketplaces.md` - Supported NFT marketplaces for trade/floor price endpoints
 - `references/Pagination.md` - Cursor-based pagination reference with examples
 - `references/PerformanceAndLatency.md` - Response time guidance, timeout recommendations, caching
@@ -97,6 +98,7 @@ Each skill includes pattern reference files containing complete reference materi
 - `references/DeliveryGuarantees.md` - At-least-once delivery, dual webhooks, confirmation blocks
 - `references/ErrorHandling.md` - Retry schedule, error/terminated states, rate limits, re-org handling
 - `references/FAQ.md` - Streams API frequently asked questions
+- `references/HistoricalJobs.md` - Historical job request shape and scope caveats
 - `references/FilterStreams.md` - Webhook data filtering to reduce noise
 - `references/ListenToAllAddresses.md` - Monitor events across every contract on a chain
 - `references/MonitorMultipleAddresses.md` - Best practices for multiple addresses in streams
@@ -166,7 +168,7 @@ node scripts/bump-version.js <skill|all> <major|minor|patch>
 
 ## Source of Truth
 
-`swagger/api-configs.json` defines all endpoints and is generated from the docs-owned OpenAPI files in `scripts/swagger-config.json`. The `generate-endpoint-rules.js` script:
+`swagger/api-configs.json` defines all endpoints and is generated from the live service OpenAPI files in `scripts/swagger-config.json`. Narrative docs and changelog entries remain the source for migration and behavior guidance. The `generate-endpoint-rules.js` script:
 1. Reads `api-configs.json`
 2. Creates per-endpoint markdown files in `skills/*/rules/`
 3. Updates SKILL.md files with endpoint catalogs
@@ -195,7 +197,7 @@ Skills use semver (`MAJOR.MINOR.PATCH`) in the `version` frontmatter field. Bump
 | Bump | When | Examples |
 |------|------|---------|
 | **Major** | Breaking changes to skill behavior, removed capabilities | Dropping Solana support, renaming skill |
-| **Minor** | New capabilities, endpoints, or reference files | Adding Discovery API docs, new endpoint batch |
+| **Minor** | New capabilities, endpoints, or reference files | Adding a PnL endpoint batch or historical-job reference |
 | **Patch** | Fixes, corrections, content alignment | Wrong endpoint name, updated FAQ, aligned TTLs |
 
 ## Skill Frontmatter Pattern
@@ -290,6 +292,6 @@ No automated test suite. Test via:
 
 ## Supported Chains
 
-**EVM:** eth, polygon, bsc, arbitrum, optimism, avalanche, fantom, base, and more (see `api-configs.json` for full enum)
+**EVM:** eth, polygon, bsc, arbitrum, optimism, avalanche, base, and more (see `api-configs.json` for the live enum)
 
-**Solana:** mainnet, devnet
+**Solana:** mainnet only

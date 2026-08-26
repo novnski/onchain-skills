@@ -24,6 +24,8 @@ GET
 - **limit**: Number of results per page
 - **cursor**: Cursor for next page
 
+The response includes a **cursor** field for pagination. Use this cursor in the next request to get the next page of results.
+
 ## Response Example
 
 Status: 200
@@ -32,6 +34,7 @@ Ok
 
 ```json
 {
+  "cursor": "cursor_example",
   "total": 0,
   "result": [
     {
@@ -42,8 +45,10 @@ Ok
       "includeInputs": true,
       "includeOutputs": true,
       "isErrorSince": "isErrorSince_example",
-      "network": [],
-      "status": {},
+      "network": [
+        "network_example"
+      ],
+      "status": "[object Object]",
       "statusMessage": "statusMessage_example",
       "tag": "tag_example",
       "webhookUrl": "webhookUrl_example",

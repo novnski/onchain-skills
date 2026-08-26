@@ -18,7 +18,8 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | The id of the stream to update | \`YOUR_STREAM_ID\` |
+| id | string | Yes | Stringified UUIDv4.
+See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
 
 ## Body
 
@@ -52,7 +53,9 @@ Ok
   "webhookUrl": "webhookUrl_example",
   "description": "description_example",
   "tag": "tag_example",
-  "topic0": [],
+  "topic0": [
+    "topic0_example"
+  ],
   "allAddresses": true,
   "includeNativeTxs": true,
   "includeContractLogs": true,
@@ -60,25 +63,62 @@ Ok
   "includeAllTxLogs": true,
   "getNativeBalances": [
     {
-      "selectors": [],
+      "selectors": [
+        "selectors_example"
+      ],
       "type": "type_example"
     }
   ],
-  "chainIds": [],
+  "abi": null,
+  "advancedOptions": null,
+  "chainIds": [
+    "chainIds_example"
+  ],
   "filterPossibleSpamAddresses": true,
   "demo": true,
   "triggers": [
     {
       "type": "type_example",
       "contractAddress": "contractAddress_example",
-      "inputs": [],
-      "functionAbi": {},
+      "inputs": [
+        "inputs_example"
+      ],
+      "functionAbi": {
+        "anonymous": true,
+        "constant": true,
+        "inputs": [
+          {
+            "name": "name_example",
+            "type": "type_example",
+            "indexed": true,
+            "components": [
+              {}
+            ],
+            "internalType": "internalType_example"
+          }
+        ],
+        "name": "name_example",
+        "outputs": [
+          {
+            "name": "name_example",
+            "type": "type_example",
+            "components": [
+              {}
+            ],
+            "internalType": "internalType_example"
+          }
+        ],
+        "payable": true,
+        "stateMutability": "stateMutability_example",
+        "type": "type_example",
+        "gas": 0
+      },
       "topic0": "topic0_example",
       "callFrom": "callFrom_example"
     }
   ],
   "id": "id_example",
-  "status": {},
+  "status": "[object Object]",
   "statusMessage": "statusMessage_example",
   "updatedAt": "updatedAt_example",
   "amountOfAddresses": 0

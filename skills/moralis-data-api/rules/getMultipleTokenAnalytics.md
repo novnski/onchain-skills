@@ -18,7 +18,7 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| tokens | array | No | The tokens to be fetched | \`[{"chain":"0x1","tokenAddress":"YOUR_TOKEN_ADDRESS"},{"chain":"solana","tokenAddress":"YOUR_TOKEN_ADDRESS"}]\` |
+| tokens | array | Yes | The tokens to be fetched | \`[{"chain":"0x1","tokenAddress":"YOUR_TOKEN_ADDRESS"},{"chain":"solana","tokenAddress":"YOUR_TOKEN_ADDRESS"}]\` |
 
 ## Response Example
 

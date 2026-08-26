@@ -24,7 +24,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| currency | string | No | The currency to query | \`eth\` |
+| currency | string (eth, 0x1) | No | The currency to query | \`eth\` |
 
 ## Response Example
 

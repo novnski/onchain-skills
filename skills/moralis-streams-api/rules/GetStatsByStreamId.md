@@ -18,7 +18,8 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| streamId | string | Yes | The id of the stream to get the stats | \`YOUR_STREAM_ID\` |
+| streamId | string | Yes | Stringified UUIDv4.
+See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
 
 ## Response Example
 

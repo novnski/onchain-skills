@@ -1,6 +1,10 @@
 # DeFi Protocols and Chains
 
-List of supported DeFi protocols and chains for DeFi position and protocol-related endpoints.
+Guidance for DeFi positions and protocol coverage. Protocol support changes frequently, so do not treat the examples below as a complete inventory.
+
+## Current Source of Truth
+
+Use [getDefiProtocols](../rules/getDefiProtocols__universal.md) to retrieve the current list of supported protocols and their chain coverage. The docs page and examples below are useful context, but the API response is authoritative for current coverage.
 
 ## Supported DeFi Protocols by Chain
 
@@ -62,6 +66,7 @@ List of supported DeFi protocols and chains for DeFi position and protocol-relat
 
 ## Related Endpoints
 
+- [getDefiProtocols](../rules/getDefiProtocols__universal.md) - Get current supported protocols and chain coverage
 - [getDefiSummary](../rules/getDefiSummary.md) - Get DeFi summary of a wallet
 - [getDefiPositionsSummary](../rules/getDefiPositionsSummary.md) - Get DeFi positions of a wallet
 - [getDefiPositionsByProtocol](../rules/getDefiPositionsByProtocol.md) - Get detailed DeFi positions by protocol

@@ -1,6 +1,6 @@
 # Get DeFi positions of a wallet
 
-Get a concise overview of a wallet’s DeFi positions across all protocols.
+Get a concise overview of a walletâ€™s DeFi positions across all protocols.
 
 ## Method
 
@@ -24,7 +24,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, fantom, 0xfa, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, chiliz testnet, 0x15b32, gnosis, 0x64, gnosis testnet, 0x27d8, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, moonbase, 0x507, linea sepolia, 0xe705, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, lisk-sepolia, 0x106a, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
+| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, gnosis, 0x64, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
 
 ## Response Example
 
@@ -41,10 +41,58 @@ Returns all defi positions for the wallet address.
     "protocol_logo": "https://cdn.moralis.io/defi/uniswap.png",
     "position": {
       "label": "liquidity",
-      "tokens": [],
+      "tokens": [
+        {
+          "token_type": "defi-token",
+          "name": "Wrapped Ether",
+          "symbol": "WETH",
+          "contract_address": "YOUR_ADDRESS",
+          "decimals": "18",
+          "logo": "https://example.com/RESOURCE_URL",
+          "thumbnail": "https://example.com/RESOURCE_URL",
+          "balance": "1000000",
+          "balance_formatted": "1.000000",
+          "usd_price": 1000000,
+          "usd_value": 1000000
+        }
+      ],
       "address": "YOUR_ADDRESS",
-      "balance_usd": "1000000",
-      "total_unclaimed_usd_value": "1000000"
+      "balance_usd": 1000000,
+      "total_unclaimed_usd_value": 1000000,
+      "position_details": {
+        "fee_tier": 0,
+        "range_tnd": 0,
+        "reserves": [
+          "reserves_example"
+        ],
+        "current_price": 0,
+        "is_in_range": true,
+        "price_upper": 0,
+        "price_lower": 0,
+        "price_label": "price_label_example",
+        "liquidity": 0,
+        "range_start": 0,
+        "pool_address": "pool_address_example",
+        "position_key": "position_key_example",
+        "nft_metadata": {},
+        "asset_standard": "asset_standard_example",
+        "apy": 0,
+        "is_debt": true,
+        "is_variable_debt": true,
+        "is_stable_debt": true,
+        "shares": "shares_example",
+        "reserve0": "reserve0_example",
+        "reserve1": "reserve1_example",
+        "factory": "factory_example",
+        "pair": "pair_example",
+        "share_of_pool": 0,
+        "no_price_available": true,
+        "shares_in_strategy": "shares_in_strategy_example",
+        "strategy_address": "strategy_address_example",
+        "base_type": "base_type_example",
+        "health_factor": 0,
+        "is_enabled_collateral": true
+      }
     }
   }
 ]

@@ -18,7 +18,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| network | string (mainnet) | Yes | The network to query | - |
+| network | string (mainnet) | Yes | The supported Solana network. Mainnet only. | \`mainnet\` |
 | pairAddress | string | Yes | The address of the pair to query | \`YOUR_PAIR_ADDRESS\` |
 
 ## Query Params
@@ -27,7 +27,7 @@ GET
 |------|------|----------|-------------|----------|
 | limit | number | No | The limit per page | - |
 | cursor | string | No | The cursor to the next page | - |
-| order | string | No | The order of items | - |
+| order | string (ASC, DESC) | No | The order of items | - |
 | fromDate | string | No | The starting date (format in seconds or datestring accepted by momentjs) | - |
 | toDate | string | No | The ending date (format in seconds or datestring accepted by momentjs) | - |
 | transactionTypes | string | No | Transaction types to fetch. Possible values: 'buy', 'sell', 'addLiquidity' or 'removeLiquidity' separated by comma | \`buy,sell,addLiquidity,removeLiquidity\` |

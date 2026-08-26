@@ -1,7 +1,7 @@
 ---
 name: learn-moralis
 description: Learn about Moralis and Web3 development. Invoked without a question, gives a friendly platform walkthrough — what's available, what data you can fetch, and how everything fits together. Invoked with a question, answers it directly. Use for "what is Moralis", "can Moralis do X", "what chains are supported", "how do I get started", "which API should I use", pricing, feature comparisons, or any exploratory questions. Routes to the correct technical skill (@moralis-data-api or @moralis-streams-api) after answering.
-version: 1.4.2
+version: 1.4.3
 license: MIT
 compatibility: Knowledge-only skill. Read/Grep/Glob access bundled reference files (FAQ, ProductComparison, UseCaseGuide). Does not require or access any API keys or environment variables.
 metadata:
@@ -21,8 +21,8 @@ allowed-tools: Read Grep Glob
 
 1. What Moralis is (enterprise Web3 data platform)
 2. The two skills available and when to use each:
-   - **@moralis-data-api** (156 endpoints) — query wallet balances, tokens, NFTs, DeFi positions, prices, transactions, analytics, Bitcoin address/xpub data, and Universal API data. Use for "what is the current/historical state?"
-   - **@moralis-streams-api** (45 endpoints across EVM, Solana, and Bitcoin) — real-time webhook delivery for contracts, wallets, programs, mints, addresses, and Bitcoin xpubs. Use for "notify me when something happens"
+   - **@moralis-data-api** (116 endpoints) — query wallet balances, tokens, NFTs, DeFi positions, prices, transactions, analytics, Bitcoin address/xpub data, and Universal API data. Use for "what is the current/historical state?"
+   - **@moralis-streams-api** (47 endpoints across EVM, Solana, Bitcoin, and historical jobs) — real-time webhook delivery for contracts, wallets, programs, mints, addresses, and Bitcoin xpubs. Use for "notify me when something happens"
 3. Supported chains: 30+ chains across the product surface, with product-specific coverage for EVM, Solana, Bitcoin, Datashare, RPC Nodes, and Auth API
 4. How to get started: set `MORALIS_API_KEY` in `.env`, then use the skill that fits their need
 
@@ -93,9 +93,9 @@ After answering a general question, route users to the appropriate skill:
 | Get historical events? | Use Data API queries | @moralis-data-api |
 | ENS/Unstoppable domain lookup? | Yes | @moralis-data-api |
 | Token security scores? | Yes | @moralis-data-api |
-| Detect snipers/bots? | Yes | @moralis-data-api |
+| Detect snipers/bots with the retired sniper endpoint? | No; the endpoint was removed | - |
 | Get trending tokens? | Yes | @moralis-data-api |
-| Get top tokens by market cap? | Yes | @moralis-data-api |
+| Get a global top-tokens-by-market-cap leaderboard? | No direct replacement; trending tokens use different ranking semantics | @moralis-data-api |
 | Search tokens by name/symbol? | Yes | @moralis-data-api |
 | Authenticate users by wallet signature? | Yes, Auth API | Product docs |
 | Run raw RPC calls? | Yes, RPC Nodes | Product docs |
@@ -130,13 +130,13 @@ After answering a general question, route users to the appropriate skill:
 
 ### Also Supported
 
-Linea, Fantom, Cronos, Gnosis, Chiliz, Moonbeam, Moonriver, Flow, Ronin, Lisk, Pulse.
+Linea, Cronos, Gnosis, Chiliz, Moonbeam, Moonriver, Flow, Ronin, Lisk, Pulse.
 
-Fantom has a scheduled platform sunset on May 29, 2026, and Fantom Opera testnet has already been removed, so avoid recommending new Fantom integrations.
+Fantom support has been removed. Moonbeam, Moonriver, and Lisk are deprecated and scheduled for removal on September 25, 2026; direct new integrations to Base or Ethereum as documented in the changelog.
 
 ### Solana
 
-Solana Data API supports Mainnet and Devnet, but price data is Mainnet-only. Solana Streams supports Mainnet. Use `@moralis-streams-api` for real-time Solana webhook delivery and `@moralis-data-api` for state or history queries.
+Solana Data API and Solana Streams support Mainnet only. Token Score and holder/discovery endpoints have been removed for Solana. Use `@moralis-streams-api` for real-time Solana webhook delivery and `@moralis-data-api` for state or history queries.
 
 ### Bitcoin
 

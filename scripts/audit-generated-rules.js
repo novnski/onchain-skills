@@ -1,0 +1,335 @@
+#!/usr/bin/env node
+
+const fs = require("fs");
+const path = require("path");
+const {
+  IGNORED_ENDPOINTS,
+  supportsSolanaChain,
+} = require("./generate-endpoint-rules.js");
+
+const ROOT = path.join(__dirname, "..");
+const CONFIG_PATH = path.join(ROOT, "swagger/api-configs.json");
+const SWAGGER_CONFIG_PATH = path.join(__dirname, "swagger-config.json");
+const DATA_RULES_DIR = path.join(ROOT, "skills/moralis-data-api/rules");
+const STREAMS_RULES_DIR = path.join(ROOT, "skills/moralis-streams-api/rules");
+
+const apiConfigs = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
+const swaggerConfig = JSON.parse(fs.readFileSync(SWAGGER_CONFIG_PATH, "utf8"));
+const failures = [];
+
+function fail(file, message) {
+  failures.push(`${path.relative(ROOT, file)}: ${message}`);
+}
+
+function filenameFor(operationId, source) {
+  if (source === "solana") return `${operationId}__solana.md`;
+  if (source === "universal") return `${operationId}__universal.md`;
+  if (source === "evm" && apiConfigs.solana?.[operationId]) {
+    return `${operationId}__evm.md`;
+  }
+  return `${operationId}.md`;
+}
+
+function expectedRules() {
+  const data = new Map();
+  const streams = new Map();
+
+  for (const source of ["evm", "solana", "universal"]) {
+    for (const [operationId, endpoint] of Object.entries(apiConfigs[source] || {})) {
+      if (IGNORED_ENDPOINTS.has(operationId)) continue;
+      data.set(filenameFor(operationId, source), {
+        operationId,
+        source,
+        endpoint,
+      });
+    }
+  }
+
+  const nativeSolana = new Set(Object.keys(apiConfigs.solana || {}));
+  for (const [operationId, endpoint] of Object.entries(apiConfigs.evm || {})) {
+    if (IGNORED_ENDPOINTS.has(operationId)) continue;
+    if (nativeSolana.has(operationId) || !supportsSolanaChain(endpoint)) continue;
+    data.set(`${operationId}__solana.md`, {
+      operationId,
+      source: "solana-variant",
+      endpoint,
+    });
+  }
+
+  for (const [operationId, endpoint] of Object.entries(apiConfigs.streams || {})) {
+    if (IGNORED_ENDPOINTS.has(operationId)) continue;
+    streams.set(`${operationId}.md`, {
+      operationId,
+      source: "streams",
+      endpoint,
+    });
+  }
+
+  return { data, streams };
+}
+
+function section(markdown, heading) {
+  const marker = `## ${heading}`;
+  const start = markdown.indexOf(marker);
+  if (start === -1) return "";
+  const bodyStart = start + marker.length;
+  const next = markdown.indexOf("\n## ", bodyStart);
+  return markdown.slice(bodyStart, next === -1 ? markdown.length : next).trim();
+}
+
+function scalarSection(markdown, heading) {
+  const value = section(markdown, heading).split("\n").find((line) => line.trim());
+  return (value || "").trim().replace(/^`|`$/g, "");
+}
+
+function tableRows(markdown, heading) {
+  const body = section(markdown, heading);
+  if (!body) return [];
+  return body
+    .split("\n")
+    .filter((line) => line.startsWith("|") && !/^\|[- ]+\|/.test(line))
+    .slice(1)
+    .map((line) =>
+      line
+        .slice(1, -1)
+        .split("|")
+        .map((cell) => cell.trim().replace(/^`|`$/g, "")),
+    );
+}
+
+function names(rows) {
+  return rows.map((row) => row[0]).sort();
+}
+
+function sameNames(actual, expected) {
+  return JSON.stringify([...actual].sort()) === JSON.stringify([...expected].sort());
+}
+
+function pathRegex(pathTemplate) {
+  const escaped = pathTemplate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`^${escaped.replace(/:[A-Za-z0-9_]+/g, "[^/?]+")}$`);
+}
+
+function responseBody(endpoint) {
+  const response = (endpoint.responses || []).find(
+    (item) => ["200", "201", "default"].includes(item.status) && item.body,
+  );
+  return response?.body || null;
+}
+
+function validateGeneratedExample(value, schema, location, issues) {
+  if (!schema?.type) return;
+  if (value === null) return;
+  if (schema.type === "array") {
+    if (!Array.isArray(value)) {
+      issues.push(`${location} should be array`);
+      return;
+    }
+    if (schema.field && value.length > 0) {
+      validateGeneratedExample(value[0], schema.field, `${location}[]`, issues);
+    }
+    return;
+  }
+  if (schema.type === "object") {
+    if (!value || typeof value !== "object" || Array.isArray(value)) {
+      issues.push(`${location} should be object`);
+      return;
+    }
+    for (const field of schema.fields || []) {
+      if (!Object.prototype.hasOwnProperty.call(value, field.name)) {
+        issues.push(`${location}.${field.name} missing`);
+        continue;
+      }
+      validateGeneratedExample(value[field.name], field, `${location}.${field.name}`, issues);
+    }
+    return;
+  }
+  const actualType = typeof value;
+  if (schema.type === "number" && actualType !== "number") issues.push(`${location} should be number`);
+  if (schema.type === "string" && actualType !== "string") issues.push(`${location} should be string`);
+  if (schema.type === "boolean" && actualType !== "boolean") issues.push(`${location} should be boolean`);
+}
+
+function auditRule(file, spec) {
+  const markdown = fs.readFileSync(file, "utf8");
+  const { endpoint, operationId } = spec;
+  const heading = markdown.split("\n", 1)[0].replace(/^# /, "");
+  const expectedHeading = endpoint.summary || operationId;
+  if (heading !== expectedHeading) {
+    fail(file, `heading mismatch; expected ${JSON.stringify(expectedHeading)}`);
+  }
+
+  const method = scalarSection(markdown, "Method");
+  if (method !== endpoint.method) fail(file, `method ${method} != ${endpoint.method}`);
+
+  const baseUrl = scalarSection(markdown, "Base URL");
+  if (baseUrl !== endpoint.apiHost) {
+    fail(file, `base URL ${baseUrl} != ${endpoint.apiHost}`);
+  }
+
+  const rulePath = scalarSection(markdown, "Path");
+  if (rulePath !== endpoint.path) fail(file, `path ${rulePath} != ${endpoint.path}`);
+
+  const pathRows = tableRows(markdown, "Path Params");
+  const queryRows = tableRows(markdown, "Query Params");
+  const bodyRows = tableRows(markdown, "Body");
+
+  if (!sameNames(names(pathRows), (endpoint.pathParams || []).map((item) => item.name))) {
+    fail(file, "path parameter names do not match Swagger");
+  }
+  if (!sameNames(names(queryRows), (endpoint.queryParams || []).map((item) => item.name))) {
+    fail(file, "query parameter names do not match Swagger");
+  }
+  if (!sameNames(names(bodyRows), (endpoint.bodyParam?.fields || []).map((item) => item.name))) {
+    fail(file, "body field names do not match Swagger");
+  }
+
+  const bodyByName = new Map(bodyRows.map((row) => [row[0], row]));
+  for (const field of endpoint.bodyParam?.fields || []) {
+    const row = bodyByName.get(field.name);
+    if (!row) continue;
+    const expectedRequired = field.required ? "Yes" : "No";
+    if (row[2] !== expectedRequired) {
+      fail(file, `body field ${field.name} required=${row[2]} != ${expectedRequired}`);
+    }
+  }
+
+  const curl = section(markdown, "Example (curl)");
+  const curlMatch = curl.match(/curl -X ([A-Z]+) "([^"]+)"/);
+  if (!curlMatch) {
+    fail(file, "missing parseable curl command");
+  } else {
+    const [, curlMethod, curlUrl] = curlMatch;
+    if (curlMethod !== endpoint.method) fail(file, "curl method mismatch");
+    try {
+      const url = new URL(curlUrl);
+      const expectedBase = new URL(endpoint.apiHost);
+      if (url.origin !== expectedBase.origin) fail(file, "curl host mismatch");
+      const basePath = expectedBase.pathname.replace(/\/$/, "");
+      const relativePath = basePath && url.pathname.startsWith(basePath)
+        ? url.pathname.slice(basePath.length) || "/"
+        : url.pathname;
+      if (!pathRegex(endpoint.path).test(relativePath)) fail(file, "curl path mismatch");
+      for (const param of endpoint.queryParams || []) {
+        if (param.required && !url.searchParams.has(param.name)) {
+          fail(file, `curl omits required query parameter ${param.name}`);
+        }
+      }
+    } catch (error) {
+      fail(file, `invalid curl URL: ${error.message}`);
+    }
+    if (!curl.includes('X-API-Key: $MORALIS_API_KEY')) {
+      fail(file, "curl omits API-key header");
+    }
+    if (endpoint.bodyParam && !curl.includes("-d '")) {
+      fail(file, "curl omits request body");
+    }
+  }
+
+  const expectedBody = responseBody(endpoint);
+  const expectedShape = expectedBody?.type;
+  const response = section(markdown, "Response Example");
+  if (expectedShape && !response) {
+    fail(file, "missing response example for Swagger response body");
+  } else if (response) {
+    const json = response.match(/```json\n([\s\S]*?)\n```/);
+    if (!json) {
+      fail(file, "response example is not JSON");
+    } else {
+      try {
+        const parsed = JSON.parse(json[1]);
+        if (expectedShape === "array" && !Array.isArray(parsed)) {
+          fail(file, "response example should be an array");
+        }
+        if (expectedShape === "object" && (Array.isArray(parsed) || parsed === null)) {
+          fail(file, "response example should be an object");
+        }
+        const exampleIssues = [];
+        validateGeneratedExample(parsed, expectedBody, "response", exampleIssues);
+        for (const issue of exampleIssues) fail(file, issue);
+      } catch (error) {
+        fail(file, `invalid response JSON: ${error.message}`);
+      }
+    }
+  }
+}
+
+function auditDirectory(rulesDir, expected) {
+  const actual = fs.readdirSync(rulesDir).filter((file) => file.endsWith(".md")).sort();
+  const wanted = [...expected.keys()].sort();
+  for (const missing of wanted.filter((file) => !actual.includes(file))) {
+    fail(path.join(rulesDir, missing), "missing generated rule");
+  }
+  for (const stale of actual.filter((file) => !expected.has(file))) {
+    fail(path.join(rulesDir, stale), "stale generated rule");
+  }
+  for (const filename of wanted.filter((file) => actual.includes(file))) {
+    auditRule(path.join(rulesDir, filename), expected.get(filename));
+  }
+  return actual.length;
+}
+
+function rawOperations(swagger) {
+  const operations = new Map();
+  for (const [route, item] of Object.entries(swagger.paths || {})) {
+    for (const [method, operation] of Object.entries(item)) {
+      if (!["get", "post", "put", "patch", "delete"].includes(method)) continue;
+      if (!operation.operationId) continue;
+      if (operations.has(operation.operationId)) {
+        throw new Error(`duplicate live operationId ${operation.operationId}`);
+      }
+      operations.set(operation.operationId, {
+        method: method.toUpperCase(),
+        path: route.replace(/{/g, ":").replace(/}/g, ""),
+      });
+    }
+  }
+  return operations;
+}
+
+async function auditLiveSchemas() {
+  for (const [source, config] of Object.entries(swaggerConfig)) {
+    const response = await fetch(config.swaggerPath);
+    if (!response.ok) throw new Error(`${source} Swagger returned ${response.status}`);
+    const swagger = await response.json();
+    const live = rawOperations(swagger);
+    const generated = apiConfigs[source] || {};
+    if (!sameNames(live.keys(), Object.keys(generated))) {
+      failures.push(`${source}: generated operation IDs do not match live Swagger`);
+      continue;
+    }
+    const host = swagger.servers?.[0]?.url;
+    for (const [operationId, raw] of live) {
+      const endpoint = generated[operationId];
+      if (endpoint.method !== raw.method) failures.push(`${source}.${operationId}: method mismatch`);
+      if (endpoint.path !== raw.path) failures.push(`${source}.${operationId}: path mismatch`);
+      if (endpoint.apiHost !== host) failures.push(`${source}.${operationId}: host mismatch`);
+    }
+    console.log(`Live ${source}: ${live.size} operations aligned`);
+  }
+}
+
+async function main() {
+  if (process.argv.includes("--live")) await auditLiveSchemas();
+  const expected = expectedRules();
+  const dataCount = auditDirectory(DATA_RULES_DIR, expected.data);
+  const streamsCount = auditDirectory(STREAMS_RULES_DIR, expected.streams);
+
+  if (failures.length > 0) {
+    console.error(`\nGenerated rule audit failed with ${failures.length} issue(s):`);
+    for (const issue of failures) console.error(`- ${issue}`);
+    process.exit(1);
+  }
+
+  console.log(`Audited ${dataCount} Data API rules and ${streamsCount} Streams rules.`);
+  console.log("Every rule matches its Swagger-derived method, host, path, parameters, body, response shape, and curl contract.");
+}
+
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
+
+module.exports = { expectedRules };

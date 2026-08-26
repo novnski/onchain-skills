@@ -42,13 +42,12 @@ Do not treat stream IDs as transaction hashes or addresses.
 | Optimism | `0xa` |
 | Base | `0x2105` |
 | Avalanche | `0xa86a` |
-| Fantom | `0xfa` |
 | Cronos | `0x19` |
 | Gnosis | `0x64` |
 | Linea | `0xe708` |
 | Flow | `0x2eb` |
 | Ronin | `0x7e4` |
-| Lisk | `0x46f` |
+| Lisk (deprecated; removal Sep 25, 2026) | `0x46f` |
 | Pulsechain | `0x171` |
 | Sei | `0x531` |
 | Monad | `0x8f` |
@@ -84,8 +83,9 @@ See [UsefulStreamOptions.md](UsefulStreamOptions.md), [Triggers.md](Triggers.md)
 
 ```json
 ["mainnet"]
-["devnet"]
 ```
+
+Solana Streams supports mainnet only.
 
 ### Solana examples
 
@@ -123,7 +123,7 @@ See [SolanaStreams.md](SolanaStreams.md).
 ["mainnet"]
 ```
 
-The current swagger also exposes `testnet`, but the narrative Bitcoin overview still documents `["mainnet"]` as the stable default. Use `mainnet` unless the endpoint rule or user requirement says otherwise.
+Bitcoin Streams supports mainnet only.
 
 ### Bitcoin examples
 
@@ -158,8 +158,11 @@ These shared endpoints apply across the stream families:
 | Area | Endpoints |
 |------|-----------|
 | History | `/history`, `/history/logs`, `/history/replay/:streamId/:id` |
+| Historical jobs | `/historical-jobs/create-job`, `/historical-jobs` |
 | Project settings | `/settings` |
 | Stats | `/stats`, `/stats/:streamId` |
+
+The live Swagger exposes historical jobs but does not document timestamp units or supported stream families. Read [HistoricalJobs.md](HistoricalJobs.md) and confirm those details before production use.
 
 ## Status Values
 

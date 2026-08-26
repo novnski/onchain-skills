@@ -29,6 +29,55 @@ POST
 | programIds | array | No | Solana program IDs to filter by | \`[]\` |
 | mintAddresses | array | No | Solana token mint addresses to filter by | \`[]\` |
 
+## Response Example
+
+Status: 200
+
+Ok
+
+```json
+{
+  "block": {
+    "previousBlockHash": "previousBlockHash_example",
+    "parentSlot": "parentSlot_example",
+    "blockTime": 0,
+    "blockHeight": "blockHeight_example",
+    "blockHash": "blockHash_example",
+    "slot": "slot_example"
+  },
+  "chainId": "chainId_example",
+  "network": "network_example",
+  "retries": 0,
+  "streamId": "streamId_example",
+  "tag": "tag_example",
+  "transactions": [
+    {
+      "postTokenBalances": [],
+      "preTokenBalances": [],
+      "innerInstructions": [],
+      "instructions": [
+        {
+          "accounts": [
+            "accounts_example"
+          ],
+          "data": "data_example",
+          "programId": "programId_example"
+        }
+      ],
+      "accountKeys": [
+        "accountKeys_example"
+      ],
+      "err": null,
+      "fee": "fee_example",
+      "blockTime": 0,
+      "slot": "slot_example",
+      "signature": "signature_example"
+    }
+  ],
+  "confirmed": true
+}
+```
+
 ## Example (curl)
 
 ```bash

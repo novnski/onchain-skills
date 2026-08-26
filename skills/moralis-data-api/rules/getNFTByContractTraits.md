@@ -24,15 +24,18 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, fantom, 0xfa, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, chiliz testnet, 0x15b32, gnosis, 0x64, gnosis testnet, 0x27d8, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, moonbase, 0x507, linea sepolia, 0xe705, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, lisk-sepolia, 0x106a, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
+| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, gnosis, 0x64, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
 | limit | number | No | The desired page size of the result. | - |
 | cursor | string | No | The cursor returned in the previous response (used for getting the next page). | - |
-| format | string | No | The format of the token ID | \`decimal\` |
+| format | string (decimal, hex) | No | The format of the token ID | \`decimal\` |
 | normalizeMetadata | boolean | No | Should normalized metadata be returned? | - |
 | media_items | boolean | No | Should preview media data be returned? | - |
 
 ## Body
 
+| Name | Type | Required | Description | Example |
+|------|------|----------|-------------|----------|
+| traits | object | Yes | - | \`{"Earring":"Silver Hoop"}\` |
 
 ## Cursor/Pagination
 
@@ -49,8 +52,8 @@ Returns a collection of NFTs
 
 ```json
 {
-  "page": "2",
-  "page_size": "100",
+  "page": 2,
+  "page_size": 100,
   "cursor": "cursor_example",
   "result": [
     {
@@ -63,14 +66,57 @@ Returns a collection of NFTs
       "contract_type": "ERC721",
       "token_uri": "token_uri_example",
       "metadata": "metadata_example",
+      "normalized_metadata": {
+        "name": "Moralis Mug",
+        "description": "Moralis Coffee nug 3D Asset that can be used in 3D worldspaces. This NFT is presented as a flat PNG, a Unity3D Prefab and a standard fbx.",
+        "image": "https://arw2wxg84h6b.moralishost.com:2053/server/files/tNJatzsHirx4V2VAep6sc923OYGxvkpBeJttR7Ks/de504bbadadcbe30c86278342fcf2560_moralismug.png",
+        "external_link": "https://giphy.com/gifs/loop-recursion-ting-aaODAv1iuQdgI",
+        "external_url": "https://giphy.com/gifs/loop-recursion-ting-aaODAv1iuQdgI",
+        "animation_url": "https://giphy.com/gifs/food-design-donuts-o9ngTPVYW4qo8",
+        "attributes": [
+          {
+            "trait_type": "Eye Color",
+            "value": "value_example",
+            "display_type": "string",
+            "max_value": 100,
+            "trait_count": 7,
+            "order": 1
+          }
+        ]
+      },
+      "media": {
+        "mimetype": "mimetype_example",
+        "category": null,
+        "status": null,
+        "original_media_url": "original_media_url_example",
+        "updatedAt": "updatedAt_example",
+        "parent_hash": "parent_hash_example",
+        "media_collection": {
+          "low": {
+            "width": 0,
+            "height": 0,
+            "url": "url_example"
+          },
+          "medium": {
+            "width": 0,
+            "height": 0,
+            "url": "url_example"
+          },
+          "high": {
+            "width": 0,
+            "height": 0,
+            "url": "url_example"
+          }
+        }
+      },
       "minter_address": "YOUR_ADDRESS",
       "last_token_uri_sync": "last_token_uri_sync_example",
       "last_metadata_sync": "last_metadata_sync_example",
       "amount": "1",
       "name": "CryptoKitties",
       "symbol": "RARI",
-      "possible_spam": "false",
-      "verified_collection": "false",
+      "possible_spam": false,
+      "verified_collection": false,
       "rarity_rank": 21669,
       "rarity_percentage": 98,
       "rarity_label": "Top 98%",
@@ -115,5 +161,9 @@ curl -X POST "https://deep-index.moralis.io/api/v2.2/nft/YOUR_ADDRESS/nfts-by-tr
   -H "accept: application/json" \
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{}'
+  -d '{
+  "traits": {
+    "Earring": "Silver Hoop"
+  }
+}'
 ```

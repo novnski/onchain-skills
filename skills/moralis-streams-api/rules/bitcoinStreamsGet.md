@@ -16,7 +16,8 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| id | string | Yes | - | \`YOUR_STREAM_ID\` |
+| id | string | Yes | Stringified UUIDv4.
+See [RFC 4112](https://tools.ietf.org/html/rfc4122) | \`YOUR_STREAM_ID\` |
 
 ## Response Example
 
@@ -33,8 +34,10 @@ Ok
   "includeInputs": true,
   "includeOutputs": true,
   "isErrorSince": "isErrorSince_example",
-  "network": [],
-  "status": {},
+  "network": [
+    "network_example"
+  ],
+  "status": "[object Object]",
   "statusMessage": "statusMessage_example",
   "tag": "tag_example",
   "webhookUrl": "webhookUrl_example",

@@ -16,12 +16,12 @@ PUT
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| webhookUrl | string | No | Webhook URL where moralis will send the POST request. | \`https://your-server.com/webhook\` |
-| tag | string | No | A user-provided tag that will be send along the webhook | \`bitcoin-monitor\` |
-| network | array | No | The network to listen to | \`["mainnet"]\` |
+| webhookUrl | string | Yes | Webhook URL where moralis will send the POST request. | \`https://your-server.com/webhook\` |
+| tag | string | Yes | A user-provided tag that will be send along the webhook | \`bitcoin-monitor\` |
+| network | array | Yes | The supported network. Bitcoin Streams supports mainnet only. | \`["mainnet"]\` |
 | includeOutputs | boolean | No | Include or not output details in webhook defaults to true | \`true\` |
 | includeInputs | boolean | No | Include or not input details in webhook defaults to true | \`true\` |
-| description | string | No | A description for this stream | \`Monitor Bitcoin transactions\` |
+| description | string | Yes | A description for this stream | \`Monitor Bitcoin transactions\` |
 | demo | boolean | No | Indicator if it is a demo stream | \`false\` |
 | allAddresses | boolean | No | Include events for all addresses | \`false\` |
 
@@ -40,8 +40,10 @@ Ok
   "includeInputs": true,
   "includeOutputs": true,
   "isErrorSince": "isErrorSince_example",
-  "network": [],
-  "status": {},
+  "network": [
+    "network_example"
+  ],
+  "status": "[object Object]",
   "statusMessage": "statusMessage_example",
   "tag": "tag_example",
   "webhookUrl": "webhookUrl_example",

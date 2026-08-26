@@ -22,7 +22,7 @@ GET
 | query | string | Yes | The query to search | \`pepe\` |
 | limit | number | No | The desired page size of the result. | - |
 | isVerifiedContract | boolean | No | True to include only verified contracts | - |
-| sortBy | string | No | Sort by volume1hDesc, volume24hDesc, liquidityDesc, marketCapDesc | \`volume1hDesc\` |
+| sortBy | string (volume1hDesc, volume24hDesc, liquidityDesc, marketCapDesc) | No | Sort by volume1hDesc, volume24hDesc, liquidityDesc, marketCapDesc | \`volume1hDesc\` |
 | boostVerifiedContracts | boolean | No | True to boost verified contracts | - |
 
 ## Cursor/Pagination
@@ -48,11 +48,27 @@ Returns the search results
       "blockTimestamp": 1681483883,
       "usdPrice": 0.000024509478199144,
       "marketCap": 9825629287.860994,
-      "experiencedNetBuyers": {},
-      "netVolumeUsd": {},
-      "liquidityChangeUSD": {},
-      "usdPricePercentChange": {},
-      "volumeUsd": {},
+      "experiencedNetBuyers": {
+        "oneHour": 31,
+        "oneDay": 51,
+        "oneWeek": 77
+      },
+      "netVolumeUsd": {
+        "oneHour": 188552.0639107914,
+        "oneDay": 1188552.0639107914
+      },
+      "liquidityChangeUSD": {
+        "oneHour": -287308.4496394396,
+        "oneDay": -387308.4496394396
+      },
+      "usdPricePercentChange": {
+        "oneHour": 1.079210724244654,
+        "oneDay": 2.079210724244654
+      },
+      "volumeUsd": {
+        "oneHour": 188552.0639107914,
+        "oneDay": 76927981.5281831
+      },
       "securityScore": 92,
       "logo": "https://example.com/RESOURCE_URL",
       "isVerifiedContract": false,

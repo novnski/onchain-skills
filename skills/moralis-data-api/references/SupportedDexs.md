@@ -1,6 +1,6 @@
 # Supported DEXs
 
-List of supported Decentralized Exchanges (DEXs) for token API endpoints including pair addresses, reserves, prices, swaps, and stats.
+List of supported Decentralized Exchanges (DEXs) for token API endpoints including pair discovery, swaps, OHLCV, and stats.
 
 ## Supported DEXs by Chain
 
@@ -48,9 +48,8 @@ List of supported Decentralized Exchanges (DEXs) for token API endpoints includi
 
 ## Related Endpoints
 
-- [getPairAddress](../rules/getPairAddress.md) - Get DEX token pair address
-- [getPairReserves](../rules/getPairReserves.md) - Get DEX token pair reserves
-- [getPairPrice](../rules/getPairPrice.md) - Get DEX token pair price
+- [getPairStats](../rules/getPairStats__evm.md) - Get stats for a known pair address
+- [getPairCandlesticks](../rules/getPairCandlesticks.md) - Get OHLCV for a known pair address
 - [getSwapsByPairAddress](../rules/getSwapsByPairAddress__evm.md) - Get swap transactions by pair
 - [getSwapsByTokenAddress](../rules/getSwapsByTokenAddress__evm.md) - Get swap transactions by token
 - [getTokenPairs](../rules/getTokenPairs__evm.md) - Get token pairs by address

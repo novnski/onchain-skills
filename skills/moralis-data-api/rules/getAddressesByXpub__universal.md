@@ -19,7 +19,7 @@ GET
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
 | publicKey | string | Yes | The Bitcoin extended public key (xpub) | \`YOUR_XPUB\` |
-| chainAlias | string | Yes | The alias of the chain. | \`bitcoin\` |
+| chainAlias | string (bitcoin-mainnet, bitcoin) | Yes | The alias of the chain. | \`bitcoin\` |
 
 ## Response Example
 
@@ -35,9 +35,7 @@ Status: 200
     }
   ],
   "meta": {
-    "syncedAt": {
-      "0x1": 19800000
-    }
+    "syncedAt": 19800000
   }
 }
 ```

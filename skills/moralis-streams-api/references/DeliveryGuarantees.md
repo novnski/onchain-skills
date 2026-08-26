@@ -68,14 +68,13 @@ Treat mempool events as pending only. They can be replaced, evicted, expire due 
 | Base | `0x2105` | 100 |
 | Optimism | `0xa` | 500 |
 | Avalanche | `0xa86a` | 100 |
-| Fantom | `0xfa` | 100 |
 | Linea | `0xe708` | 100 |
 | Cronos | `0x19` | 100 |
 | Gnosis | `0x64` | 100 |
 | Chiliz | `0x15b38` | 100 |
 | Flow | `0x2eb` | 100 |
 | Ronin | `0x7e4` | 100 |
-| Lisk | `0x46f` | 100 |
+| Lisk (deprecated; removal Sep 25, 2026) | `0x46f` | 100 |
 | Pulse | `0x171` | 100 |
 | HyperEVM | `0x3e7` | 100 |
 | Monad | `0x8f` | 100 |

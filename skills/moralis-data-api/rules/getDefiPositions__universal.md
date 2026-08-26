@@ -50,7 +50,11 @@ Status: 200
       "0x89"
     ],
     "failedChains": [
-      "0x89"
+      {
+        "chainId": "0x89",
+        "code": "INTERNAL_SERVER_ERROR",
+        "error": {}
+      }
     ]
   },
   "result": [
@@ -58,14 +62,37 @@ Status: 200
       "chainId": "0x1",
       "protocolId": "protocolId_example",
       "protocolName": "protocolName_example",
-      "protocolUrl": {},
-      "protocolLogo": {},
+      "protocolUrl": "protocolUrl_example",
+      "protocolLogo": "protocolLogo_example",
       "position": {
         "label": "label_example",
-        "address": {},
-        "tokens": [],
-        "balanceUsd": {},
-        "unclaimedUsd": {}
+        "address": "address_example",
+        "tokens": [
+          {
+            "tokenType": "tokenType_example",
+            "name": "name_example",
+            "symbol": "symbol_example",
+            "address": "address_example",
+            "decimals": 0,
+            "logo": "logo_example",
+            "balance": "balance_example",
+            "balanceFormatted": "balanceFormatted_example",
+            "usdPrice": 0,
+            "usdValue": 0
+          }
+        ],
+        "balanceUsd": 0,
+        "unclaimedUsd": {},
+        "details": {
+          "type": "type_example",
+          "isDebt": true,
+          "lending": {
+            "healthFactor": 0
+          },
+          "liquidity": {
+            "poolAddress": {}
+          }
+        }
       }
     }
   ],

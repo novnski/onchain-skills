@@ -242,7 +242,6 @@ const chain = '0x1';
 "0xa"     // Optimism
 "0x2105"  // Base
 "0xa86a"  // Avalanche
-"0xfa"     // Fantom
 ```
 
 ### Address Format Verification

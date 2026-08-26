@@ -38,11 +38,18 @@ Returns the entities belonging to the category.
 
 ```json
 {
-  "page": "1",
-  "page_size": "100",
+  "page": 1,
+  "page_size": 100,
   "result": [
     {
-      "total_addresses": 100
+      "name": "Uniswap",
+      "id": "uniswap",
+      "logo": "https://uniswap.io/favicon.ico",
+      "bio": "Uniswap is a decentralized finance protocol that is used to exchange cryptocurrencies.",
+      "description": "Uniswap is a decentralized finance protocol that is used to exchange cryptocurrencies.",
+      "website": "https://uniswap.io",
+      "twitter": "https://twitter.com/uniswap",
+      "type": "exchange"
     }
   ]
 }

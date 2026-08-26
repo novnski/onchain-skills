@@ -34,6 +34,38 @@ Status: 200
 ```json
 {
   "walletAgeDays": 365,
+  "firstActivityAt": {
+    "chain": "0x1",
+    "blockNumber": "23583751",
+    "blockTimestamp": "2025-10-15T14:41:23.000Z",
+    "transactionHash": "0x...",
+    "type": "token-transfer",
+    "direction": "in"
+  },
+  "lastActivityAt": {
+    "chain": "0x1",
+    "blockNumber": "23583751",
+    "blockTimestamp": "2025-10-15T14:41:23.000Z",
+    "transactionHash": "0x...",
+    "type": "token-transfer",
+    "direction": "in"
+  },
+  "firstInitiatedAt": {
+    "chain": "0x1",
+    "blockNumber": "23583751",
+    "blockTimestamp": "2025-10-15T14:41:23.000Z",
+    "transactionHash": "0x...",
+    "type": "token-transfer",
+    "direction": "in"
+  },
+  "lastInitiatedAt": {
+    "chain": "0x1",
+    "blockNumber": "23583751",
+    "blockTimestamp": "2025-10-15T14:41:23.000Z",
+    "transactionHash": "0x...",
+    "type": "token-transfer",
+    "direction": "in"
+  },
   "activeDays": 120,
   "transactionsInitiated": 200,
   "transactionsInvolved": 350,
@@ -75,7 +107,11 @@ Status: 200
       "0x89"
     ],
     "failedChains": [
-      "0x89"
+      {
+        "chainId": "0x89",
+        "code": "INTERNAL_SERVER_ERROR",
+        "error": {}
+      }
     ]
   },
   "address": "0x1234...",
@@ -85,6 +121,38 @@ Status: 200
   "chainBreakdown": [
     {
       "walletAgeDays": 365,
+      "firstActivityAt": {
+        "chain": "0x1",
+        "blockNumber": "23583751",
+        "blockTimestamp": "2025-10-15T14:41:23.000Z",
+        "transactionHash": "0x...",
+        "type": "token-transfer",
+        "direction": "in"
+      },
+      "lastActivityAt": {
+        "chain": "0x1",
+        "blockNumber": "23583751",
+        "blockTimestamp": "2025-10-15T14:41:23.000Z",
+        "transactionHash": "0x...",
+        "type": "token-transfer",
+        "direction": "in"
+      },
+      "firstInitiatedAt": {
+        "chain": "0x1",
+        "blockNumber": "23583751",
+        "blockTimestamp": "2025-10-15T14:41:23.000Z",
+        "transactionHash": "0x...",
+        "type": "token-transfer",
+        "direction": "in"
+      },
+      "lastInitiatedAt": {
+        "chain": "0x1",
+        "blockNumber": "23583751",
+        "blockTimestamp": "2025-10-15T14:41:23.000Z",
+        "transactionHash": "0x...",
+        "type": "token-transfer",
+        "direction": "in"
+      },
       "activeDays": 120,
       "transactionsInitiated": 200,
       "transactionsInvolved": 350,

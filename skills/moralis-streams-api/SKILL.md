@@ -1,7 +1,7 @@
 ---
 name: moralis-streams-api
-description: Real-time blockchain event monitoring with webhooks across EVM, Solana, and Bitcoin. Use when user asks about setting up webhooks, monitoring wallet/program/contract activity, tracking token or NFT transfers as they happen, adding or removing stream addresses, managing Bitcoin xpubs, replaying blocks, or receiving onchain events in real time. NOT for querying historical or current blockchain state - use moralis-data-api instead.
-version: 1.5.2
+description: Real-time blockchain event monitoring with webhooks across EVM, Solana, and Bitcoin. Use when user asks about webhooks, wallet/program/contract activity, transfers, stream addresses, Bitcoin xpubs, replaying blocks, or creating and listing historical stream jobs. NOT for querying historical or current blockchain state - use moralis-data-api instead.
+version: 1.6.0
 license: MIT
 compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for authentication.
 metadata:
@@ -28,7 +28,7 @@ For EVERY endpoint:
    - EVM: `/streams/evm`
    - Solana: `/streams/solana`
    - Bitcoin: `/streams/bitcoin`
-   - Utilities: `/history`, `/settings`, `/stats`
+   - Utilities: `/history`, `/historical-jobs`, `/settings`, `/stats`
 3. Check the HTTP method carefully (`PUT` create, `POST` update/status/replay, `DELETE` delete)
 4. Verify stream IDs are UUIDs, not hashes or addresses
 5. Use the correct config shape for that family:
@@ -86,7 +86,7 @@ All requests require `X-API-Key: $MORALIS_API_KEY`.
 | EVM | `chainIds`, `topic0`, `abi`, stream addresses | `advancedOptions`, `includeContractLogs`, `includeNativeTxs`, `includeInternalTxs`, `triggers`, `getNativeBalances` | Use hex chain IDs like `0x1`, `0x89` |
 | Solana | `network`, `programIds`, `mintAddresses`, stream addresses | `allAddresses`, block replay helpers | No `chainIds`, no `topic0`, no EVM ABI decoding |
 | Bitcoin | `network`, stream addresses, `allAddresses` | `includeInputs`, `includeOutputs`, xpub endpoints, block replay helpers | Address and xpub monitoring instead of contract topics |
-| Utilities | history, replay, settings, stats | account-level operations | Shared across all stream families |
+| Utilities | history, replay, historical jobs, settings, stats | account-level operations | Historical-job timestamp units and family scope require confirmation |
 
 ### EVM
 
@@ -105,10 +105,10 @@ Stream types:
 
 ### Solana
 
-Use Solana streams when the user wants program, mint, or address activity on `mainnet` or `devnet`.
+Use Solana streams when the user wants program, mint, or address activity on `mainnet`.
 
 - Primary filters are `programIds` and `mintAddresses`
-- `network` is an array such as `["mainnet"]` or `["devnet"]`
+- `network` must be `["mainnet"]`
 - There is no EVM-style `topic0`, `abi`, or `chainIds`
 - Solana addresses are base58 and case-sensitive; never lowercase them
 - Solana payloads use `transactions[].signature`, `accountKeys`, `instructions`, `innerInstructions`, and pre/post token balances instead of EVM event arrays
@@ -122,7 +122,7 @@ Use Bitcoin streams for address-based or xpub-based monitoring.
 - Primary filters are watched addresses or xpubs
 - `network` is an array
 - `includeInputs` and `includeOutputs` control payload detail
-- The live swagger currently exposes `mainnet` and `testnet`, while the narrative Bitcoin overview still documents `["mainnet"]` as the stable default
+- `network` must be `["mainnet"]`
 
 Default to `["mainnet"]` unless the user explicitly needs something else and the endpoint rule confirms it.
 
@@ -157,7 +157,6 @@ See [references/BitcoinStreams.md](references/BitcoinStreams.md).
 
 ```json
 ["mainnet"]
-["devnet"]
 ```
 
 ### Bitcoin Networks
@@ -166,7 +165,7 @@ See [references/BitcoinStreams.md](references/BitcoinStreams.md).
 ["mainnet"]
 ```
 
-If the endpoint rule shows `testnet`, treat it as swagger-exposed behavior and verify before depending on it.
+Bitcoin Streams supports mainnet only.
 
 ### Status Values
 
@@ -225,7 +224,7 @@ See [references/UsefulStreamOptions.md](references/UsefulStreamOptions.md), [ref
 
 ## Endpoint Catalog
 
-Complete list of all 45 Streams API endpoints across EVM, Solana, Bitcoin, and shared utilities.
+Complete list of all 47 Streams API endpoints across EVM, Solana, Bitcoin, and shared utilities.
 
 ### EVM Streams
 
@@ -342,6 +341,15 @@ List delivery history, logs, and replay failed webhook deliveries.
 | [GetLogs](rules/GetLogs.md) | Get logs |
 | [ReplayHistory](rules/ReplayHistory.md) | Replay history |
 
+### Historical Jobs
+
+Create and inspect historical stream jobs. Confirm timestamp units and supported stream families before production use.
+
+| Endpoint | Description |
+|----------|-------------|
+| [CreateJob](rules/CreateJob.md) | Create historical stream job |
+| [GetJobs](rules/GetJobs.md) | Get historical stream jobs |
+
 
 ## Example: Create EVM ERC20 Transfer Monitor
 
@@ -426,9 +434,9 @@ curl "...?limit=100&cursor=<cursor>" -H "X-API-Key: $MORALIS_API_KEY"
 
 ## Supported Chains
 
-- EVM Streams: 40+ supported EVM chains. Use hex IDs. See [references/StreamConfiguration.md](references/StreamConfiguration.md).
-- Solana Streams: `mainnet`, `devnet`
-- Bitcoin Streams: default to `mainnet`; verify any non-mainnet use against the endpoint rule before relying on it
+- EVM Streams: use the current supported-chain docs and hex IDs. Moonbeam, Moonriver, and Lisk are scheduled for removal on September 25, 2026.
+- Solana Streams: `mainnet` only
+- Bitcoin Streams: `mainnet` only
 
 The live Moralis docs also publish a dedicated supported-chains page for EVM Streams.
 
@@ -443,6 +451,7 @@ The live Moralis docs also publish a dedicated supported-chains page for EVM Str
 - [references/DeliveryGuarantees.md](references/DeliveryGuarantees.md) - Delivery, confirmation, retries
 - [references/ErrorHandling.md](references/ErrorHandling.md) - Error states, recovery, replay workflows
 - [references/FAQ.md](references/FAQ.md) - Streams FAQ
+- [references/HistoricalJobs.md](references/HistoricalJobs.md) - Historical job request shape and scope caveats
 - [references/FilterStreams.md](references/FilterStreams.md) - EVM filter expressions
 - [references/ListenToAllAddresses.md](references/ListenToAllAddresses.md) - EVM all-address monitoring
 - [references/MonitorMultipleAddresses.md](references/MonitorMultipleAddresses.md) - Address-list patterns

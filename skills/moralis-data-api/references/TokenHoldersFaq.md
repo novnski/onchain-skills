@@ -15,8 +15,8 @@ Frequently asked questions and important notes about the Token Holders API.
 - Ensures API response performance
 
 ### Historical Holders
-- Current holders: Addresses currently holding the token
-- Historical holders: Includes addresses that previously held but no longer do
+- Current EVM holder summaries and owner lists remain available
+- EVM historical-holder and all Solana holder endpoints were removed on July 31, 2026
 
 ## Common Questions
 
@@ -27,17 +27,15 @@ A: Continuously, with higher frequency for popular tokens.
 A: May be due to sampling for very large token sets, or recent transfers not yet indexed.
 
 **Q: Can I get historical holder data?**
-A: Yes, use the historical holders endpoints for time-series data.
+A: Not through the removed historical-holder endpoints. Use current EVM holder summary/owner data or maintain your own history from indexed snapshots or streams.
 
 **Q: What's the difference between holders and owners?**
 A: Generally interchangeable, but "holders" typically refers to token balances while "owners" may include NFT ownership.
 
 ## Related Endpoints
 
-- [getTokenHolders](../rules/getTokenHolders__evm.md) - Get holders summary by token address
-- [getHistoricalTokenHolders](../rules/getHistoricalTokenHolders__evm.md) - Get time-series holders data
+- [getTokenHolders](../rules/getTokenHolders.md) - Get EVM holders summary by token address
 - [getTokenOwners](../rules/getTokenOwners.md) - Get ERC20 token owners by contract
-- [getTopHolders](../rules/getTopHolders__solana.md) - Get top holders for a token (Solana)
 
 ## Documentation
 

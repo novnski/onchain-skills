@@ -94,89 +94,114 @@ const fetchJSON = (url) => {
  * @name translateSchemaReference
  * @description Translate a schema in OAS to its JSON format
  */
+const normalizeSchemaType = (type) => (type === "integer" ? "number" : type);
+
+const normalizeExampleForType = (type, example) => {
+    if (example === undefined) return undefined;
+    const normalizedType = normalizeSchemaType(type);
+    if (normalizedType === "number" && typeof example === "string") {
+        const value = Number(example);
+        return Number.isFinite(value) ? value : example;
+    }
+    if (normalizedType === "boolean" && typeof example === "string") {
+        if (example === "true") return true;
+        if (example === "false") return false;
+    }
+    if (normalizedType === "string" && typeof example !== "string") {
+        return String(example);
+    }
+    return example;
+};
+
+const mergeTranslatedSchemas = (schemas) => {
+    const objectSchemas = schemas.filter((schema) => schema?.type === "object");
+    if (objectSchemas.length === schemas.length && schemas.length > 0) {
+        const fields = new Map();
+        for (const schema of objectSchemas) {
+            for (const field of schema.fields || []) fields.set(field.name, field);
+        }
+        return { type: "object", fields: [...fields.values()] };
+    }
+    return schemas.find((schema) => schema && Object.keys(schema).length > 0) || {};
+};
+
+const translateSchemaNode = (schema, seen = new Set()) => {
+    if (!schema || typeof schema !== "object") return {};
+
+    if (schema.$ref) {
+        const schemaName = schema.$ref.replace("#/components/schemas/", "");
+        if (seen.has(schemaName)) return { type: "object", fields: [] };
+        const schemaJSON = swaggerSchemas?.[schemaName];
+        if (!schemaJSON) {
+            console.error("Schema " + schemaName + " not found.");
+            return {};
+        }
+        const nextSeen = new Set(seen);
+        nextSeen.add(schemaName);
+        return translateSchemaNode(schemaJSON, nextSeen);
+    }
+
+    if (Array.isArray(schema.allOf)) {
+        return mergeTranslatedSchemas(schema.allOf.map((item) => translateSchemaNode(item, seen)));
+    }
+    if (Array.isArray(schema.oneOf) && schema.oneOf.length > 0) {
+        return translateSchemaNode(schema.oneOf[0], seen);
+    }
+    if (Array.isArray(schema.anyOf) && schema.anyOf.length > 0) {
+        return translateSchemaNode(schema.anyOf[0], seen);
+    }
+
+    const type = normalizeSchemaType(schema.type || (schema.properties ? "object" : undefined));
+    const example = normalizeExampleForType(type, schema.example);
+
+    if (type === "array") {
+        return {
+            type: "array",
+            ...(example !== undefined ? { example } : {}),
+            field: translateSchemaNode(schema.items || {}, seen),
+        };
+    }
+
+    if (type === "object") {
+        const requiredFields = new Set(schema.required || []);
+        const fields = Object.entries(schema.properties || {}).map(([name, property]) => {
+            const translated = translateSchemaNode(property, seen);
+            return {
+                name,
+                ...translated,
+                description: property.description || translated.description,
+                required: requiredFields.has(name),
+                ...(property.example !== undefined
+                    ? {
+                          example: normalizeExampleForType(
+                              property.type || translated.type,
+                              property.example,
+                          ),
+                      }
+                    : {}),
+            };
+        });
+        return {
+            type: "object",
+            ...(example !== undefined ? { example } : {}),
+            fields,
+        };
+    }
+
+    return {
+        ...(type ? { type } : {}),
+        ...(schema.description ? { description: schema.description } : {}),
+        ...(example !== undefined ? { example } : {}),
+        ...(schema.enum ? { enum: schema.enum } : {}),
+    };
+};
+
 const translateSchemaReference = (schemaRef) => {
     if (typeof schemaRef !== "string") {
         console.error("schemaRef must be a string");
         return {};
     }
-    const schemaName = schemaRef.replace("#/components/schemas/", "");
-    const schemaJSON = swaggerSchemas[schemaName];
-
-    if (!schemaJSON) {
-        console.error("Schema " + schemaName + " not found.");
-        return {};
-    }
-
-    const { type, example, enum: schemaEnum, properties } = schemaJSON ?? {};
-    if (type && !properties) {
-        return {
-            type: type === "integer" ? "number" : type,
-            example,
-            enum: schemaEnum,
-        };
-    } else if (properties) {
-        return {
-            type: "object",
-            fields: Object.keys(properties).map((name) => {
-                const { type, description, example, items, $ref } = properties[name];
-                if (
-                    (schemaName === "AbiInput" || schemaName === "AbiOutput") &&
-                    name === "components"
-                ) {
-                    return {
-                        name,
-                        type: "json",
-                    };
-                } else if ($ref) {
-                    return {
-                        name,
-                        type,
-                        description,
-                        ...swaggerSchemas[$ref.replace("#/components/schemas/", "")],
-                    };
-                } else if (type === "array") {
-                    return {
-                        name,
-                        type,
-                        description,
-                        example,
-                        ...(items && items?.$ref
-                            ? { field: translateSchemaReference(items?.$ref) }
-                            : { field: items }),
-                    };
-                } else if (type === "object" && !items) {
-                    const nestedProperties = properties[name].properties;
-                    let fields = [];
-
-                    if (nestedProperties && typeof nestedProperties === "object") {
-                        fields = Object.keys(nestedProperties).map((key) => {
-                            return {
-                                name: key,
-                                ...nestedProperties[key],
-                            };
-                        });
-                    }
-
-                    return {
-                        name,
-                        type: "object",
-                        description,
-                        example,
-                        fields,
-                    };
-                } else {
-                    return {
-                        name,
-                        type: type === "integer" ? "number" : type,
-                        description,
-                        example,
-                    };
-                }
-            }),
-        };
-    } else {
-        return {};
-    }
+    return translateSchemaNode({ $ref: schemaRef });
 };
 
 const extractSwaggerValueByMethod = (swaggerJSON, path, method) => {
@@ -190,7 +215,7 @@ const formatParameters = (parameters) => {
     const pathParams = [];
     for (const param of parameters) {
         const { name, description, required, schema } = param ?? {};
-        const { example, type, $ref, items } = schema ?? {};
+        const { example, type, $ref, items, enum: schemaEnum } = schema ?? {};
         const paramsObject = {
             name,
             description,
@@ -199,6 +224,7 @@ const formatParameters = (parameters) => {
             ...(type
                 ? {
                       type: type === "integer" ? "number" : type,
+                      ...(schemaEnum ? { enum: schemaEnum } : {}),
                       ...(items &&
                           (items?.$ref
                               ? { fields: translateSchemaReference(items?.$ref) }
@@ -222,13 +248,67 @@ const formatParameters = (parameters) => {
 const formatBodyParameters = (requestBody) => {
     if (requestBody) {
         const { required, description, content } = requestBody;
-        const { type, items, $ref: schemaRef } = content?.["application/json"]?.schema;
+        const schema = content?.["application/json"]?.schema || {};
+        const {
+            type,
+            items,
+            properties,
+            example: schemaExample,
+            required: requiredFields = [],
+            $ref: schemaRef,
+        } = schema;
+
+        const inlineFields = properties
+            ? Object.entries(properties).map(([name, property]) => {
+                  const propertyExample =
+                      property.example !== undefined
+                          ? property.example
+                          : schemaExample?.[name];
+                  const field = {
+                      name,
+                      type: property.type === "integer" ? "number" : property.type,
+                      description: property.description,
+                      required: requiredFields.includes(name),
+                      example:
+                          propertyExample !== undefined
+                              ? propertyExample
+                              : property.type === "array" && property.items?.example !== undefined
+                                ? [property.items.example]
+                                : undefined,
+                      enum: property.enum,
+                  };
+
+                  if (property.$ref) {
+                      return {
+                          ...field,
+                          ...translateSchemaReference(property.$ref),
+                      };
+                  }
+                  if (property.type === "array") {
+                      field.field = property.items?.$ref
+                          ? translateSchemaReference(property.items.$ref)
+                          : property.items;
+                  }
+                  if (property.type === "object" && property.properties) {
+                      field.fields = Object.entries(property.properties).map(
+                          ([nestedName, nestedProperty]) => ({
+                              name: nestedName,
+                              ...nestedProperty,
+                              required: (property.required || []).includes(nestedName),
+                          }),
+                      );
+                  }
+                  return field;
+              })
+            : undefined;
 
         const bodyParam = {
             required,
             description,
             ...(schemaRef
                 ? translateSchemaReference(schemaRef)
+                : type === "object" && inlineFields
+                  ? { type: "object", fields: inlineFields }
                 : {
                       type: type === "object" ? "json" : type,
                       ...(items && { field: translateSchemaReference(items?.$ref) }),
@@ -249,119 +329,11 @@ const formatResponses = (responses) => {
     const formattedResponses = Object.keys(responses).map((status) => {
         const { description, content } = responses[status];
         const schema = content?.["application/json"]?.schema;
-        const schemaRef = schema?.$ref;
-
-        if (schemaRef) {
-            return {
-                status,
-                description,
-                body: translateSchemaReference(schemaRef),
-            };
-        } else if (schema?.type === "array" && schema?.items?.$ref) {
-            return {
-                status,
-                description,
-                body: {
-                    type: "array",
-                    field: translateSchemaReference(schema.items.$ref),
-                },
-            };
-        } else if (schema?.properties) {
-            return {
-                status,
-                description,
-                body: {
-                    type: schema.type || "object",
-                    fields: Object.keys(schema.properties).map((name) => {
-                        const prop = schema.properties[name];
-                        const { type, description, example, items, $ref } = prop;
-
-                        if ($ref) {
-                            return {
-                                name,
-                                type,
-                                description,
-                                ...swaggerSchemas[$ref.replace("#/components/schemas/", "")],
-                            };
-                        } else if (type === "array" && items?.properties) {
-                            return {
-                                name,
-                                type,
-                                description,
-                                field: {
-                                    type: items.type || "object",
-                                    fields: Object.keys(items.properties).map((itemName) => {
-                                        const itemProp = items.properties[itemName];
-                                        const fieldType = itemProp.type === "integer" ? "number" : itemProp.type;
-
-                                        if (fieldType === "array" && itemProp.items?.properties) {
-                                            return {
-                                                name: itemName,
-                                                type: fieldType,
-                                                description: itemProp.description || itemProp.items?.description,
-                                                example: itemProp.example,
-                                                field: {
-                                                    type: "object",
-                                                    fields: Object.keys(itemProp.items.properties).map((nestedItemName) => {
-                                                        const nestedProp = itemProp.items.properties[nestedItemName];
-                                                        return {
-                                                            name: nestedItemName,
-                                                            type: nestedProp.type === "integer" ? "number" : nestedProp.type,
-                                                            description: nestedProp.description,
-                                                            example: nestedProp.example,
-                                                        };
-                                                    }),
-                                                },
-                                            };
-                                        } else if (fieldType === "array" && itemProp.items?.type && !itemProp.items?.properties && !itemProp.items?.$ref) {
-                                            return {
-                                                name: itemName,
-                                                type: fieldType,
-                                                description: itemProp.description || itemProp.items?.description,
-                                                example: itemProp.example,
-                                            };
-                                        } else if (fieldType === "array" && itemProp.items?.type) {
-                                            return {
-                                                name: itemName,
-                                                type: fieldType,
-                                                description: itemProp.description || itemProp.items?.description,
-                                                example: itemProp.example,
-                                            };
-                                        } else {
-                                            return {
-                                                name: itemName,
-                                                type: fieldType,
-                                                description: itemProp.description,
-                                                example: itemProp.example,
-                                            };
-                                        }
-                                    }),
-                                },
-                            };
-                        } else if (type === "array" && items?.$ref) {
-                            return {
-                                name,
-                                type,
-                                description,
-                                field: translateSchemaReference(items.$ref),
-                            };
-                        } else {
-                            return {
-                                name,
-                                type: type === "integer" ? "number" : type,
-                                description,
-                                example,
-                            };
-                        }
-                    }),
-                },
-            };
-        } else {
-            return {
-                status,
-                description,
-            };
-        }
+        return {
+            status,
+            description,
+            ...(schema ? { body: translateSchemaNode(schema) } : {}),
+        };
     });
     return formattedResponses;
 };
@@ -429,6 +401,7 @@ const applySwaggerFixes = (configs) => {
 
     const streams = configs.streams;
     const universal = configs.universal;
+    const solana = configs.solana;
 
     if (universal) {
         const universalPathExamples = {
@@ -456,17 +429,36 @@ const applySwaggerFixes = (configs) => {
             protocol: "Protocol identifier",
         };
 
-        for (const endpoint of Object.values(universal)) {
+        const evmOnlyUniversalOperations = new Set([
+            "getDefiProtocols",
+            "getTopTradersByToken",
+            "getWalletProfitability",
+            "getWalletProfitabilitySummary",
+        ]);
+
+        for (const [operationId, endpoint] of Object.entries(universal)) {
             for (const param of endpoint.pathParams || []) {
                 if (Object.prototype.hasOwnProperty.call(universalPathExamples, param.name)) {
-                    param.example = universalPathExamples[param.name];
+                    if (
+                        param.name === "tokenAliasOrTokenAddress" &&
+                        operationId.startsWith("getTokenPrice")
+                    ) {
+                        param.example = "native";
+                    } else {
+                        param.example =
+                            param.name === "chainAlias" && evmOnlyUniversalOperations.has(operationId)
+                                ? "ethereum"
+                                : universalPathExamples[param.name];
+                    }
                     param.description = param.description || universalPathDescriptions[param.name];
                 }
             }
 
             for (const param of endpoint.queryParams || []) {
                 if (param.name === "chains") {
-                    param.example = "bitcoin";
+                    param.example = evmOnlyUniversalOperations.has(operationId)
+                        ? "ethereum"
+                        : "bitcoin";
                     param.description =
                         param.description || "Comma-separated chain aliases, such as bitcoin or eth,polygon";
                 } else if (param.name === "chain") {
@@ -481,6 +473,30 @@ const applySwaggerFixes = (configs) => {
     }
 
     if (!streams) return;
+
+    if (solana) {
+        for (const endpoint of Object.values(solana)) {
+            for (const param of endpoint.pathParams || []) {
+                if (param.name === "network" && param.example === undefined) {
+                    param.example = "mainnet";
+                }
+                if (param.name === "network") {
+                    param.enum = ["mainnet"];
+                    param.description = "The supported Solana network. Mainnet only.";
+                }
+            }
+        }
+
+        const batchPriceAddresses = solana.getMultipleTokenPrices?.bodyParam?.fields?.find(
+            (field) => field.name === "addresses",
+        );
+        if (
+            batchPriceAddresses &&
+            (!Array.isArray(batchPriceAddresses.example) || batchPriceAddresses.example.length === 0)
+        ) {
+            batchPriceAddresses.example = ["So11111111111111111111111111111111111111112"];
+        }
+    }
 
     const streamSummaryFixes = {
         solanaStreamsGetAll: "Get Solana streams",
@@ -508,6 +524,8 @@ const applySwaggerFixes = (configs) => {
         bitcoinStreamsUpdateStatus: "Update Bitcoin stream status",
         bitcoinGetBlockByNumber: "Get Bitcoin webhook data by block number",
         bitcoinBlockToWebhook: "Send Bitcoin webhook data by block number",
+        CreateJob: "Create historical stream job",
+        GetJobs: "Get historical stream jobs",
     };
     for (const [opId, summary] of Object.entries(streamSummaryFixes)) {
         if (streams[opId] && !streams[opId].summary) {
@@ -618,6 +636,8 @@ const applySwaggerFixes = (configs) => {
                 field.example = "Monitor Solana program activity";
             } else if (field.name === "network") {
                 field.example = ["mainnet"];
+                if (field.field) field.field.enum = ["mainnet"];
+                field.description = "The supported network. Solana Streams supports mainnet only.";
             } else if (field.name === "programIds") {
                 field.example = ["YOUR_SOLANA_PROGRAM_ID"];
             } else if (field.name === "mintAddresses") {
@@ -638,11 +658,275 @@ const applySwaggerFixes = (configs) => {
                 field.example = "Monitor Bitcoin transactions";
             } else if (field.name === "network") {
                 field.example = ["mainnet"];
+                if (field.field) field.field.enum = ["mainnet"];
+                field.description = "The supported network. Bitcoin Streams supports mainnet only.";
             } else if (field.name === "includeInputs" || field.name === "includeOutputs") {
                 field.example = true;
             }
         }
     }
+
+    const removeEnumValue = (value, unsupported) => {
+        if (Array.isArray(value)) {
+            for (const item of value) removeEnumValue(item, unsupported);
+            return;
+        }
+        if (!value || typeof value !== "object") return;
+        if (Array.isArray(value.enum)) {
+            value.enum = value.enum.filter((item) => item !== unsupported);
+        }
+        for (const nested of Object.values(value)) removeEnumValue(nested, unsupported);
+    };
+    removeEnumValue(solana, "devnet");
+    for (const [operationId, endpoint] of Object.entries(streams)) {
+        if (operationId.startsWith("solana")) removeEnumValue(endpoint, "devnet");
+        if (operationId.startsWith("bitcoin")) removeEnumValue(endpoint, "testnet");
+    }
+
+    const requiredQueryExample = (param) => {
+        const name = String(param.name || "").toLowerCase();
+        const allowedValues = param.enum || param.field?.enum || param.field?.items?.enum;
+        if (Array.isArray(allowedValues) && allowedValues.length > 0) {
+            return allowedValues[0];
+        }
+        if (name === "fromdate" || name === "from_date") return "2025-01-01T00:00:00Z";
+        if (name === "todate" || name === "to_date") return "2025-01-02T00:00:00Z";
+        if (name.includes("timeframe")) return "1d";
+        if (name === "currency") return "usd";
+        if (name.includes("wallet") && name.includes("address")) return "YOUR_EVM_ADDRESS";
+        if (name.includes("token") && name.includes("address")) return "YOUR_TOKEN_ADDRESS";
+        if (name === "addresses") return "YOUR_TOKEN_ADDRESS";
+        if (param.type === "number") return 1;
+        if (param.type === "boolean") return true;
+        return "YOUR_" + String(param.name || "VALUE").replace(/[^A-Za-z0-9]+/g, "_").toUpperCase();
+    };
+
+    for (const apiGroup of Object.values(configs)) {
+        for (const endpoint of Object.values(apiGroup || {})) {
+            for (const param of endpoint.queryParams || []) {
+                if (param.required && param.example === undefined) {
+                    param.example = requiredQueryExample(param);
+                }
+            }
+        }
+    }
+
+    // Runtime-verified corrections for live responses that currently differ from Swagger.
+    const successBody = (endpoint) =>
+        endpoint?.responses?.find((response) => ["200", "201", "default"].includes(response.status))?.body;
+    const findField = (schema, name) => schema?.fields?.find((field) => field.name === name);
+    const addField = (schema, field) => {
+        if (!schema?.fields || findField(schema, field.name)) return;
+        schema.fields.push(field);
+    };
+    const setFieldType = (schema, name, type) => {
+        const field = findField(schema, name);
+        if (field) {
+            field.type = type;
+            if (field.example !== undefined) {
+                field.example = normalizeExampleForType(type, field.example);
+            }
+        }
+    };
+    const setFieldRequired = (schema, name, required) => {
+        const field = findField(schema, name);
+        if (field) field.required = required;
+    };
+    const visitFields = (schema, visitor, path = [], seen = new WeakSet()) => {
+        if (!schema || typeof schema !== "object" || seen.has(schema)) return;
+        seen.add(schema);
+        for (const field of schema?.fields || []) {
+            visitor(field, [...path, field.name]);
+            visitFields(field, visitor, [...path, field.name], seen);
+            visitFields(field.field, visitor, [...path, field.name, "[]"], seen);
+        }
+        visitFields(schema?.field, visitor, [...path, "[]"], seen);
+    };
+
+    const traitField = configs.evm?.getNFTByContractTraits?.bodyParam?.fields?.find(
+        (field) => field.name === "traits",
+    );
+    if (traitField) traitField.example = { Earring: "Silver Hoop" };
+
+    const categoriesResponse = configs.evm?.getTokenCategories?.responses?.find(
+        (response) => response.status === "200",
+    );
+    if (categoriesResponse?.body?.type === "array" && categoriesResponse.body.field?.type === "object") {
+        categoriesResponse.body = categoriesResponse.body.field;
+    }
+
+    const walletTokens = successBody(configs.evm?.getWalletTokenBalancesPrice);
+    setFieldType(walletTokens, "block_number", "number");
+    const walletTokenItem = findField(walletTokens, "result")?.field;
+    for (const name of [
+        "usd_price",
+        "usd_price_24hr_percent_change",
+        "usd_price_24hr_usd_change",
+        "usd_value_24hr_usd_change",
+    ]) {
+        setFieldType(walletTokenItem, name, "number");
+    }
+    addField(walletTokenItem, { name: "security_score", type: "number", required: false });
+
+    const walletHistory = successBody(configs.evm?.getWalletHistory);
+    addField(walletHistory, { name: "limit", type: "number", required: false });
+    const walletHistoryItem = findField(walletHistory, "result")?.field;
+    setFieldRequired(walletHistoryItem, "contract_interactions", false);
+
+    const walletTransactions = successBody(configs.evm?.getWalletTransactions);
+    const walletTransactionItem = findField(walletTransactions, "result")?.field;
+    addField(walletTransactionItem, {
+        name: "transfer_index",
+        type: "array",
+        field: { type: "number" },
+        required: false,
+    });
+    addField(walletTransactionItem, {
+        name: "logs",
+        type: "array",
+        field: { type: "object", fields: [] },
+        required: false,
+    });
+    addField(walletTransactionItem, { name: "method_label", type: "string", required: false });
+    const internalTransactionItem = findField(walletTransactionItem, "internal_transactions")?.field;
+    setFieldType(internalTransactionItem, "block_number", "number");
+
+    const verboseTransactions = successBody(configs.evm?.getWalletTransactionsVerbose);
+    const verboseTransactionItem = findField(verboseTransactions, "result")?.field;
+    setFieldRequired(verboseTransactionItem, "decoded_call", false);
+
+    const tokenTransfers = successBody(configs.evm?.getTokenTransfers);
+    const tokenTransferItem = findField(tokenTransfers, "result")?.field;
+    addField(tokenTransferItem, { name: "value_decimal", type: "string", required: false });
+    addField(tokenTransferItem, { name: "security_score", type: "number", required: false });
+
+    const nftBulkItem = successBody(configs.evm?.getNFTBulkContractMetadata)?.field;
+    addField(nftBulkItem, { name: "description", type: "string", required: false });
+    addField(nftBulkItem, { name: "created_date", type: "string", required: false });
+
+    const nftResponseOperations = [
+        "getWalletNFTs",
+        "getMultipleNFTs",
+        "getContractNFTs",
+        "getNFTOwners",
+        "getNFTByContractTraits",
+        "getNFTMetadata",
+        "getNFTTokenIdOwners",
+        "getWalletHistory",
+    ];
+    for (const operationId of nftResponseOperations) {
+        visitFields(successBody(configs.evm?.[operationId]), (field, fieldPath) => {
+            if (
+                field.name === "value" &&
+                field.type === "object" &&
+                fieldPath.includes("attributes")
+            ) {
+                field.type = "json";
+                field.example = "value_example";
+                delete field.fields;
+            }
+        });
+    }
+
+    const traitsResponse = successBody(configs.evm?.getNFTTraitsByCollection);
+    const traitValueItem = findField(findField(traitsResponse, "traits")?.field, "values")?.field;
+    const legacyTraitValue = findField(traitValueItem, "trait_value");
+    if (legacyTraitValue) legacyTraitValue.name = "value";
+
+    const nftSalePrices = successBody(configs.evm?.getNFTSalePrices);
+    for (const name of ["last_sale", "lowest_sale", "highest_sale", "average_sale"]) {
+        setFieldRequired(nftSalePrices, name, false);
+    }
+    addField(nftSalePrices, { name: "message", type: "string", required: false });
+
+    const tokenMetadataItem = successBody(configs.evm?.getTokenMetadata)?.field;
+    const tokenLinks = findField(tokenMetadataItem, "links");
+    for (const field of tokenLinks?.fields || []) field.required = false;
+    addField(tokenLinks, { name: "email", type: "string", required: false });
+
+    const approvalsResponse = successBody(configs.evm?.getWalletApprovals);
+    setFieldRequired(approvalsResponse, "page", false);
+    addField(approvalsResponse, { name: "limit", type: "number", required: false });
+
+    const evmDefiPositions = successBody(configs.evm?.getDefiPositionsSummary);
+    const evmDefiToken = findField(findField(evmDefiPositions?.field, "position"), "tokens")?.field;
+    setFieldType(evmDefiToken, "decimals", "string");
+
+    const topTraderResponse = successBody(configs.evm?.getTopProfitableWalletPerToken);
+    setFieldType(topTraderResponse, "decimals", "string");
+
+    const tokenPairsResponse = successBody(configs.evm?.getTokenPairs);
+    const tokenPairItem = findField(findField(tokenPairsResponse, "pairs")?.field, "pair")?.field;
+    setFieldType(tokenPairItem, "liquidity_usd", "number");
+
+    const pairSwapsResponse = successBody(configs.evm?.getSwapsByPairAddress);
+    for (const tokenField of ["baseToken", "quoteToken"]) {
+        const token = findField(pairSwapsResponse, tokenField);
+        for (const name of ["amount", "usdPrice", "usdAmount"]) {
+            setFieldRequired(token, name, false);
+        }
+    }
+    const pairSwapItem = findField(pairSwapsResponse, "result")?.field;
+    setFieldType(pairSwapItem, "baseTokenPriceUsd", "string");
+    setFieldType(pairSwapItem, "quoteTokenPriceUsd", "string");
+
+    const solanaNft = successBody(configs.solana?.getNFTMetadata);
+    if (solanaNft?.fields) {
+        solanaNft.fields = solanaNft.fields.filter((field) => field.name !== "media");
+    }
+
+    const universalBlock = successBody(configs.universal?.getBlockByNumberOrHash);
+    setFieldRequired(universalBlock, "evmSpecific", false);
+    setFieldRequired(findField(universalBlock, "txs")?.field, "evmSpecific", false);
+
+    const universalCandles = successBody(configs.universal?.getCandleSticks);
+    setFieldType(universalCandles, "tokenAddress", "string");
+    setFieldType(universalCandles, "cursor", "string");
+    setFieldRequired(universalCandles, "cursor", false);
+
+    const universalDefiPositions = successBody(configs.universal?.getDefiPositions);
+    const universalDefiItem = findField(universalDefiPositions, "result")?.field;
+    setFieldType(universalDefiItem, "protocolUrl", "string");
+    setFieldType(universalDefiItem, "protocolLogo", "string");
+    const universalPosition = findField(universalDefiItem, "position");
+    setFieldType(universalPosition, "address", "string");
+    setFieldType(universalPosition, "balanceUsd", "number");
+    const universalPositionToken = findField(universalPosition, "tokens")?.field;
+    for (const name of ["name", "symbol", "address", "logo", "balance", "balanceFormatted"]) {
+        setFieldType(universalPositionToken, name, "string");
+    }
+    setFieldType(universalPositionToken, "decimals", "number");
+    setFieldType(universalPositionToken, "usdPrice", "number");
+    setFieldType(universalPositionToken, "usdValue", "number");
+    const universalLending = findField(findField(universalPosition, "details"), "lending");
+    setFieldType(universalLending, "healthFactor", "number");
+
+    const defiProtocols = successBody(configs.universal?.getDefiProtocols);
+    const defiProtocolItem = findField(defiProtocols, "result")?.field;
+    setFieldType(defiProtocolItem, "protocolUrl", "string");
+    setFieldType(defiProtocolItem, "protocolLogo", "string");
+
+    const universalDefiSummary = successBody(configs.universal?.getDefiSummary);
+    const universalDefiSummaryResult = findField(universalDefiSummary, "result");
+    setFieldType(universalDefiSummaryResult, "totalUsd", "number");
+    const universalDefiSummaryProtocol = findField(universalDefiSummaryResult, "protocols")?.field;
+    setFieldType(universalDefiSummaryProtocol, "protocolUrl", "string");
+    setFieldType(universalDefiSummaryProtocol, "protocolLogo", "string");
+    setFieldType(universalDefiSummaryProtocol, "totalUsd", "number");
+
+    const streamLogs = successBody(configs.streams?.GetLogs);
+    const streamLogItem = findField(streamLogs, "result")?.field;
+    addField(streamLogItem, {
+        name: "transactionHashes",
+        type: "array",
+        field: { type: "string" },
+        required: false,
+    });
+    addField(streamLogItem, { name: "updatedAt", type: "string", required: false });
+
+    const historicalJobItem = successBody(configs.streams?.GetJobs)?.field;
+    setFieldType(historicalJobItem, "fromTimestamp", "string");
+    setFieldType(historicalJobItem, "toTimestamp", "string");
 };
 
 /**

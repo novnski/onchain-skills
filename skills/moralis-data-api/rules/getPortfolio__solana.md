@@ -18,7 +18,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| network | string (mainnet) | Yes | The network to query | - |
+| network | string (mainnet) | Yes | The supported Solana network. Mainnet only. | \`mainnet\` |
 | address | string | Yes | The address to query | \`YOUR_ADDRESS\` |
 
 ## Query Params
@@ -83,7 +83,31 @@ Status: 200
           "verified": true
         }
       ],
-      "properties": {}
+      "properties": {},
+      "media": {
+        "mimetype": "mimetype_example",
+        "category": "category_example",
+        "originalMediaUrl": "originalMediaUrl_example",
+        "status": "status_example",
+        "updatedAt": "updatedAt_example",
+        "mediaCollection": {
+          "low": {
+            "width": 0,
+            "height": 0,
+            "url": "url_example"
+          },
+          "medium": {
+            "width": 0,
+            "height": 0,
+            "url": "url_example"
+          },
+          "high": {
+            "width": 0,
+            "height": 0,
+            "url": "url_example"
+          }
+        }
+      }
     }
   ],
   "tokens": [

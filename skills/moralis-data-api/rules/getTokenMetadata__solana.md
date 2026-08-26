@@ -18,7 +18,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| network | string (mainnet) | Yes | The network to query | - |
+| network | string (mainnet) | Yes | The supported Solana network. Mainnet only. | \`mainnet\` |
 | address | string | Yes | The address to query | \`YOUR_ADDRESS\` |
 
 ## Response Example
@@ -51,6 +51,9 @@ Status: default
   "links": {},
   "description": "description_example",
   "isVerifiedContract": true,
+  "categories": [
+    "categories_example"
+  ],
   "possibleSpam": true
 }
 ```

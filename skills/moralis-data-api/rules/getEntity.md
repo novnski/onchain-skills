@@ -28,16 +28,14 @@ Returns the entity.
 
 ```json
 {
-  "addresses": [
-    {
-      "additional_labels": [
-        [
-          "Uniswap",
-          "Uniswap V3"
-        ]
-      ]
-    }
-  ]
+  "name": "Uniswap",
+  "id": "uniswap",
+  "logo": "https://uniswap.io/favicon.ico",
+  "bio": "Uniswap is a decentralized finance protocol that is used to exchange cryptocurrencies.",
+  "description": "Uniswap is a decentralized finance protocol that is used to exchange cryptocurrencies.",
+  "website": "https://uniswap.io",
+  "twitter": "https://twitter.com/uniswap",
+  "type": "exchange"
 }
 ```
 

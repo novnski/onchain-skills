@@ -27,7 +27,7 @@ POST
 | description | string | No | A description for this stream | \`Monitor Bitcoin transactions\` |
 | includeInputs | boolean | No | Include or not input details in webhook defaults to true | \`true\` |
 | includeOutputs | boolean | No | Include or not output details in webhook defaults to true | \`true\` |
-| network | array | No | The network to listen to | \`["mainnet"]\` |
+| network | array | No | The supported network. Bitcoin Streams supports mainnet only. | \`["mainnet"]\` |
 | tag | string | No | A user-provided tag that will be send along the webhook | \`bitcoin-monitor\` |
 | webhookUrl | string | No | Webhook URL where moralis will send the POST request. | \`https://your-server.com/webhook\` |
 
@@ -46,8 +46,10 @@ Ok
   "includeInputs": true,
   "includeOutputs": true,
   "isErrorSince": "isErrorSince_example",
-  "network": [],
-  "status": {},
+  "network": [
+    "network_example"
+  ],
+  "status": "[object Object]",
   "statusMessage": "statusMessage_example",
   "tag": "tag_example",
   "webhookUrl": "webhookUrl_example",

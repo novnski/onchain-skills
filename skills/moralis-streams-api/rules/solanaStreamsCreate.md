@@ -16,12 +16,12 @@ PUT
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| webhookUrl | string | No | Webhook URL where moralis will send the POST request. | \`https://your-server.com/webhook\` |
-| tag | string | No | A user-provided tag that will be send along the webhook | \`solana-monitor\` |
+| webhookUrl | string | Yes | Webhook URL where moralis will send the POST request. | \`https://your-server.com/webhook\` |
+| tag | string | Yes | A user-provided tag that will be send along the webhook | \`solana-monitor\` |
 | mintAddresses | array | No | Solana token mint addresses to filter transactions by | \`["YOUR_SOLANA_MINT"]\` |
 | programIds | array | No | Solana program IDs to filter transactions by | \`["YOUR_SOLANA_PROGRAM_ID"]\` |
-| network | array | No | The network to listen to | \`["mainnet"]\` |
-| description | string | No | A description for this stream | \`Monitor Solana program activity\` |
+| network | array | Yes | The supported network. Solana Streams supports mainnet only. | \`["mainnet"]\` |
+| description | string | Yes | A description for this stream | \`Monitor Solana program activity\` |
 | allAddresses | boolean | No | Include events for all addresses | \`false\` |
 
 ## Response Example
@@ -36,10 +36,16 @@ Ok
   "allAddresses": true,
   "description": "description_example",
   "isErrorSince": "isErrorSince_example",
-  "network": [],
-  "programIds": [],
-  "mintAddresses": [],
-  "status": {},
+  "network": [
+    "network_example"
+  ],
+  "programIds": [
+    "programIds_example"
+  ],
+  "mintAddresses": [
+    "mintAddresses_example"
+  ],
+  "status": "[object Object]",
   "statusMessage": "statusMessage_example",
   "tag": "tag_example",
   "webhookUrl": "webhookUrl_example",

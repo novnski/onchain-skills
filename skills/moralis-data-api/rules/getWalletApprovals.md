@@ -24,7 +24,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, fantom, 0xfa, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, chiliz testnet, 0x15b32, gnosis, 0x64, gnosis testnet, 0x27d8, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, moonbase, 0x507, linea sepolia, 0xe705, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, lisk-sepolia, 0x106a, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
+| chain | string (eth, 0x1, sepolia, 0xaa36a7, polygon, 0x89, bsc, 0x38, bsc testnet, 0x61, avalanche, 0xa86a, cronos, 0x19, arbitrum, 0xa4b1, chiliz, 0x15b38, gnosis, 0x64, base, 0x2105, base sepolia, 0x14a34, optimism, 0xa, polygon amoy, 0x13882, linea, 0xe708, moonbeam, 0x504, moonriver, 0x505, flow, 0x2eb, flow-testnet, 0x221, ronin, 0x7e4, ronin-testnet, 0x31769, lisk, 0x46f, pulse, 0x171, sei-testnet, 0x530, sei, 0x531, monad, 0x8f) | No | The chain to query | \`eth\` |
 | limit | number | No | The desired page size of the result. | - |
 | cursor | string | No | The cursor returned in the previous response (used for getting the next page). | - |
 
@@ -43,12 +43,12 @@ Returns active ERC20 token approvals for the specified wallet address
 
 ```json
 {
-  "page": "2",
-  "page_size": "100",
+  "page": 2,
+  "page_size": 100,
   "cursor": "cursor_example",
   "result": [
     {
-      "block_number": 12526958,
+      "block_number": "12526958",
       "block_timestamp": "2021-04-02T10:07:54.000Z",
       "transaction_hash": "YOUR_TX_HASH",
       "value": "8409770570506626",
@@ -73,7 +73,8 @@ Returns active ERC20 token approvals for the specified wallet address
         "entity_logo": "https://opensea.io/favicon.ico"
       }
     }
-  ]
+  ],
+  "limit": 0
 }
 ```
 

@@ -29,6 +29,86 @@ POST
 | includeOutputs | boolean | No | Include or not output details in webhook defaults to true | \`false\` |
 | addresses | array | No | Bitcoin addresses to filter by | \`[]\` |
 
+## Response Example
+
+Status: 200
+
+Ok
+
+```json
+{
+  "block": {
+    "difficulty": "difficulty_example",
+    "nTx": "nTx_example",
+    "previousblockhash": "previousblockhash_example",
+    "merkleroot": "merkleroot_example",
+    "weight": "weight_example",
+    "size": "size_example",
+    "timestamp": "timestamp_example",
+    "hash": "hash_example",
+    "height": "height_example"
+  },
+  "chainId": "chainId_example",
+  "network": "network_example",
+  "retries": 0,
+  "streamId": "streamId_example",
+  "tag": "tag_example",
+  "transactions": [
+    {
+      "xpubs": [
+        {
+          "xpub": "xpub_example",
+          "address": "address_example"
+        }
+      ],
+      "timestamp": 0,
+      "blockTimestamp": "blockTimestamp_example",
+      "blockNumber": 0,
+      "blockHash": "blockHash_example",
+      "vout": [
+        {
+          "scriptPubKeyAddresses": [
+            "scriptPubKeyAddresses_example"
+          ],
+          "scriptPubKeyAddress": "scriptPubKeyAddress_example",
+          "scriptPubKeyType": "scriptPubKeyType_example",
+          "scriptPubKeyHex": "scriptPubKeyHex_example",
+          "n": 0,
+          "value": 0
+        }
+      ],
+      "vin": [
+        {
+          "value": "value_example",
+          "addresses": [
+            "addresses_example"
+          ],
+          "txinwitness": [
+            "txinwitness_example"
+          ],
+          "coinbase": "coinbase_example",
+          "sequence": 0,
+          "scriptSigHex": "scriptSigHex_example",
+          "vout": 0,
+          "txid": "txid_example"
+        }
+      ],
+      "outputCount": 0,
+      "inputCount": 0,
+      "isCoinbase": true,
+      "locktime": 0,
+      "weight": 0,
+      "vsize": 0,
+      "size": 0,
+      "version": 0,
+      "hash": "hash_example",
+      "txid": "txid_example"
+    }
+  ],
+  "confirmed": true
+}
+```
+
 ## Example (curl)
 
 ```bash

@@ -18,13 +18,13 @@ POST
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| network | string (mainnet) | Yes | The network to query | - |
+| network | string (mainnet) | Yes | The supported Solana network. Mainnet only. | \`mainnet\` |
 
 ## Body
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| addresses | array | No | - | \`[]\` |
+| addresses | array | Yes | - | \`["YOUR_ADDRESS"]\` |
 
 ## Response Example
 
@@ -64,6 +64,8 @@ curl -X POST "https://solana-gateway.moralis.io/token/mainnet/prices" \
   -H "X-API-Key: $MORALIS_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-  "addresses": []
+  "addresses": [
+    "YOUR_ADDRESS"
+  ]
 }'
 ```

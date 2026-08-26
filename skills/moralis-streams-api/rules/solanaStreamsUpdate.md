@@ -24,7 +24,7 @@ POST
 |------|------|----------|-------------|----------|
 | allAddresses | boolean | No | Include events for all addresses | \`false\` |
 | description | string | No | A description for this stream | \`Monitor Solana program activity\` |
-| network | array | No | The network to listen to | \`["mainnet"]\` |
+| network | array | No | The supported network. Solana Streams supports mainnet only. | \`["mainnet"]\` |
 | programIds | array | No | Solana program IDs to filter transactions by | \`["YOUR_SOLANA_PROGRAM_ID"]\` |
 | mintAddresses | array | No | Solana token mint addresses to filter transactions by | \`["YOUR_SOLANA_MINT"]\` |
 | tag | string | No | A user-provided tag that will be send along the webhook | \`solana-monitor\` |
@@ -42,10 +42,16 @@ Ok
   "allAddresses": true,
   "description": "description_example",
   "isErrorSince": "isErrorSince_example",
-  "network": [],
-  "programIds": [],
-  "mintAddresses": [],
-  "status": {},
+  "network": [
+    "network_example"
+  ],
+  "programIds": [
+    "programIds_example"
+  ],
+  "mintAddresses": [
+    "mintAddresses_example"
+  ],
+  "status": "[object Object]",
   "statusMessage": "statusMessage_example",
   "tag": "tag_example",
   "webhookUrl": "webhookUrl_example",

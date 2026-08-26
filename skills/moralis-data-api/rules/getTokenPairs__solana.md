@@ -18,7 +18,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| network | string (mainnet) | Yes | The network to query | - |
+| network | string (mainnet) | Yes | The supported Solana network. Mainnet only. | \`mainnet\` |
 | address | string | Yes | The address to query | \`YOUR_ADDRESS\` |
 
 ## Query Params
@@ -58,6 +58,7 @@ Status: 200
       "volume24hrUsd": 0,
       "liquidityUsd": 0,
       "inactivePair": true,
+      "liquiditySkew": 0,
       "baseToken": "baseToken_example",
       "quoteToken": "quoteToken_example",
       "pair": [

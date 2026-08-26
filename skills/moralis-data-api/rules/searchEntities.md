@@ -33,12 +33,35 @@ Returns the search results.
 
 ```json
 {
-  "page": "1",
-  "page_size": "100",
+  "page": 1,
+  "page_size": 100,
   "result": {
-    "entities": [],
-    "addresses": [],
-    "categories": []
+    "entities": [
+      {
+        "name": "Uniswap",
+        "id": "uniswap",
+        "logo": "https://uniswap.io/favicon.ico",
+        "bio": "Uniswap is a decentralized finance protocol that is used to exchange cryptocurrencies.",
+        "description": "Uniswap is a decentralized finance protocol that is used to exchange cryptocurrencies.",
+        "website": "https://uniswap.io",
+        "twitter": "https://twitter.com/uniswap",
+        "type": "exchange"
+      }
+    ],
+    "addresses": [
+      {
+        "address": "YOUR_ADDRESS",
+        "chain": "ethereum",
+        "is_multi_chain": false,
+        "primary_label": "Uniswap"
+      }
+    ],
+    "categories": [
+      {
+        "name": "Uniswap",
+        "id": "uniswap"
+      }
+    ]
   }
 }
 ```

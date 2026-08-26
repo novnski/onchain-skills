@@ -41,15 +41,30 @@ Status: 200
       "0x89"
     ],
     "failedChains": [
-      "0x89"
+      {
+        "chainId": "0x89",
+        "code": "INTERNAL_SERVER_ERROR",
+        "error": {}
+      }
     ]
   },
   "result": {
     "activeProtocols": 0,
     "totalPositions": 0,
-    "totalUsd": {},
+    "totalUsd": 0,
     "totalUnclaimedUsd": {},
-    "protocols": []
+    "protocols": [
+      {
+        "protocolName": "protocolName_example",
+        "protocolId": "protocolId_example",
+        "protocolUrl": "protocolUrl_example",
+        "protocolLogo": "protocolLogo_example",
+        "chainId": "0x1",
+        "totalUsd": 0,
+        "totalUnclaimedUsd": {},
+        "positionCount": 0
+      }
+    ]
   }
 }
 ```

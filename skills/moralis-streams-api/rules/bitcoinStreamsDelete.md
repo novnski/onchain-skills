@@ -18,6 +18,16 @@ DELETE
 |------|------|----------|-------------|----------|
 | id | string | Yes | - | \`YOUR_STREAM_ID\` |
 
+## Response Example
+
+Status: 200
+
+Ok
+
+```json
+true
+```
+
 ## Example (curl)
 
 ```bash

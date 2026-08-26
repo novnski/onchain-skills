@@ -18,7 +18,7 @@ GET
 
 | Name | Type | Required | Description | Example |
 |------|------|----------|-------------|----------|
-| network | string (mainnet) | Yes | The network to query | - |
+| network | string (mainnet) | Yes | The supported Solana network. Mainnet only. | \`mainnet\` |
 | address | string | Yes | The address to query | \`YOUR_ADDRESS\` |
 
 ## Query Params
@@ -29,7 +29,7 @@ GET
 | cursor | string | No | The cursor to the next page | - |
 | fromDate | string | No | The starting date (format in seconds or datestring accepted by momentjs) | - |
 | toDate | string | No | The ending date (format in seconds or datestring accepted by momentjs) | - |
-| order | string | No | The order of the results, in ascending (ASC) or descending (DESC). | \`DESC\` |
+| order | string (ASC, DESC) | No | The order of the results, in ascending (ASC) or descending (DESC). | \`DESC\` |
 | transactionTypes | string | No | Transaction types to fetch. Possible values: 'buy','sell' or both separated by comma | \`buy,sell\` |
 
 ## Cursor/Pagination

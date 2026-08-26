@@ -27,6 +27,10 @@ Universal v1 rule files use the `__universal` suffix because several operation I
 | Historical token price series | `rules/getTokenPriceTimeSeries__universal.md` |
 | Price sparkline | `rules/getTokenPriceSparkline__universal.md` |
 | Universal DeFi positions | `rules/getDefiPositions__universal.md` |
+| Supported DeFi protocols and chain coverage | `rules/getDefiProtocols__universal.md` |
+| Multi-chain wallet PnL by token | `rules/getWalletProfitability__universal.md` |
+| Multi-chain wallet PnL summary | `rules/getWalletProfitabilitySummary__universal.md` |
+| Top traders for a token | `rules/getTopTradersByToken__universal.md` |
 | Universal pair swaps | `rules/getSwapsByPairAddress__universal.md` |
 
 ## Bitcoin Request Shapes
@@ -48,5 +52,7 @@ For xpub workflows, pass the xpub where the rule file asks for `publicKey` or `w
 ## Routing Guidance
 
 - Use `@moralis-data-api` for Bitcoin balances, history, blocks, transactions, prices, and xpub address derivation.
+- Use the Universal PnL rules for new wallet profitability integrations; they accept supported EVM chains and do not currently accept Bitcoin or Solana.
+- Use `getDefiProtocols__universal` as the current protocol-coverage source instead of a hard-coded list.
 - Use `@moralis-streams-api` for real-time Bitcoin webhooks, address monitoring, and xpub monitoring.
 - Do not route Bitcoin data questions to Streams just because the user says xpub; xpub exists in both Data API and Streams with different purposes.

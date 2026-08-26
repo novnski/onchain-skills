@@ -6,7 +6,7 @@ Common questions about Moralis capabilities, pricing, and implementation.
 
 ### What is Moralis?
 
-Moralis is an enterprise-grade Web3 data infrastructure platform. It provides APIs to query blockchain data (balances, tokens, NFTs, transactions, prices) and monitor real-time events across 50+ chains.
+Moralis is an enterprise-grade Web3 data infrastructure platform. It provides APIs to query blockchain data and monitor real-time events across 30+ networks, with product-specific coverage.
 
 **Not a blockchain.** Moralis reads data from blockchains but doesn't host one.
 
@@ -18,7 +18,7 @@ Major crypto companies including MetaMask, Trust Wallet, Ledger, Blockchain.com,
 
 ### Is Moralis free?
 
-Yes, Moralis has a free tier for development and small apps. Check the Moralis pricing page for current quotas and paid plan pricing.
+Plan names, included usage, and pricing change over time. Check the current Moralis pricing and signup pages for available allowances and paid-plan details.
 
 ---
 
@@ -37,8 +37,8 @@ Yes, Moralis has a free tier for development and small apps. Check the Moralis p
 
 ### What chains does Moralis support?
 
-**50+ chains** including:
-- **EVM:** Ethereum, Polygon, BSC, Arbitrum, Optimism, Base, Avalanche, Linea, Fantom, and more
+**30+ networks across the product surface**, including:
+- **EVM:** Ethereum, Polygon, BSC, Arbitrum, Optimism, Base, Avalanche, Linea, and more
 - **Non-EVM:** Solana and Bitcoin Data API paths
 - **Emerging:** Monad, Sei, Ronin
 
@@ -47,11 +47,11 @@ Full list: [SupportedApisAndChains.md](../../moralis-data-api/references/Support
 ### Does Moralis support testnet?
 
 Yes. Major testnets supported:
-- Ethereum Sepolia, Holesky
+- Ethereum Sepolia
 - Polygon Amoy
 - BSC Testnet
 - Base Sepolia
-- And others
+- Arbitrum Sepolia and other product-specific testnets
 
 Note: Price data not available on testnets.
 
