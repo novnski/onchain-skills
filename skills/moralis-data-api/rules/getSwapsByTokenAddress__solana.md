@@ -50,13 +50,13 @@ Status: 200
   "cursor": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...Caaw",
   "result": [
     {
-      "transactionHash": "YOUR_TX_HASH",
+      "transactionHash": null,
       "transactionIndex": 5,
       "transactionType": "buy",
       "blockNumber": 12345678,
-      "blockTimestamp": "2024-11-21T09:22:28.000Z",
+      "blockTimestamp": null,
       "subCategory": "ACCUMULATION",
-      "walletAddress": "YOUR_ADDRESS",
+      "walletAddress": null,
       "pairAddress": "YOUR_PAIR_ADDRESS",
       "pairLabel": "USDC/WETH",
       "exchangeAddress": "YOUR_ADDRESS",

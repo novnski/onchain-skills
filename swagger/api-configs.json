@@ -28490,8 +28490,9 @@
                     {
                       "name": "transactionHash",
                       "type": "string",
-                      "example": "0xafc66b9b1802618f560be5244395f0fc0b95a1f1fdeee7a206acbb546c9e8a72",
-                      "required": true
+                      "example": null,
+                      "required": true,
+                      "nullable": true
                     },
                     {
                       "name": "transactionIndex",
@@ -28514,8 +28515,9 @@
                     {
                       "name": "blockTimestamp",
                       "type": "string",
-                      "example": "2024-11-21T09:22:28.000Z",
-                      "required": true
+                      "example": null,
+                      "required": true,
+                      "nullable": true
                     },
                     {
                       "name": "subCategory",
@@ -28526,8 +28528,9 @@
                     {
                       "name": "walletAddress",
                       "type": "string",
-                      "example": "0x1c584a6baecb7c5d51caa0ef3a579e08bd49d4e5",
-                      "required": true
+                      "example": null,
+                      "required": true,
+                      "nullable": true
                     },
                     {
                       "name": "pairAddress",
@@ -28827,8 +28830,9 @@
                     {
                       "name": "transactionHash",
                       "type": "string",
-                      "example": "0xafc66b9b1802618f560be5244395f0fc0b95a1f1fdeee7a206acbb546c9e8a72",
-                      "required": true
+                      "example": null,
+                      "required": true,
+                      "nullable": true
                     },
                     {
                       "name": "transactionIndex",
@@ -28851,8 +28855,9 @@
                     {
                       "name": "blockTimestamp",
                       "type": "string",
-                      "example": "2024-11-21T09:22:28.000Z",
-                      "required": true
+                      "example": null,
+                      "required": true,
+                      "nullable": true
                     },
                     {
                       "name": "subCategory",
@@ -28863,8 +28868,9 @@
                     {
                       "name": "walletAddress",
                       "type": "string",
-                      "example": "0x1c584a6baecb7c5d51caa0ef3a579e08bd49d4e5",
-                      "required": true
+                      "example": null,
+                      "required": true,
+                      "nullable": true
                     },
                     {
                       "name": "pairAddress",
@@ -31021,7 +31027,7 @@
                   }
                 ],
                 "description": "EVM-specific transaction fields",
-                "required": true
+                "required": false
               }
             ]
           }
@@ -35691,7 +35697,7 @@
                               "required": true
                             }
                           ],
-                          "required": true
+                          "required": false
                         }
                       ],
                       "description": "Chain-family-specific raw data (only the matching chain family key is present)",

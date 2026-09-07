@@ -861,6 +861,13 @@ const applySwaggerFixes = (configs) => {
         const field = findField(schema, name);
         if (field) field.required = required;
     };
+    const setFieldNullable = (schema, name, nullable) => {
+        const field = findField(schema, name);
+        if (field) {
+            field.nullable = nullable;
+            if (nullable) field.example = null;
+        }
+    };
     const visitFields = (schema, visitor, path = [], seen = new WeakSet()) => {
         if (!schema || typeof schema !== "object" || seen.has(schema)) return;
         seen.add(schema);
@@ -1031,9 +1038,24 @@ const applySwaggerFixes = (configs) => {
         solanaNft.fields = solanaNft.fields.filter((field) => field.name !== "media");
     }
 
+    for (const operationId of ["getSwapsByTokenAddress", "getSwapsByWalletAddress"]) {
+        const swapItem = findField(successBody(configs.solana?.[operationId]), "result")?.field;
+        for (const fieldName of ["transactionHash", "blockTimestamp", "walletAddress"]) {
+            setFieldNullable(swapItem, fieldName, true);
+        }
+    }
+
     const universalBlock = successBody(configs.universal?.getBlockByNumberOrHash);
     setFieldRequired(universalBlock, "evmSpecific", false);
     setFieldRequired(findField(universalBlock, "txs")?.field, "evmSpecific", false);
+
+    const universalTransaction = successBody(configs.universal?.getTransactionByHash);
+    setFieldRequired(universalTransaction, "evmSpecific", false);
+
+    const universalWalletHistory = successBody(configs.universal?.getWalletHistory);
+    const universalWalletHistoryItem = findField(universalWalletHistory, "result")?.field;
+    const universalWalletRaw = findField(universalWalletHistoryItem, "raw");
+    setFieldRequired(universalWalletRaw, "evm", false);
 
     const universalCandles = successBody(configs.universal?.getCandleSticks);
     setFieldType(universalCandles, "tokenAddress", "string");
