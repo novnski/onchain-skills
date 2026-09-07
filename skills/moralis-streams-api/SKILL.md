@@ -1,7 +1,7 @@
 ---
 name: moralis-streams-api
 description: Real-time blockchain event monitoring with webhooks across EVM, Solana, and Bitcoin. Use when user asks about webhooks, wallet/program/contract activity, transfers, stream addresses, Bitcoin xpubs, replaying blocks, or creating and listing historical stream jobs. NOT for querying historical or current blockchain state - use moralis-data-api instead.
-version: 1.6.0
+version: 1.6.1
 license: MIT
 compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for authentication.
 metadata:
@@ -51,7 +51,7 @@ For EVERY endpoint:
 3. Tell the user to open `.env` and add the key themselves
 4. Explain that without the key, you cannot call or test Moralis Streams
 
-If they need a key, point them to [admin.moralis.com/register](https://admin.moralis.com/register).
+If they need a key, point them to [admin.moralis.com/register](https://admin.moralis.com/register). The Free plan was removed on **September 1, 2026**; a paid plan is required. For Starter, Pro, and Business prices and billing periods, see [plan pricing](../learn-moralis/references/FAQ.md#what-are-the-current-plan-prices) and verify the [live pricing page](https://moralis.com/pricing/). Free unconfirmed webhooks do not imply a Free subscription plan.
 
 ### Verify Your Key
 

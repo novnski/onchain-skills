@@ -1,7 +1,7 @@
 ---
 name: learn-moralis
 description: Learn about Moralis and Web3 development. Invoked without a question, gives a friendly platform walkthrough — what's available, what data you can fetch, and how everything fits together. Invoked with a question, answers it directly. Use for "what is Moralis", "can Moralis do X", "what chains are supported", "how do I get started", "which API should I use", pricing, feature comparisons, or any exploratory questions. Routes to the correct technical skill (@moralis-data-api or @moralis-streams-api) after answering.
-version: 1.4.3
+version: 1.4.4
 license: MIT
 compatibility: Knowledge-only skill. Read/Grep/Glob access bundled reference files (FAQ, ProductComparison, UseCaseGuide). Does not require or access any API keys or environment variables.
 metadata:
@@ -173,13 +173,13 @@ Moralis uses **Compute Units (CUs)** across Data API, Streams, Datashare, and RP
 - **Streams:** charged per confirmed record; each record costs **10 CUs**. Unconfirmed webhooks are free.
 - **Dynamic endpoints:** some endpoints charge per chain, wallet, or address rather than one flat request cost.
 
-For current plan quotas, throughput limits, pricing, and overage terms, direct users to the Moralis pricing page because commercial plan details can change.
+The **Free plan was removed on September 1, 2026**. Do not offer a Free plan or free API allowance. For Starter, Pro, and Business prices, billing periods, included CUs, and throughput, read [references/FAQ.md](references/FAQ.md#what-are-the-current-plan-prices). Verify current pricing and overage terms at [Moralis pricing](https://moralis.com/pricing/) when cost matters.
 
 ---
 
 ## Getting Started
 
-1. **Sign up:** https://admin.moralis.com/register
+1. **Sign up and select a paid plan:** https://admin.moralis.com/register
 2. **Get API key:** Dashboard → API Keys
 3. **Set up `.env`:** Add `MORALIS_API_KEY=your_key` to your `.env` file (the skill will help you create it)
 4. **Use skill:** Ask what you want to build — the skill will check for your key and guide you

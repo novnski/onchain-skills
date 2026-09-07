@@ -8,6 +8,10 @@ Source alignment:
 - Premium endpoints: `/data-api/introduction/resources/premium-endpoints`
 - Endpoint metadata is also shown on endpoint docs through `EndpointMeta` tags such as `cus`, `premium`, and `mainnetOnly`.
 
+## Subscription Plans
+
+The Free plan was removed on **September 1, 2026**. For Starter, Pro, and Business subscription prices, billing periods, included CUs, and throughput, use the shared [plan pricing reference](../../learn-moralis/references/FAQ.md#what-are-the-current-plan-prices). Subscription prices are in USD; the endpoint costs below are in CUs.
+
 ## Important Rules
 
 - Always quote costs as **Compute Units (CUs)**.
