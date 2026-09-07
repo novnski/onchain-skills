@@ -22,16 +22,14 @@ No. The Free plan was removed on **September 1, 2026**. Do not recommend a Free 
 
 ### What are the current plan prices?
 
-Source: [Moralis pricing](https://moralis.com/pricing/), checked **September 7, 2026** with the live monthly/annual toggle. Amounts are USD.
+Source: [Moralis pricing](https://moralis.com/pricing/), checked **September 7, 2026**. Amounts are USD for monthly billing. Recommend monthly plans by default.
 
-| Plan | Monthly billing | Annual billing: displayed monthly equivalent | Included CUs per month | API throughput |
-|------|-----------------|---------------------------------------------|------------------------|----------------|
-| Starter | $149/month | $298/month, billed annually | 2 million | 40 RPS |
-| Pro | $249/month | $498/month, billed annually | 100 million | 80 RPS |
-| Business | $749/month | $1,498/month, billed annually | 500 million | 200 RPS |
-| Enterprise | Custom | Custom | Custom | Custom |
-
-**Annual-price discrepancy:** the live page currently displays annual monthly equivalents higher than monthly billing. These are observed website values, not a confirmed annual quote. Verify the billing period and total at checkout before recommending an annual subscription; do not silently swap the columns or assume an annual discount. Static HTML/search extracts can show stale prices or hidden billing labels, so use the rendered toggle when rechecking.
+| Plan | Monthly price | Included CUs per month | API throughput |
+|------|---------------|------------------------|----------------|
+| Starter | $149/month | 2 million | 40 RPS |
+| Pro | $249/month | 100 million | 80 RPS |
+| Business | $749/month | 500 million | 200 RPS |
+| Enterprise | Custom | Custom | Custom |
 
 Recheck the pricing page for current commercial terms before purchase or production sizing. The Free-plan removal does not mean that every individual operation incurs CUs: unconfirmed Streams webhooks remain free.
 

@@ -1,7 +1,7 @@
 ---
 name: moralis-data-api
 description: Query Web3 blockchain data from Moralis API. Use when user asks about wallet data, token data, NFTs, DeFi positions, entity labels, blocks, transactions, Universal multi-chain data, or Bitcoin address/xpub data. Supports EVM, Solana, Universal, and Bitcoin paths. NOT for real-time streaming - use moralis-streams-api instead.
-version: 2.0.2
+version: 2.0.3
 license: MIT
 compatibility: Requires curl for API calls. Requires MORALIS_API_KEY env var for authentication.
 metadata:
@@ -42,7 +42,7 @@ For EVERY endpoint:
 3. Tell the user to open the `.env` file and paste their key there themselves.
 4. Let them know: without the key, you won't be able to test or call the Moralis API on their behalf.
 
-If they don't have a key yet, point them to [admin.moralis.com/register](https://admin.moralis.com/register). The Free plan was removed on **September 1, 2026**; a paid plan is required. For Starter, Pro, and Business prices and billing periods, see [plan pricing](../learn-moralis/references/FAQ.md#what-are-the-current-plan-prices) and verify the [live pricing page](https://moralis.com/pricing/).
+If they don't have a key yet, point them to [admin.moralis.com/register](https://admin.moralis.com/register). The Free plan was removed on **September 1, 2026**; a paid plan is required. For Starter, Pro, and Business monthly prices, see [plan pricing](../learn-moralis/references/FAQ.md#what-are-the-current-plan-prices) and verify the [live pricing page](https://moralis.com/pricing/).
 
 ### Environment Variable Discovery
 

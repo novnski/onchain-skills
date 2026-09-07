@@ -10,7 +10,7 @@ Source alignment:
 
 ## Subscription Plans
 
-The Free plan was removed on **September 1, 2026**. For Starter, Pro, and Business subscription prices, billing periods, included CUs, and throughput, use the shared [plan pricing reference](../../learn-moralis/references/FAQ.md#what-are-the-current-plan-prices). Subscription prices are in USD; the endpoint costs below are in CUs.
+The Free plan was removed on **September 1, 2026**. For Starter, Pro, and Business monthly subscription prices, included CUs, and throughput, use the shared [plan pricing reference](../../learn-moralis/references/FAQ.md#what-are-the-current-plan-prices). Subscription prices are in USD; the endpoint costs below are in CUs.
 
 ## Important Rules
 
