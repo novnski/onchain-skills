@@ -106,16 +106,38 @@ balance: "1000000000000000000";
 
 ### Response Patterns
 
-| Pattern                              | Example Endpoints                             |
-| ------------------------------------ | --------------------------------------------- |
-| Direct array `[...]`                 | getWalletTokenBalancesPrice, getTokenMetadata |
-| Wrapped `{ result: [] }`             | getWalletNFTs, getWalletTransactions          |
-| Paginated `{ page, cursor, result }` | getWalletHistory, getNFTTransfers             |
+| Pattern                              | Example Endpoints                                            |
+| ------------------------------------ | ------------------------------------------------------------ |
+| Direct array `[...]`                 | getTokenMetadata                                             |
+| Wrapped `{ result: [] }`             | getWalletNFTs, getWalletTransactions                         |
+| Paginated `{ page, cursor, result }` | getWalletTokenBalancesPrice, getWalletHistory, getNFTTransfers |
+
+First confirm the HTTP request succeeded and the body parsed as JSON. Then validate the success shape with the rule for the endpoint you called. Do not guess the endpoint's shape from the response body, and do not fall back from one shape to the other.
 
 ```typescript
-// Safe extraction
-const data = Array.isArray(response) ? response : response.result || [];
+function requireDirectArray(response) {
+  if (!Array.isArray(response)) {
+    throw new Error("Expected a direct array response");
+  }
+  return response;
+}
+
+function requireResultArray(response) {
+  if (
+    response === null ||
+    typeof response !== "object" ||
+    Array.isArray(response) ||
+    !Array.isArray(response.result)
+  ) {
+    throw new Error("Expected an object with a result array");
+  }
+  return response.result;
+}
 ```
+
+These helpers only check the outer shape. They do not validate every field or detect error statuses; validate row fields against the endpoint rule.
+
+For paginated endpoints, keep the full page object and its original `cursor`, and read rows with `requireResultArray(page)`. Cursor rules vary by endpoint; follow the rule file. If a later page fails, report the failure rather than treating it as an empty page or a complete result.
 
 ### Common Field Mappings
 
@@ -134,7 +156,7 @@ possible_spam: "true"/"false" → boolean check
 1. **Block numbers are decimal, not hex** - Use `parseInt(x, 10)`, not `parseInt(x, 16)`
 2. **Timestamps are ISO strings** - Use `new Date(timestamp).getTime()`
 3. **Balances are strings** - Use `BigInt(balance)` for math
-4. **Response may be wrapped** - Check for `.result` before `.map()`
+4. **Response shape depends on the endpoint** - Use `requireDirectArray` or `requireResultArray` per the endpoint rule; do not auto-fall back between shapes
 5. **Path inconsistencies** - Some use `/wallets/{address}/...`, others `/{address}/...`
 
 See [references/CommonPitfalls.md](references/CommonPitfalls.md) for complete reference.
